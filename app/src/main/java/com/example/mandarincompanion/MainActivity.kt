@@ -501,6 +501,294 @@ QuizQuestion("According to Dialogue 1, when is the best time to visit Beijing?",
             QuizQuestion("What does 以后 mean?", listOf("Before", "Beside", "Afterwards / from now on", "Every day"), 2, "以后 means afterwards, later or from now on.", "Vocabulary")
         ),
         pronunciation = "The textbook introduces sentence-level grammatical stress. Practise hearing which part of a sentence is emphasised, then listen to examples such as 这件衣服 zhè jiàn yīfu and 咖啡喝多了 kāfēi hē duō le."
+    ),
+
+    LessonContent(
+        number = 6, title = "Why don't you eat more?", hanziTitle = "你怎么不吃了",
+        textbookPages = "PDF pages 57–64", workbookPages = "PDF pages 51–58",
+        dialogues = listOf(
+            Dialogue("1 · At school", "Textbook 06-1", listOf(
+                DialogueLine("你知道小王今天什么时候来学校吗？", "Nǐ zhīdào Xiǎo Wáng jīntiān shénme shíhou lái xuéxiào ma?", "Do you know when Xiao Wang will come to school today?"),
+                DialogueLine("他已经来了。", "Tā yǐjīng lái le.", "He has already arrived."),
+                DialogueLine("你怎么知道他来了？", "Nǐ zěnme zhīdào tā lái le?", "How do you know he has arrived?"),
+                DialogueLine("我在门外看见他的自行车了。", "Wǒ zài mén wài kànjiàn tā de zìxíngchē le.", "I saw his bicycle outside the door.")
+            )),
+            Dialogue("2 · At a restaurant", "Textbook 06-2", listOf(
+                DialogueLine("今天的羊肉很好吃，你怎么不吃了？", "Jīntiān de yángròu hěn hǎochī, nǐ zěnme bù chī le?", "The mutton is delicious today. Why have you stopped eating?"),
+                DialogueLine("这个星期天天都吃羊肉，不想吃了。", "Zhège xīngqī tiāntiān dōu chī yángròu, bù xiǎng chī le.", "I've eaten mutton every day this week; I don't want any more."),
+                DialogueLine("那你还想吃什么？", "Nà nǐ hái xiǎng chī shénme?", "Then what would you like to eat?"),
+                DialogueLine("来一点儿面条吧。", "Lái yìdiǎnr miàntiáo ba.", "Some noodles, please.")
+            )),
+            Dialogue("3 · At the gym", "Textbook 06-3", listOf(
+                DialogueLine("昨天你们怎么都没去打篮球？", "Zuótiān nǐmen zěnme dōu méi qù dǎ lánqiú?", "Why didn't you all go play basketball yesterday?"),
+                DialogueLine("因为昨天下雨，所以我们都没去。", "Yīnwèi zuótiān xià yǔ, suǒyǐ wǒmen dōu méi qù.", "Because it rained yesterday, so none of us went."),
+                DialogueLine("你经常游泳吗？", "Nǐ jīngcháng yóuyǒng ma?", "Do you swim often?"),
+                DialogueLine("这个月我天天游泳。", "Zhège yuè wǒ tiāntiān yóuyǒng.", "I've been swimming every day this month.")
+            )),
+            Dialogue("4 · In the office", "Textbook 06-4", listOf(
+                DialogueLine("这两天怎么没看见小张？", "Zhè liǎng tiān zěnme méi kànjiàn Xiǎo Zhāng?", "Why haven't I seen Xiao Zhang these last two days?"),
+                DialogueLine("他去北京了。", "Tā qù Běijīng le.", "He has gone to Beijing."),
+                DialogueLine("是去旅游吗？", "Shì qù lǚyóu ma?", "Is he there travelling?"),
+                DialogueLine("不是，听说是去看他姐姐。", "Bú shì, tīngshuō shì qù kàn tā jiějie.", "No, I heard he's gone to visit his elder sister.")
+            ))
+        ),
+        words = listOf(
+            Word("门", "mén", "door; gate", "他在门外。", "Tā zài mén wài.", "He is outside the door."),
+            Word("外", "wài", "outside; outer", "门外有一辆自行车。", "Mén wài yǒu yí liàng zìxíngchē.", "There is a bicycle outside the door."),
+            Word("自行车", "zìxíngchē", "bicycle", "我骑自行车去学校。", "Wǒ qí zìxíngchē qù xuéxiào.", "I ride a bicycle to school."),
+            Word("羊肉", "yángròu", "mutton", "我喜欢吃羊肉。", "Wǒ xǐhuan chī yángròu.", "I like eating mutton."),
+            Word("好吃", "hǎochī", "delicious", "这个菜很好吃。", "Zhège cài hěn hǎochī.", "This dish is delicious."),
+            Word("面条", "miàntiáo", "noodles", "我想吃面条。", "Wǒ xiǎng chī miàntiáo.", "I want to eat noodles."),
+            Word("打篮球", "dǎ lánqiú", "play basketball", "他们常常打篮球。", "Tāmen chángcháng dǎ lánqiú.", "They often play basketball."),
+            Word("因为", "yīnwèi", "because", "因为下雨，我没去。", "Yīnwèi xià yǔ, wǒ méi qù.", "Because it rained, I didn't go."),
+            Word("所以", "suǒyǐ", "so; therefore", "下雨了，所以我在家。", "Xià yǔ le, suǒyǐ wǒ zài jiā.", "It rained, so I stayed home."),
+            Word("游泳", "yóuyǒng", "swim", "我每天游泳。", "Wǒ měitiān yóuyǒng.", "I swim every day."),
+            Word("经常", "jīngcháng", "often", "你经常运动吗？", "Nǐ jīngcháng yùndòng ma?", "Do you exercise often?"),
+            Word("公斤", "gōngjīn", "kilogram", "我七十公斤。", "Wǒ qīshí gōngjīn.", "I weigh 70 kilograms."),
+            Word("姐姐", "jiějie", "older sister", "我姐姐在北京。", "Wǒ jiějie zài Běijīng.", "My elder sister is in Beijing.")
+        ),
+        grammar = listOf(
+            GrammarPoint("怎么 + verb/adjective · asking why", "怎么 can ask for a reason and often conveys surprise.", "怎么 + verb / adjective", listOf(DialogueLine("你怎么不吃了？", "Nǐ zěnme bù chī le?", "Why have you stopped eating?"))),
+            GrammarPoint("Reduplicated measure/time words · every", "Repeating a measure word can mean each/every; it is often followed by 都.", "天天 / 件件 / 个个 + 都", listOf(DialogueLine("这个星期天天都吃羊肉。", "Zhège xīngqī tiāntiān dōu chī yángròu.", "I eat mutton every day this week."))),
+            GrammarPoint("因为……所以…… · because…therefore…", "因为 introduces the reason; 所以 introduces the result. Either may be omitted when the relationship is clear.", "因为 + reason，所以 + result", listOf(DialogueLine("因为昨天下雨，所以我们都没去。", "Yīnwèi zuótiān xià yǔ, suǒyǐ wǒmen dōu méi qù.", "Because it rained yesterday, none of us went.")))
+        ),
+        questions = listOf(
+            QuizQuestion("Where did Xiao Wang's bicycle appear?", listOf("Inside the classroom", "Outside the door", "At the gym", "At home"), 1, "我在门外看见他的自行车了。", "Textbook dialogue 06-1"),
+            QuizQuestion("Why does the diner stop eating mutton?", listOf("It is cold", "He eats it every day this week", "He is late", "It is expensive"), 1, "这个星期天天都吃羊肉，不想吃了。", "Textbook dialogue 06-2"),
+            QuizQuestion("What food does he ask for instead?", listOf("Rice", "Dumplings", "Noodles", "Fish"), 2, "来一点儿面条吧。", "Textbook dialogue 06-2"),
+            QuizQuestion("Why didn't they play basketball?", listOf("It rained", "They were busy", "The gym was closed", "They were tired"), 0, "因为昨天下雨，所以我们都没去。", "Textbook dialogue 06-3"),
+            QuizQuestion("What does 经常 mean?", listOf("Never", "Often", "Yesterday", "Already"), 1, "经常 means often or frequently.", "Vocabulary"),
+            QuizQuestion("Who has Xiao Zhang gone to visit?", listOf("His teacher", "His elder sister", "His friend", "His parents"), 1, "听说是去看他姐姐。", "Textbook dialogue 06-4"),
+            QuizQuestion("Choose the correct causal connector: ____下雨，____我们没去。", listOf("因为 / 所以", "虽然 / 但是", "如果 / 就", "先 / 再"), 0, "因为 introduces the cause; 所以 introduces the result.", "Grammar"),
+            QuizQuestion("天天 most naturally means…", listOf("Every day", "Tomorrow", "Sometimes", "Last week"), 0, "天天 is a reduplicated time word meaning every day.", "Grammar"),
+            QuizQuestion("What does 怎么 ask in 你怎么不吃了？", listOf("Where", "Why", "Who", "How many"), 1, "Here 怎么 asks why, often with surprise.", "Grammar"),
+            QuizQuestion("公斤 is a unit of…", listOf("Distance", "Time", "Weight", "Temperature"), 2, "公斤 means kilogram.", "Vocabulary")
+        ), pronunciation = "Practise the surprise intonation in 怎么不吃了？ and emphasise the cause/result clauses in 因为……所以……。"
+    ),
+    LessonContent(
+        number = 7, title = "Do you live far from your company?", hanziTitle = "你家离公司远吗",
+        textbookPages = "PDF pages 65–72", workbookPages = "PDF pages 59–68",
+        dialogues = listOf(
+            Dialogue("1 · At home", "Textbook 07-1", listOf(
+                DialogueLine("大卫回来了吗？", "Dàwèi huílai le ma?", "Has David come back?"),
+                DialogueLine("没有，他还在教室学习呢。", "Méiyǒu, tā hái zài jiàoshì xuéxí ne.", "No, he is still studying in the classroom."),
+                DialogueLine("已经九点多了，他怎么还在学习？", "Yǐjīng jiǔ diǎn duō le, tā zěnme hái zài xuéxí?", "It's after nine; why is he still studying?"),
+                DialogueLine("明天有考试，他说今天要好好准备。", "Míngtiān yǒu kǎoshì, tā shuō jīntiān yào hǎohāo zhǔnbèi.", "There is an exam tomorrow; he said he needs to prepare well today.")
+            )),
+            Dialogue("2 · On the way to the airport", "Textbook 07-2", listOf(
+                DialogueLine("你现在在哪儿呢？", "Nǐ xiànzài zài nǎr ne?", "Where are you now?"),
+                DialogueLine("在去机场的路上。你已经到了吗？", "Zài qù jīchǎng de lùshang. Nǐ yǐjīng dào le ma?", "I'm on the way to the airport. Have you arrived?"),
+                DialogueLine("我下飞机了。你还有多长时间能到这儿？", "Wǒ xià fēijī le. Nǐ hái yǒu duō cháng shíjiān néng dào zhèr?", "I've got off the plane. How much longer until you arrive?"),
+                DialogueLine("二十分钟就到。", "Èrshí fēnzhōng jiù dào.", "I'll be there in just 20 minutes.")
+            )),
+            Dialogue("3 · At the gym", "Textbook 07-3", listOf(
+                DialogueLine("你家离公司远吗？", "Nǐ jiā lí gōngsī yuǎn ma?", "Do you live far from your company?"),
+                DialogueLine("很远，坐公共汽车要一个多小时呢！", "Hěn yuǎn, zuò gōnggòng qìchē yào yí ge duō xiǎoshí ne!", "Very far; it takes over an hour by bus!"),
+                DialogueLine("坐公共汽车太慢了，你怎么不开车？", "Zuò gōnggòng qìchē tài màn le, nǐ zěnme bù kāichē?", "The bus is too slow. Why don't you drive?"),
+                DialogueLine("开车也不快，路上车太多了！", "Kāichē yě bú kuài, lùshang chē tài duō le!", "Driving isn't fast either; there are too many cars on the road!")
+            )),
+            Dialogue("4 · Making birthday plans", "Textbook 07-4", listOf(
+                DialogueLine("今天晚上我们一起吃饭吧，给你过生日。", "Jīntiān wǎnshang wǒmen yìqǐ chīfàn ba, gěi nǐ guò shēngrì.", "Let's have dinner together tonight to celebrate your birthday."),
+                DialogueLine("今天？离我的生日还有一个多星期呢！", "Jīntiān? Lí wǒ de shēngrì hái yǒu yí ge duō xīngqī ne!", "Today? My birthday is still more than a week away!"),
+                DialogueLine("下个星期我要去北京，今天过吧。", "Xià ge xīngqī wǒ yào qù Běijīng, jīntiān guò ba.", "I'm going to Beijing next week, so let's celebrate today."),
+                DialogueLine("好吧，离这儿不远有一个中国饭馆。", "Hǎo ba, lí zhèr bù yuǎn yǒu yí ge Zhōngguó fànguǎn.", "All right. There is a Chinese restaurant not far from here.")
+            ))
+        ),
+        words = listOf(
+            Word("教室", "jiàoshì", "classroom", "他在教室学习。", "Tā zài jiàoshì xuéxí.", "He is studying in the classroom."),
+            Word("机场", "jīchǎng", "airport", "我去机场接你。", "Wǒ qù jīchǎng jiē nǐ.", "I'll go to the airport to meet you."),
+            Word("路", "lù", "road; way", "路上车很多。", "Lùshang chē hěn duō.", "There are many cars on the road."),
+            Word("离", "lí", "to be away from", "我家离学校很近。", "Wǒ jiā lí xuéxiào hěn jìn.", "My home is close to school."),
+            Word("公司", "gōngsī", "company", "我在这家公司工作。", "Wǒ zài zhè jiā gōngsī gōngzuò.", "I work at this company."),
+            Word("远", "yuǎn", "far", "机场很远。", "Jīchǎng hěn yuǎn.", "The airport is far."),
+            Word("公共汽车", "gōnggòng qìchē", "bus", "我坐公共汽车上班。", "Wǒ zuò gōnggòng qìchē shàngbān.", "I take the bus to work."),
+            Word("小时", "xiǎoshí", "hour", "要一个小时。", "Yào yí ge xiǎoshí.", "It takes one hour."),
+            Word("慢", "màn", "slow", "公共汽车很慢。", "Gōnggòng qìchē hěn màn.", "The bus is slow."),
+            Word("快", "kuài", "fast", "飞机很快。", "Fēijī hěn kuài.", "The plane is fast."),
+            Word("过", "guò", "celebrate; pass", "我们一起过生日。", "Wǒmen yìqǐ guò shēngrì.", "Let's celebrate a birthday together."),
+            Word("生日", "shēngrì", "birthday", "今天是我的生日。", "Jīntiān shì wǒ de shēngrì.", "Today is my birthday.")
+        ),
+        grammar = listOf(
+            GrammarPoint("还在 / 还没 · still / not yet", "还在 + verb indicates an action is continuing. 还没 + verb indicates it has not happened yet.", "还在 + V；还没 + V", listOf(DialogueLine("他还在教室学习呢。", "Tā hái zài jiàoshì xuéxí ne.", "He is still studying in the classroom."))),
+            GrammarPoint("就 · sooner than expected", "就 can emphasise that something happens early, quickly or with little delay.", "Time / duration + 就 + verb", listOf(DialogueLine("二十分钟就到。", "Èrshí fēnzhōng jiù dào.", "I'll arrive in just 20 minutes."))),
+            GrammarPoint("A 离 B + distance", "离 expresses distance between places or points in time. Put the reference point after 离.", "A + 离 + B + 远 / 近 / distance", listOf(DialogueLine("你家离公司远吗？", "Nǐ jiā lí gōngsī yuǎn ma?", "Do you live far from your company?")))
+        ),
+        questions = listOf(
+            QuizQuestion("Where is David still studying?", listOf("At home", "In the classroom", "At the airport", "At work"), 1, "他还在教室学习呢。", "Textbook dialogue 07-1"),
+            QuizQuestion("Why is David preparing late?", listOf("He has an exam tomorrow", "He is travelling", "He is working", "He is ill"), 0, "明天有考试，他说今天要好好准备。", "Textbook dialogue 07-1"),
+            QuizQuestion("Where is the traveller?", listOf("On the way to the airport", "At the office", "At home", "On the bus"), 0, "在去机场的路上。", "Textbook dialogue 07-2"),
+            QuizQuestion("How soon will the person arrive?", listOf("10 minutes", "20 minutes", "One hour", "Tomorrow"), 1, "二十分钟就到。", "Textbook dialogue 07-2"),
+            QuizQuestion("How long does the bus take to work?", listOf("20 minutes", "Half an hour", "Over an hour", "Two hours"), 2, "坐公共汽车要一个多小时。", "Textbook dialogue 07-3"),
+            QuizQuestion("Why is driving not faster?", listOf("The car is old", "There are too many cars", "The road is closed", "It is raining"), 1, "路上车太多了。", "Textbook dialogue 07-3"),
+            QuizQuestion("What does 离 express?", listOf("Possession", "Distance from", "Past tense", "Frequency"), 1, "离 indicates distance between places or times.", "Grammar"),
+            QuizQuestion("还在学习 means…", listOf("Already studied", "Still studying", "Will study", "Never studies"), 1, "还在 indicates a continuing action.", "Grammar"),
+            QuizQuestion("就到 in 二十分钟就到 suggests…", listOf("A long delay", "Arrival quite soon", "A cancelled trip", "A past event"), 1, "就 emphasises a quick or earlier-than-expected result.", "Grammar"),
+            QuizQuestion("小时 is a unit of…", listOf("Minutes", "Hours", "Days", "Kilometres"), 1, "小时 means hour.", "Vocabulary")
+        ), pronunciation = "Practise the rising tone of yes/no questions and falling tone in statements. Compare 你家离公司远吗？ with 很远。"
+    ),
+    LessonContent(
+        number = 8, title = "Let me think about it and tell you later", hanziTitle = "让我想想再告诉你",
+        textbookPages = "PDF pages 73–80", workbookPages = "PDF pages 69–78",
+        dialogues = listOf(
+            Dialogue("1 · In the classroom", "Textbook 08-1", listOf(
+                DialogueLine("我们下午去看电影，好吗？", "Wǒmen xiàwǔ qù kàn diànyǐng, hǎo ma?", "Shall we go to see a film this afternoon?"),
+                DialogueLine("今天下午我没有时间，明天下午再去吧。", "Jīntiān xiàwǔ wǒ méiyǒu shíjiān, míngtiān xiàwǔ zài qù ba.", "I don't have time this afternoon; let's go tomorrow afternoon instead."),
+                DialogueLine("你想看什么电影？", "Nǐ xiǎng kàn shénme diànyǐng?", "What film would you like to see?"),
+                DialogueLine("让我想想再告诉你。", "Ràng wǒ xiǎngxiang zài gàosu nǐ.", "Let me think about it and tell you later.")
+            )),
+            Dialogue("2 · Making a decision", "Lesson 08 practice dialogue", listOf(
+                DialogueLine("你想什么时候去？", "Nǐ xiǎng shénme shíhou qù?", "When would you like to go?"),
+                DialogueLine("让我考虑考虑。", "Ràng wǒ kǎolǜ kǎolǜ.", "Let me think it over."),
+                DialogueLine("好，想好了再告诉我。", "Hǎo, xiǎng hǎo le zài gàosu wǒ.", "All right, tell me when you've decided.")
+            ))
+        ),
+        words = listOf(
+            Word("让", "ràng", "let; allow; make", "让我看看。", "Ràng wǒ kànkan.", "Let me have a look."),
+            Word("想", "xiǎng", "think; want; miss", "我想一想。", "Wǒ xiǎng yi xiǎng.", "Let me think."),
+            Word("再", "zài", "then; again; afterwards", "明天再说。", "Míngtiān zài shuō.", "Let's talk tomorrow."),
+            Word("告诉", "gàosu", "tell; inform", "请告诉我。", "Qǐng gàosu wǒ.", "Please tell me."),
+            Word("电影", "diànyǐng", "film; movie", "我喜欢看电影。", "Wǒ xǐhuan kàn diànyǐng.", "I like watching films."),
+            Word("时间", "shíjiān", "time", "你有时间吗？", "Nǐ yǒu shíjiān ma?", "Do you have time?"),
+            Word("考虑", "kǎolǜ", "consider; think over", "让我考虑一下。", "Ràng wǒ kǎolǜ yíxià.", "Let me consider it."),
+            Word("运动", "yùndòng", "sport; exercise", "我喜欢运动。", "Wǒ xǐhuan yùndòng.", "I like sports."),
+            Word("希望", "xīwàng", "hope; wish", "我希望你来。", "Wǒ xīwàng nǐ lái.", "I hope you come.")
+        ),
+        grammar = listOf(
+            GrammarPoint("Verb reduplication · brief or casual action", "Repeating a verb often makes the action sound brief, tentative or relaxed.", "V → VV / V一V", listOf(DialogueLine("让我想想。", "Ràng wǒ xiǎngxiang.", "Let me think."))),
+            GrammarPoint("再 + verb · do it later / then", "再 places an action after another action or at a later time.", "先……再…… / V + 再 + V", listOf(DialogueLine("让我想想再告诉你。", "Ràng wǒ xiǎngxiang zài gàosu nǐ.", "Let me think and tell you later."))),
+            GrammarPoint("让 + person + verb · let / ask someone to", "让 introduces the person who is permitted, asked or caused to do something.", "让 + person + verb (+ object)", listOf(DialogueLine("让我想想。", "Ràng wǒ xiǎngxiang.", "Let me think.")))
+        ),
+        questions = listOf(
+            QuizQuestion("What do they plan to do?", listOf("Watch a film", "Go swimming", "Study at home", "Go shopping"), 0, "我们下午去看电影，好吗？", "Textbook dialogue 08-1"),
+            QuizQuestion("Why not this afternoon?", listOf("No money", "No time", "No tickets", "Too far"), 1, "今天下午我没有时间。", "Textbook dialogue 08-1"),
+            QuizQuestion("When do they suggest going instead?", listOf("Tonight", "Tomorrow afternoon", "Next week", "Next month"), 1, "明天下午再去吧。", "Textbook dialogue 08-1"),
+            QuizQuestion("再 in this lesson most often means…", listOf("Before", "Then / later", "Because", "Already"), 1, "再 places the next action later or after another action.", "Grammar"),
+            QuizQuestion("想想 is an example of…", listOf("Verb reduplication", "A measure word", "A question particle", "A location phrase"), 0, "想想 is the reduplicated form of 想.", "Grammar"),
+            QuizQuestion("What does 让我想想 mean?", listOf("Make me leave", "Let me think", "Tell me now", "I have forgotten"), 1, "让 + person + verb means let/ask someone to do something.", "Grammar"),
+            QuizQuestion("告诉 means…", listOf("Forget", "Tell", "Wait", "Watch"), 1, "告诉 means to tell or inform.", "Vocabulary"),
+            QuizQuestion("电影 means…", listOf("Music", "Movie", "Book", "Exercise"), 1, "电影 means film or movie.", "Vocabulary"),
+            QuizQuestion("Choose the natural order: think, then tell me", listOf("告诉再想想", "想想再告诉我", "再我告诉想想", "想告诉再我"), 1, "想想再告诉我 places thinking before telling.", "Workbook-style sentence order"),
+            QuizQuestion("Verb reduplication often makes an action sound…", listOf("Brief or casual", "Impossible", "Past only", "Very formal"), 0, "Reduplication can soften or limit the action.", "Grammar")
+        ), pronunciation = "Listen for the repeated syllables in 想想 (xiǎngxiang) and 考虑考虑 (kǎolǜ kǎolǜ). Keep the second syllable light and natural."
+    ),
+    LessonContent(
+        number = 9, title = "There were too many questions; I didn't finish them all", hanziTitle = "题太多了，我没做完",
+        textbookPages = "PDF pages 81–90", workbookPages = "PDF pages 79–98",
+        dialogues = listOf(
+            Dialogue("1 · On the phone", "Textbook 09-1", listOf(
+                DialogueLine("你好！请问张欢在吗？", "Nǐ hǎo! Qǐngwèn Zhāng Huān zài ma?", "Hello! May I speak to Zhang Huan?"),
+                DialogueLine("你打错了，我们这儿没有人叫张欢的。", "Nǐ dǎ cuò le, wǒmen zhèr méiyǒu rén jiào Zhāng Huān de.", "You have the wrong number. Nobody here is called Zhang Huan."),
+                DialogueLine("对不起。", "Duìbuqǐ.", "Sorry.")
+            )),
+            Dialogue("2 · At school", "Textbook 09-2", listOf(
+                DialogueLine("您从几岁开始学习跳舞？", "Nín cóng jǐ suì kāishǐ xuéxí tiàowǔ?", "At what age did you start learning to dance?"),
+                DialogueLine("我第一次跳舞是在七岁的时候。", "Wǒ dì yī cì tiàowǔ shì zài qī suì de shíhou.", "The first time I danced was when I was seven."),
+                DialogueLine("我女儿今年也七岁了。我希望她能跟您学跳舞，可以吗？", "Wǒ nǚ'ér jīnnián yě qī suì le. Wǒ xīwàng tā néng gēn nín xué tiàowǔ, kěyǐ ma?", "My daughter is seven too. I hope she can learn dancing from you. Is that possible?"),
+                DialogueLine("没问题，非常欢迎。", "Méi wèntí, fēicháng huānyíng.", "No problem. She is very welcome.")
+            )),
+            Dialogue("3 · At home", "Textbook 09-3", listOf(
+                DialogueLine("你知道吗？大卫找到工作了。", "Nǐ zhīdào ma? Dàwèi zhǎodào gōngzuò le.", "Did you know? David has found a job."),
+                DialogueLine("太好了！他从什么时候开始上班？", "Tài hǎo le! Tā cóng shénme shíhou kāishǐ shàngbān?", "That's great! When does he start work?"),
+                DialogueLine("从下个星期一开始。", "Cóng xià ge xīngqīyī kāishǐ.", "Starting next Monday."),
+                DialogueLine("这是他的第一个工作，希望他能喜欢。", "Zhè shì tā de dì yī ge gōngzuò, xīwàng tā néng xǐhuan.", "This is his first job; I hope he likes it.")
+            )),
+            Dialogue("4 · In the classroom", "Textbook 09-4", listOf(
+                DialogueLine("昨天的考试怎么样？你都听懂了吗？", "Zuótiān de kǎoshì zěnmeyàng? Nǐ dōu tīngdǒng le ma?", "How was yesterday's exam? Did you understand everything?"),
+                DialogueLine("听懂了。", "Tīngdǒng le.", "I understood it."),
+                DialogueLine("你都做完了没有？", "Nǐ dōu zuòwán le méiyǒu?", "Did you finish all the questions?"),
+                DialogueLine("题太多，我没做完。", "Tí tài duō, wǒ méi zuòwán.", "There were too many questions; I didn't finish them all.")
+            ))
+        ),
+        words = listOf(
+            Word("错", "cuò", "wrong; incorrect", "你打错电话了。", "Nǐ dǎ cuò diànhuà le.", "You called the wrong number."),
+            Word("从", "cóng", "from; starting at", "我从家来。", "Wǒ cóng jiā lái.", "I came from home."),
+            Word("跳舞", "tiàowǔ", "dance", "她喜欢跳舞。", "Tā xǐhuan tiàowǔ.", "She likes dancing."),
+            Word("第一", "dì yī", "first", "这是第一课。", "Zhè shì dì yī kè.", "This is the first lesson."),
+            Word("希望", "xīwàng", "hope; wish", "我希望你成功。", "Wǒ xīwàng nǐ chénggōng.", "I hope you succeed."),
+            Word("问题", "wèntí", "question; problem", "我有一个问题。", "Wǒ yǒu yí ge wèntí.", "I have a question."),
+            Word("欢迎", "huānyíng", "welcome", "欢迎你来。", "Huānyíng nǐ lái.", "You are welcome to come."),
+            Word("上班", "shàngbān", "go to work; be at work", "我八点上班。", "Wǒ bā diǎn shàngbān.", "I start work at eight."),
+            Word("懂", "dǒng", "understand", "我听懂了。", "Wǒ tīngdǒng le.", "I understood."),
+            Word("做完", "zuòwán", "finish doing", "我做完作业了。", "Wǒ zuòwán zuòyè le.", "I finished my homework.")
+        ),
+        grammar = listOf(
+            GrammarPoint("Result complements · V + result", "A result complement follows a verb to state the result. Examples: 听懂 understand by listening; 找到 find; 做完 finish.", "V + result complement", listOf(DialogueLine("我没做完。", "Wǒ méi zuòwán.", "I didn't finish."))),
+            GrammarPoint("Negating a result complement", "Use 没(有) before the verb + complement. Do not add sentence-final 了 in this negative pattern.", "没(有) + V + result", listOf(DialogueLine("我没听懂。", "Wǒ méi tīngdǒng.", "I didn't understand what I heard."))),
+            GrammarPoint("从……到…… and 第 + number", "从 marks a starting point and can pair with 到. 第 before a number marks order: 第一 (first), 第二 (second).", "从 A 到 B；第 + number", listOf(DialogueLine("从下个星期一开始。", "Cóng xià ge xīngqīyī kāishǐ.", "Starting next Monday.")))
+        ),
+        questions = listOf(
+            QuizQuestion("What happened in the phone call?", listOf("Wrong number", "No signal", "Busy line", "Wrong time"), 0, "你打错了。", "Textbook dialogue 09-1"),
+            QuizQuestion("At what age did the teacher first dance?", listOf("Five", "Six", "Seven", "Eight"), 2, "第一次跳舞是在七岁的时候。", "Textbook dialogue 09-2"),
+            QuizQuestion("What does the mother hope for her daughter?", listOf("Learn dancing", "Learn English", "Get a job", "Go to Beijing"), 0, "我希望她能跟您学跳舞。", "Textbook dialogue 09-2"),
+            QuizQuestion("When does David start work?", listOf("Today", "Next Monday", "Next month", "Tomorrow"), 1, "从下个星期一开始。", "Textbook dialogue 09-3"),
+            QuizQuestion("Did the student finish all the exam questions?", listOf("Yes", "No, there were too many", "No, he arrived late", "The dialogue doesn't say"), 1, "题太多，我没做完。", "Textbook dialogue 09-4"),
+            QuizQuestion("听懂 means…", listOf("Hear and understand", "Speak loudly", "Read quickly", "Write down"), 0, "懂 is a result complement meaning understand.", "Vocabulary / grammar"),
+            QuizQuestion("How do you negate 做完?", listOf("不做完", "没做完", "做不没", "没了做完"), 1, "The negative pattern is 没 + verb + result complement.", "Grammar"),
+            QuizQuestion("第一个 means…", listOf("The last one", "The first one", "One more", "Every one"), 1, "第 + number marks ordinal sequence.", "Grammar"),
+            QuizQuestion("从 introduces…", listOf("A starting point", "A question", "A comparison", "A reason"), 0, "从 marks the starting point of time, distance or sequence.", "Grammar"),
+            QuizQuestion("欢迎 means…", listOf("Welcome", "Wrong", "Finish", "Understand"), 0, "欢迎 means welcome.", "Vocabulary")
+        ), pronunciation = "Practise the result complements as one spoken unit: tīng-dǒng, zhǎo-dào, zuò-wán. In questions ending with 吗, use the yes/no-question intonation from this lesson."
+    ),
+    LessonContent(
+        number = 10, title = "Stop looking; your phone is on the desk", hanziTitle = "别找了，手机在桌子上呢",
+        textbookPages = "PDF pages 91–96", workbookPages = "PDF pages 99–108",
+        dialogues = listOf(
+            Dialogue("1 · At home", "Textbook 10-1", listOf(
+                DialogueLine("不要看电视了，明天上午还有汉语课呢。", "Bú yào kàn diànshì le, míngtiān shàngwǔ hái yǒu Hànyǔ kè ne.", "Stop watching TV; you have Chinese class tomorrow morning."),
+                DialogueLine("看电视对学汉语有帮助。", "Kàn diànshì duì xué Hànyǔ yǒu bāngzhù.", "Watching TV helps with learning Chinese."),
+                DialogueLine("明天的课你都准备好了吗？", "Míngtiān de kè nǐ dōu zhǔnbèi hǎo le ma?", "Have you prepared everything for tomorrow's lesson?"),
+                DialogueLine("都准备好了。", "Dōu zhǔnbèi hǎo le.", "Everything is ready.")
+            )),
+            Dialogue("2 · At the hospital", "Textbook 10-2", listOf(
+                DialogueLine("别看报纸了，医生说你要多休息。", "Bié kàn bàozhǐ le, yīshēng shuō nǐ yào duō xiūxi.", "Stop reading the newspaper. The doctor says you need more rest."),
+                DialogueLine("好，不看了。给我一杯茶吧。", "Hǎo, bù kàn le. Gěi wǒ yì bēi chá ba.", "All right, I'll stop. Give me a cup of tea."),
+                DialogueLine("医生说吃药后两个小时不要喝茶。", "Yīshēng shuō chī yào hòu liǎng ge xiǎoshí bú yào hē chá.", "The doctor says not to drink tea for two hours after taking medicine.")
+            )),
+            Dialogue("3 · At home", "Textbook 10-3", listOf(
+                DialogueLine("你怎么买了这么多东西啊？", "Nǐ zěnme mǎi le zhème duō dōngxi a?", "Why did you buy so many things?"),
+                DialogueLine("哥哥今天中午回来吃饭。", "Gēge jīntiān zhōngwǔ huílai chīfàn.", "Our elder brother is coming back for lunch today."),
+                DialogueLine("我看看，羊肉、鸡蛋、面条、西瓜……真不少！妈妈呢？", "Wǒ kànkan, yángròu, jīdàn, miàntiáo, xīguā… zhēn bù shǎo! Māma ne?", "Let's see: mutton, eggs, noodles, watermelon… that's a lot! Where is Mom?"),
+                DialogueLine("正在准备午饭呢！", "Zhèngzài zhǔnbèi wǔfàn ne!", "She's preparing lunch!")
+            )),
+            Dialogue("4 · Looking for a phone", "Textbook 10-4", listOf(
+                DialogueLine("你在找什么？", "Nǐ zài zhǎo shénme?", "What are you looking for?"),
+                DialogueLine("你看见我的手机了吗？白色的。", "Nǐ kànjiàn wǒ de shǒujī le ma? Báisé de.", "Have you seen my phone? The white one."),
+                DialogueLine("别找了，手机在桌子上呢，电脑旁边。", "Bié zhǎo le, shǒujī zài zhuōzi shàng ne, diànnǎo pángbiān.", "Stop looking; the phone is on the desk, beside the computer."),
+                DialogueLine("你看见我的衣服了吗？红色的那件。", "Nǐ kànjiàn wǒ de yīfu le ma? Hóngsè de nà jiàn.", "Have you seen my clothes? The red one."),
+                DialogueLine("那件衣服我帮你洗了，在外边呢。", "Nà jiàn yīfu wǒ bāng nǐ xǐ le, zài wàibian ne.", "I washed that garment for you; it's outside.")
+            ))
+        ),
+        words = listOf(
+            Word("课", "kè", "class; lesson", "明天有汉语课。", "Míngtiān yǒu Hànyǔ kè.", "There is Chinese class tomorrow."),
+            Word("帮助", "bāngzhù", "help; assist", "看电视对学习有帮助。", "Kàn diànshì duì xuéxí yǒu bāngzhù.", "Watching TV helps learning."),
+            Word("别", "bié", "don't; stop", "别着急。", "Bié zháojí.", "Don't worry."),
+            Word("哥哥", "gēge", "older brother", "我哥哥今天回来。", "Wǒ gēge jīntiān huílai.", "My elder brother is coming back today."),
+            Word("鸡蛋", "jīdàn", "egg", "我买了鸡蛋。", "Wǒ mǎi le jīdàn.", "I bought eggs."),
+            Word("西瓜", "xīguā", "watermelon", "西瓜很好吃。", "Xīguā hěn hǎochī.", "Watermelon is delicious."),
+            Word("正在", "zhèngzài", "in the process of", "妈妈正在做饭。", "Māma zhèngzài zuòfàn.", "Mom is cooking."),
+            Word("手机", "shǒujī", "mobile phone", "我的手机在桌子上。", "Wǒ de shǒujī zài zhuōzi shàng.", "My phone is on the desk."),
+            Word("桌子", "zhuōzi", "table; desk", "书在桌子上。", "Shū zài zhuōzi shàng.", "The book is on the desk."),
+            Word("旁边", "pángbiān", "beside; next to", "电脑在手机旁边。", "Diànnǎo zài shǒujī pángbiān.", "The computer is beside the phone."),
+            Word("衣服", "yīfu", "clothes; garment", "红色的衣服在外边。", "Hóngsè de yīfu zài wàibian.", "The red garment is outside."),
+            Word("正在", "zhèngzài", "currently; in progress", "我正在学习。", "Wǒ zhèngzài xuéxí.", "I am studying right now.")
+        ),
+        grammar = listOf(
+            GrammarPoint("不要……了 / 别……了 · stop doing", "These patterns tell someone to stop or not continue an action.", "不要 / 别 + verb (+ object) + 了", listOf(DialogueLine("别找了。", "Bié zhǎo le.", "Stop looking."))),
+            GrammarPoint("对 + noun + 有帮助 · be helpful for", "对 identifies the target or area affected; 有帮助 means be helpful.", "A + 对 + B + 有帮助", listOf(DialogueLine("看电视对学汉语有帮助。", "Kàn diànshì duì xué Hànyǔ yǒu bāngzhù.", "Watching TV helps with learning Chinese."))),
+            GrammarPoint("正在 + verb · action in progress", "正在 before a verb indicates that an action is happening right now. 呢 can appear at the end for emphasis.", "正在 + verb (+ object) + 呢", listOf(DialogueLine("妈妈正在准备午饭呢！", "Māma zhèngzài zhǔnbèi wǔfàn ne!", "Mom is preparing lunch!")))
+        ),
+        questions = listOf(
+            QuizQuestion("Why should the student stop watching TV?", listOf("Chinese class is tomorrow", "The TV is broken", "It is too late for dinner", "The programme is finished"), 0, "明天上午还有汉语课呢。", "Textbook dialogue 10-1"),
+            QuizQuestion("What does the speaker say TV helps with?", listOf("Cooking", "Learning Chinese", "Sleeping", "Driving"), 1, "看电视对学汉语有帮助。", "Textbook dialogue 10-1"),
+            QuizQuestion("What does the doctor recommend?", listOf("More exercise", "More rest", "More tea", "Watch TV"), 1, "医生说你要多休息。", "Textbook dialogue 10-2"),
+            QuizQuestion("How long should the patient avoid tea after medicine?", listOf("One hour", "Two hours", "Three hours", "All day"), 1, "吃药后两个小时不要喝茶。", "Textbook dialogue 10-2"),
+            QuizQuestion("Why did the family buy so much food?", listOf("Guests are coming for lunch", "They are moving house", "A party is tomorrow", "The food is on sale"), 0, "哥哥今天中午回来吃饭。", "Textbook dialogue 10-3"),
+            QuizQuestion("What is Mom doing?", listOf("Sleeping", "Preparing lunch", "Shopping", "Reading"), 1, "正在准备午饭呢。", "Textbook dialogue 10-3"),
+            QuizQuestion("Where is the phone?", listOf("In the bag", "On the desk beside the computer", "Outside", "In the kitchen"), 1, "手机在桌子上呢，电脑旁边。", "Textbook dialogue 10-4"),
+            QuizQuestion("What does 别找了 mean?", listOf("Keep looking", "Stop looking", "Look outside", "Find the table"), 1, "别 + verb + 了 tells someone to stop the action.", "Grammar"),
+            QuizQuestion("正在 indicates…", listOf("An action in progress", "A completed action", "A future plan", "A question"), 0, "正在 before a verb marks an action happening now.", "Grammar"),
+            QuizQuestion("对……有帮助 means…", listOf("Be harmful to", "Be helpful for", "Be far from", "Be similar to"), 1, "对 + target + 有帮助 means helpful for the target.", "Grammar")
+        ), pronunciation = "Practise the specific-question intonation with 你在找什么？ and the falling statement intonation in 手机在桌子上呢。"
     )
 )
 
