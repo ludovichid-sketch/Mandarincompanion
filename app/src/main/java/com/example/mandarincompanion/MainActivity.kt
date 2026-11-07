@@ -1089,7 +1089,8 @@ private fun CourseScreen(modifier: Modifier, bestScores: Map<Int, Int>, openLess
             Text("Based on your Standard Course 2 textbook and workbook scans.", color = Ink.copy(alpha = 0.72f), fontSize = 14.sp)
         }
         item { InfoPanel("Study offline", "All lesson text, vocabulary, grammar and quizzes are stored on this phone. Mandarin pronunciation uses Android Text-to-Speech; the publisher's audio files were not included in the PDFs.") }
-        items(items = lessons) { lesson: LessonContent ->
+        items(count = lessons.size) { index ->
+            val lesson = lessons[index]
             Card(
                 modifier = Modifier.fillMaxWidth().clickable { openLesson(lesson) },
                 shape = RoundedCornerShape(18.dp),
@@ -1323,20 +1324,17 @@ private fun ProgressScreen(modifier: Modifier, bestScores: Map<Int, Int>, knownC
             Text("Scores are stored locally on this phone.", color = Color.Gray, fontSize = 13.sp)
         }
         item { MiniStat("Words marked known", knownCount.toString()) }
-        item {
-            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                lessons.forEach { lesson: LessonContent ->
-                    val score = bestScores[lesson.number] ?: -1
-                    Card(colors = CardDefaults.cardColors(containerColor = Color.White), shape = RoundedCornerShape(16.dp), modifier = Modifier.fillMaxWidth()) {
-                        Row(Modifier.fillMaxWidth().padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
-                            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
-                                Text("Lesson ${lesson.number}", color = Teal, fontWeight = FontWeight.Bold, fontSize = 11.sp)
-                                Text(lesson.title, color = Ink, fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
-                                Text(if (score >= 0) "Best workbook score: $score/${lesson.questions.size}" else "Not completed yet", color = Color.Gray, fontSize = 12.sp)
-                            }
-                            TextButton(onClick = { onOpenLesson(lesson) }) { Text("Open") }
-                        }
+        items(count = lessons.size) { index ->
+            val lesson = lessons[index]
+            val score = bestScores[lesson.number] ?: -1
+            Card(colors = CardDefaults.cardColors(containerColor = Color.White), shape = RoundedCornerShape(16.dp), modifier = Modifier.fillMaxWidth()) {
+                Row(Modifier.fillMaxWidth().padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
+                        Text("Lesson ${lesson.number}", color = Teal, fontWeight = FontWeight.Bold, fontSize = 11.sp)
+                        Text(lesson.title, color = Ink, fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
+                        Text(if (score >= 0) "Best workbook score: $score/${lesson.questions.size}" else "Not completed yet", color = Color.Gray, fontSize = 12.sp)
                     }
+                    TextButton(onClick = { onOpenLesson(lesson) }) { Text("Open") }
                 }
             }
         }
