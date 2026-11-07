@@ -1310,36 +1310,30 @@ private fun WorkbookTab(modifier: Modifier, lesson: LessonContent, speak: (Strin
     var score by remember(lesson.number) { mutableIntStateOf(0) }
     var saved by remember(lesson.number) { mutableStateOf(false) }
     val exercise = remember(lesson.number) { pictureExerciseFor(lesson.number) }
-    val pages = remember(lesson.number) { workbookPicturePages(lesson.number) }
+    val totalExercises = lesson.questions.size + 1
+    val completedExercises = (if (pictureSelected >= 0) 1 else 0) + quizIndex
+
     LazyColumn(modifier.fillMaxSize().padding(horizontal = 12.dp), contentPadding = PaddingValues(top = 10.dp, bottom = 24.dp), verticalArrangement = Arrangement.spacedBy(11.dp)) {
         item {
             Text("Workbook practice  练习", color = Color(0xFF064A9D), fontWeight = FontWeight.Bold, fontSize = 18.sp)
-            Text("Exercises adapted from the corresponding HSK2 workbook lesson. The scanned source page is shown below for checking.", color = Color(0xFF52657B), fontSize = 11.sp)
-            pages.firstOrNull()?.let { page ->
-                Card(shape = RoundedCornerShape(14.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
-                    Column(Modifier.padding(8.dp), verticalArrangement = Arrangement.spacedBy(5.dp)) {
-                        Text("Original workbook · PDF page $page", color = Color(0xFF315F91), fontWeight = FontWeight.SemiBold, fontSize = 11.sp)
-                        WorkbookPageImage(page, Modifier.fillMaxWidth())
-                    }
-                }
-            }
+            Text("Original interactive practice inspired by this lesson's HSK2 workbook tasks. No scanned workbook pages are displayed.", color = Color(0xFF52657B), fontSize = 11.sp)
         }
         item {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("Exercise ${quizIndex + 1} of ${lesson.questions.size + 1}", color = Color(0xFF172D4B), fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
-                Text("${((quizIndex + 1) * 100 / (lesson.questions.size + 1))}%", color = Color(0xFF172D4B), fontWeight = FontWeight.Bold)
+                Text("Exercise ${minOf(completedExercises + 1, totalExercises)} of $totalExercises", color = Color(0xFF172D4B), fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
+                Text("${(completedExercises * 100 / totalExercises)}%", color = Color(0xFF172D4B), fontWeight = FontWeight.Bold)
             }
-            LinearProgressIndicator(progress = { (quizIndex + 1).toFloat() / (lesson.questions.size + 1).toFloat() }, modifier = Modifier.fillMaxWidth().height(7.dp), color = Color(0xFF20A45A), trackColor = Color(0xFFDCE7F3))
+            LinearProgressIndicator(progress = { completedExercises.toFloat() / totalExercises.toFloat() }, modifier = Modifier.fillMaxWidth().height(7.dp), color = Color(0xFF20A45A), trackColor = Color(0xFFDCE7F3))
         }
         item {
-            Text("▧  Look at the picture and choose the correct answer.", color = Color(0xFF172D4B), fontWeight = FontWeight.Bold, fontSize = 15.sp)
+            Text("1. Picture comprehension · 看图选择", color = Color(0xFF172D4B), fontWeight = FontWeight.Bold, fontSize = 15.sp)
             Card(shape = RoundedCornerShape(15.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
                 Column(Modifier.padding(10.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     LessonIllustrationForExercise(exercise.imageName, Modifier.fillMaxWidth())
                     Text(exercise.prompt, color = Color(0xFF172D4B), fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
                     exercise.options.forEachIndexed { i, option ->
                         val bg = when { pictureSelected == -1 -> Color.White; i == exercise.answer -> Color(0xFFE3F7E9); i == pictureSelected -> Color(0xFFFFEEEE); else -> Color.White }
-                        Surface(color = bg, shape = RoundedCornerShape(10.dp), border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFD9E3EF)), modifier = Modifier.fillMaxWidth().clickable { if (pictureSelected == -1) pictureSelected = i }) {
+                        Surface(color = bg, shape = RoundedCornerShape(10.dp), border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFD9E3EF)), modifier = Modifier.fillMaxWidth().clickable { if (pictureSelected == -1) { pictureSelected = i; if (i == exercise.answer) score++ } }) {
                             Row(Modifier.padding(11.dp), verticalAlignment = Alignment.CenterVertically) {
                                 Text(if (pictureSelected == i || (pictureSelected >= 0 && i == exercise.answer)) "◉" else "○", color = Color(0xFF0866D5))
                                 Text(option, color = Color(0xFF172D4B), modifier = Modifier.weight(1f).padding(start = 8.dp), fontSize = 14.sp)
@@ -1347,22 +1341,8 @@ private fun WorkbookTab(modifier: Modifier, lesson: LessonContent, speak: (Strin
                             }
                         }
                     }
-                    if (pictureSelected >= 0) Text(if (pictureSelected == exercise.answer) "Correct! ${exercise.explanation}" else "Not quite. ${exercise.explanation}", color = if (pictureSelected == exercise.answer) Color(0xFF168447) else Color(0xFFB34747), fontSize = 12.sp)
-                }
-            }
-        }
-        item { Text("▧  Match the pictures with the words.", color = Color(0xFF172D4B), fontWeight = FontWeight.Bold, fontSize = 15.sp) }
-        item {
-            Card(shape = RoundedCornerShape(15.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
-                Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text("Choose a vocabulary word, then listen to it.", color = Color(0xFF52657B), fontSize = 12.sp)
-                    lesson.words.take(4).forEach { word ->
-                        Row(Modifier.fillMaxWidth().clickable { speak(word.hanzi) }.padding(vertical = 5.dp), verticalAlignment = Alignment.CenterVertically) {
-                            Text("▣", fontSize = 22.sp, color = Color(0xFF0866D5), modifier = Modifier.padding(end = 12.dp))
-                            Column(Modifier.weight(1f)) { Text(word.hanzi, color = Color(0xFF172D4B), fontWeight = FontWeight.Bold, fontSize = 17.sp); Text("${word.pinyin} · ${word.meaning}", color = Color(0xFF52657B), fontSize = 11.sp) }
-                            Text("🔊", fontSize = 17.sp)
-                        }
-                        HorizontalDivider(color = Color(0xFFE8EEF5))
+                    if (pictureSelected >= 0) {
+                        Text(if (pictureSelected == exercise.answer) "Correct! ${exercise.explanation}" else "Not quite. ${exercise.explanation}", color = if (pictureSelected == exercise.answer) Color(0xFF168447) else Color(0xFFB34747), fontSize = 12.sp)
                     }
                 }
             }
@@ -1370,29 +1350,44 @@ private fun WorkbookTab(modifier: Modifier, lesson: LessonContent, speak: (Strin
         if (quizIndex < lesson.questions.size) {
             val q = lesson.questions[quizIndex]
             item {
-                Text("Exercise ${quizIndex + 2} · ${q.exerciseType}", color = Color(0xFF172D4B), fontWeight = FontWeight.Bold, fontSize = 15.sp)
+                Text("${quizIndex + 2}. ${q.exerciseType}", color = Color(0xFF172D4B), fontWeight = FontWeight.Bold, fontSize = 15.sp)
                 Card(shape = RoundedCornerShape(15.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
                     Column(Modifier.padding(13.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                         Text(q.prompt, color = Color(0xFF172D4B), fontWeight = FontWeight.SemiBold, fontSize = 15.sp)
                         q.options.forEachIndexed { i, option ->
                             val bg = when { quizSelected == -1 -> Color.White; i == q.answer -> Color(0xFFE3F7E9); i == quizSelected -> Color(0xFFFFEEEE); else -> Color.White }
-                            Surface(color = bg, shape = RoundedCornerShape(9.dp), border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFD9E3EF)), modifier = Modifier.fillMaxWidth().clickable { if (quizSelected == -1) { quizSelected = i; if (i == q.answer) score++ } }) { Text(option, color = Color(0xFF172D4B), modifier = Modifier.padding(11.dp), fontSize = 13.sp) }
+                            Surface(color = bg, shape = RoundedCornerShape(9.dp), border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFD9E3EF)), modifier = Modifier.fillMaxWidth().clickable { if (quizSelected == -1) { quizSelected = i; if (i == q.answer) score++ } }) {
+                                Row(Modifier.padding(11.dp), verticalAlignment = Alignment.CenterVertically) {
+                                    Text(option, color = Color(0xFF172D4B), modifier = Modifier.weight(1f), fontSize = 13.sp)
+                                    if (quizSelected >= 0 && i == q.answer) Text("✓", color = Color(0xFF159447), fontWeight = FontWeight.Bold)
+                                }
+                            }
                         }
                         if (quizSelected >= 0) {
+                            Text(if (quizSelected == q.answer) "Correct." else "Review the correct answer below.", color = if (quizSelected == q.answer) Color(0xFF168447) else Color(0xFFB34747), fontWeight = FontWeight.SemiBold, fontSize = 12.sp)
                             Text(q.explanation, color = Color(0xFF52657B), fontSize = 12.sp)
-                            Button(onClick = { quizIndex++; quizSelected = -1 }, modifier = Modifier.fillMaxWidth()) { Text("Next exercise") }
+                            Button(onClick = { quizIndex++; quizSelected = -1 }, modifier = Modifier.fillMaxWidth()) { Text(if (quizIndex == lesson.questions.lastIndex) "Finish workbook" else "Next exercise") }
                         }
                     }
                 }
             }
         } else {
             item {
-                Text("Practice completed · $score / ${lesson.questions.size}", color = Color(0xFF172D4B), fontWeight = FontWeight.Bold)
-                Button(onClick = { if (!saved) { onFinished(lesson.number, score); saved = true } }, enabled = !saved, modifier = Modifier.fillMaxWidth()) { Text(if (saved) "Progress saved" else "Save progress") }
+                Card(shape = RoundedCornerShape(15.dp), colors = CardDefaults.cardColors(containerColor = Color(0xFFEAF3FF))) {
+                    Column(Modifier.fillMaxWidth().padding(14.dp), verticalArrangement = Arrangement.spacedBy(7.dp)) {
+                        Text("Workbook completed", color = Color(0xFF064A9D), fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                        Text("Score: $score / $totalExercises", color = Color(0xFF172D4B), fontWeight = FontWeight.Bold)
+                        Text("These activities follow the workbook's practice approach: picture comprehension, vocabulary and sentence choice, grammar, and contextual understanding. The questions are rewritten for this app.", color = Color(0xFF52657B), fontSize = 12.sp)
+                        Button(onClick = { if (!saved) { onFinished(lesson.number, score); saved = true } }, enabled = !saved, modifier = Modifier.fillMaxWidth()) { Text(if (saved) "Progress saved" else "Save progress") }
+                        OutlinedButton(onClick = { pictureSelected = -1; quizIndex = 0; quizSelected = -1; score = 0; saved = false }, modifier = Modifier.fillMaxWidth()) { Text("Practise again") }
+                    }
+                }
             }
         }
-        item { Text("Original workbook reference pages", color = Color(0xFF172D4B), fontWeight = FontWeight.Bold, fontSize = 15.sp) }
-        items(pages.drop(1)) { page -> Card(shape = RoundedCornerShape(12.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) { Column(Modifier.padding(8.dp)) { Text("Workbook · PDF page $page", color = Color(0xFF315F91), fontSize = 11.sp); WorkbookPageImage(page, Modifier.fillMaxWidth()) } } }
+        item {
+            Text("Practice tip", color = Color(0xFF064A9D), fontWeight = FontWeight.Bold, fontSize = 14.sp)
+            Text("Listen to the Chinese examples, read the pinyin, then answer from the situation rather than translating word by word.", color = Color(0xFF52657B), fontSize = 12.sp)
+        }
     }
 }
 
@@ -1435,25 +1430,6 @@ private fun ReviewScreen(modifier: Modifier, knownCount: Int, openLesson: (Lesso
         Text("${knownCount} words marked as known", color = Color(0xFF52657B), fontSize = 13.sp)
         LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) { items(lessons) { lesson -> Card(modifier = Modifier.fillMaxWidth().clickable { openLesson(lesson) }, colors = CardDefaults.cardColors(containerColor = Color.White)) { Text("Lesson ${lesson.number} · ${lesson.title}", modifier = Modifier.padding(15.dp), color = Color(0xFF172D4B)) } } }
     }
-}
-
-private fun workbookPicturePages(lessonNumber: Int): List<Int> = when (lessonNumber) {
-    1 -> listOf(9, 10)
-    2 -> listOf(19, 20)
-    3 -> listOf(29, 30)
-    4 -> listOf(39, 40)
-    5 -> listOf(49, 50)
-    6 -> listOf(59, 60)
-    7 -> listOf(69, 70)
-    8 -> listOf(78, 79)
-    9 -> listOf(88, 89)
-    10 -> listOf(98, 99)
-    11 -> listOf(104, 105)
-    12 -> listOf(113, 114)
-    13 -> listOf(122, 123)
-    14 -> listOf(131, 132)
-    15 -> listOf(140, 141)
-    else -> emptyList()
 }
 
 @Composable
@@ -1542,35 +1518,6 @@ private fun LessonIllustrationForExercise(fileName: String, modifier: Modifier =
     if (bitmap != null) Image(bitmap = bitmap!!, contentDescription = "Illustration for the interactive exercise", contentScale = ContentScale.Crop, modifier = modifier.height(190.dp))
     else Box(modifier.height(190.dp).fillMaxWidth().background(Color(0xFFDCEBFA)), contentAlignment = Alignment.Center) { CircularProgressIndicator(color = Color(0xFF0866D5)) }
 }
-@Composable
-private fun WorkbookPageImage(page: Int, modifier: Modifier = Modifier) {
-    val context = LocalContext.current
-    val bitmap by produceState<androidx.compose.ui.graphics.ImageBitmap?>(initialValue = null, page) {
-        value = withContext(Dispatchers.IO) {
-            context.assets.open("workbook_images.zip").use { input ->
-                ZipInputStream(input).use { zip ->
-                    var entry = zip.nextEntry
-                    var decoded: androidx.compose.ui.graphics.ImageBitmap? = null
-                    while (entry != null && decoded == null) {
-                        if (entry.name == "page_$page.jpg") {
-                            val bytes = zip.readBytes()
-                            decoded = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)?.asImageBitmap()
-                        } else {
-                            zip.closeEntry()
-                            entry = zip.nextEntry
-                        }
-                    }
-                    decoded
-                }
-            }
-        }
-    }
-    if (bitmap != null) {
-        Image(bitmap = bitmap!!, contentDescription = "Original workbook page $page", contentScale = ContentScale.Fit, modifier = modifier)
-    } else {
-        LinearProgressIndicator(modifier = modifier.fillMaxWidth(), color = Teal)
-    }
-}
 
 @Composable
 private fun ProgressScreen(modifier: Modifier, bestScores: Map<Int, Int>, knownCount: Int, onOpenLesson: (LessonContent) -> Unit) {
@@ -1623,6 +1570,6 @@ private fun SourceNote(lesson: LessonContent) {
         HorizontalDivider(color = Color(0xFFD7E2E0))
         Spacer(Modifier.height(7.dp))
         Text("SOURCE CHECK", color = Teal, fontWeight = FontWeight.Bold, fontSize = 10.sp, letterSpacing = 1.sp)
-        Text("Textbook ${lesson.textbookPages}; workbook ${lesson.workbookPages}. Dialogues, vocabulary and grammar are transcribed/adapted from the scanned lesson pages. Workbook practice questions are adapted to work offline. Original workbook reference pages are embedded for offline viewing. New illustrated teaching scenes and interactive picture-based questions are included; publisher audio is not included. Handwriting/stroke-order exercises are omitted.", color = Color.Gray, fontSize = 10.sp)
+        Text("Textbook ${lesson.textbookPages}; workbook ${lesson.workbookPages}. Dialogues, vocabulary and grammar are transcribed/adapted from the scanned lesson pages. Workbook tasks have been rewritten as original offline interactive exercises following the source workbook exercise formats. No scanned workbook pages are displayed. New illustrated teaching scenes and picture-based questions are included; publisher audio is not included. Handwriting/stroke-order exercises are omitted.", color = Color.Gray, fontSize = 10.sp)
     }
 }
