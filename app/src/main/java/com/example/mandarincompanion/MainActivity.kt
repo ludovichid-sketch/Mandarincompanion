@@ -1169,42 +1169,6 @@ private fun LessonListCard(lesson: LessonContent, score: Int, openLesson: (Lesso
     }
 }
 @Composable
-private fun CourseScreen(modifier: Modifier, bestScores: Map<Int, Int>, openLesson: (LessonContent) -> Unit) {
-    Column(modifier.fillMaxSize()) {
-        Row(Modifier.fillMaxWidth().padding(horizontal = 18.dp, vertical = 16.dp), verticalAlignment = Alignment.CenterVertically) {
-            Column(Modifier.weight(1f)) {
-                Text("Mandarin Companion", color = Color(0xFF12345B), fontWeight = FontWeight.Bold, fontSize = 23.sp)
-                Text("HSK 2 · Lessons 1–15", color = Color(0xFF54708F), fontSize = 13.sp)
-            }
-            Text("▥", color = Color(0xFF0866D5), fontSize = 24.sp)
-        }
-        LazyColumn(modifier = Modifier.weight(1f), contentPadding = PaddingValues(horizontal = 14.dp, vertical = 5.dp), verticalArrangement = Arrangement.spacedBy(9.dp)) {
-            items(lessons) { lesson -> LessonListCard(lesson, bestScores[lesson.number] ?: -1, openLesson) }
-        }
-    }
-}
-
-@Composable
-private fun LessonListCard(lesson: LessonContent, score: Int, openLesson: (LessonContent) -> Unit) {
-    Card(modifier = Modifier.fillMaxWidth().clickable { openLesson(lesson) }, shape = RoundedCornerShape(17.dp), colors = CardDefaults.cardColors(containerColor = Color.White), elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)) {
-        Row(Modifier.fillMaxWidth().padding(9.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(11.dp)) {
-            LessonIllustration(lesson.number, Modifier.width(98.dp), height = 88.dp)
-            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
-                Text("Lesson ${lesson.number}", color = Color(0xFF172D4B), fontWeight = FontWeight.Bold, fontSize = 17.sp)
-                Text(lesson.hanziTitle, color = Color(0xFF111827), fontWeight = FontWeight.SemiBold, fontSize = 17.sp, maxLines = 1)
-                Text(lesson.title, color = Color(0xFF263B55), fontSize = 12.sp, maxLines = 2)
-            }
-            if (score >= 0) {
-                Box(Modifier.size(48.dp), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator(progress = { (score.toFloat() / lesson.questions.size).coerceIn(0f, 1f) }, color = Color(0xFF20A45A), trackColor = Color(0xFFE4EAF0), strokeWidth = 4.dp)
-                    Text("${score * 100 / lesson.questions.size}%", fontSize = 10.sp, fontWeight = FontWeight.Bold, color = Color(0xFF173B4D))
-                }
-            } else Text("›", color = Color(0xFF0866D5), fontSize = 27.sp, modifier = Modifier.padding(horizontal = 6.dp))
-        }
-    }
-}
-
-@Composable
 private fun LessonScreen(
     modifier: Modifier, lesson: LessonContent, selectedTab: Int, onTabSelected: (Int) -> Unit,
     onBack: () -> Unit, speak: (String) -> Unit, knownWords: Set<String>,
