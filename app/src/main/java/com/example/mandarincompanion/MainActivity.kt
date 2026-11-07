@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,13 +16,21 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import java.util.Locale
+import android.graphics.BitmapFactory
+import java.util.zip.ZipInputStream
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 private val Ink = Color(0xFF173B4D)
 private val Teal = Color(0xFF218C83)
@@ -1251,9 +1260,22 @@ private fun WorkbookTab(modifier: Modifier, lesson: LessonContent, speak: (Strin
     var score by remember(lesson.number) { mutableIntStateOf(0) }
     var saved by remember(lesson.number) { mutableStateOf(false) }
     val finished = index >= lesson.questions.size
+    val picturePages = remember(lesson.number) { workbookPicturePages(lesson.number) }
 
     LazyColumn(modifier.fillMaxSize().padding(horizontal = 14.dp), contentPadding = PaddingValues(top = 12.dp, bottom = 24.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         item { InfoPanel("Workbook practice · adapted", "These questions are adapted from the lesson content and exercise formats in your workbook: listening-style choices, comprehension, matching, fill-in and true/false. Publisher audio is not included; use the Listen button where shown.") }
+        item {
+            Text("Original picture-based exercises", color = Ink, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+            Text("Scanned pages from your workbook. The pictures and original exercise layout are preserved for offline practice.", color = Color.Gray, fontSize = 12.sp)
+        }
+        items(picturePages) { page ->
+            Card(shape = RoundedCornerShape(14.dp), colors = CardDefaults.cardColors(containerColor = Color.White), modifier = Modifier.fillMaxWidth()) {
+                Column(Modifier.padding(8.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Text("Original workbook · PDF page $page", color = Teal, fontWeight = FontWeight.SemiBold, fontSize = 12.sp)
+                    WorkbookPageImage(page = page, modifier = Modifier.fillMaxWidth())
+                }
+            }
+        }
         if (!finished) {
             val question = lesson.questions[index]
             item {
@@ -1315,6 +1337,55 @@ private fun WorkbookTab(modifier: Modifier, lesson: LessonContent, speak: (Strin
     }
 }
 
+private fun workbookPicturePages(lessonNumber: Int): List<Int> = when (lessonNumber) {
+    1 -> listOf(9, 10)
+    2 -> listOf(19, 20)
+    3 -> listOf(29, 30)
+    4 -> listOf(39, 40)
+    5 -> listOf(49, 50)
+    6 -> listOf(59, 60)
+    7 -> listOf(69, 70)
+    8 -> listOf(78, 79)
+    9 -> listOf(87, 88)
+    10 -> listOf(97, 98)
+    11 -> listOf(104, 105)
+    12 -> listOf(113, 114)
+    13 -> listOf(122, 123)
+    14 -> listOf(131, 132)
+    15 -> listOf(140, 141)
+    else -> emptyList()
+}
+
+@Composable
+private fun WorkbookPageImage(page: Int, modifier: Modifier = Modifier) {
+    val context = LocalContext.current
+    val bitmap by produceState<androidx.compose.ui.graphics.ImageBitmap?>(initialValue = null, page) {
+        value = withContext(Dispatchers.IO) {
+            context.assets.open("workbook_images.zip").use { input ->
+                ZipInputStream(input).use { zip ->
+                    var entry = zip.nextEntry
+                    var decoded: androidx.compose.ui.graphics.ImageBitmap? = null
+                    while (entry != null && decoded == null) {
+                        if (entry.name == "page_$page.jpg") {
+                            val bytes = zip.readBytes()
+                            decoded = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)?.asImageBitmap()
+                        } else {
+                            zip.closeEntry()
+                            entry = zip.nextEntry
+                        }
+                    }
+                    decoded
+                }
+            }
+        }
+    }
+    if (bitmap != null) {
+        Image(bitmap = bitmap!!, contentDescription = "Original workbook page $page", contentScale = ContentScale.Fit, modifier = modifier)
+    } else {
+        LinearProgressIndicator(modifier = modifier.fillMaxWidth(), color = Teal)
+    }
+}
+
 @Composable
 private fun ProgressScreen(modifier: Modifier, bestScores: Map<Int, Int>, knownCount: Int, onOpenLesson: (LessonContent) -> Unit) {
     LazyColumn(modifier.fillMaxSize().padding(horizontal = 18.dp), contentPadding = PaddingValues(top = 24.dp, bottom = 24.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -1366,6 +1437,6 @@ private fun SourceNote(lesson: LessonContent) {
         HorizontalDivider(color = Color(0xFFD7E2E0))
         Spacer(Modifier.height(7.dp))
         Text("SOURCE CHECK", color = Teal, fontWeight = FontWeight.Bold, fontSize = 10.sp, letterSpacing = 1.sp)
-        Text("Textbook ${lesson.textbookPages}; workbook ${lesson.workbookPages}. Dialogues, vocabulary and grammar are transcribed/adapted from the scanned lesson pages. Workbook practice questions are adapted to work offline. Original publisher audio and image-matching pages are not embedded. Handwriting/stroke-order exercises are omitted.", color = Color.Gray, fontSize = 10.sp)
+        Text("Textbook ${lesson.textbookPages}; workbook ${lesson.workbookPages}. Dialogues, vocabulary and grammar are transcribed/adapted from the scanned lesson pages. Workbook practice questions are adapted to work offline. Original picture-based workbook exercise pages are embedded for offline viewing; publisher audio is not included. Handwriting/stroke-order exercises are omitted.", color = Color.Gray, fontSize = 10.sp)
     }
 }
