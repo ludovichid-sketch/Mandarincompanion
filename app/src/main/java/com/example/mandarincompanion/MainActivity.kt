@@ -789,8 +789,7 @@ QuizQuestion("According to Dialogue 1, when is the best time to visit Beijing?",
             QuizQuestion("正在 indicates…", listOf("An action in progress", "A completed action", "A future plan", "A question"), 0, "正在 before a verb marks an action happening now.", "Grammar"),
             QuizQuestion("对……有帮助 means…", listOf("Be harmful to", "Be helpful for", "Be far from", "Be similar to"), 1, "对 + target + 有帮助 means helpful for the target.", "Grammar")
         ), pronunciation = "Practise the specific-question intonation with 你在找什么？ and the falling statement intonation in 手机在桌子上呢。"
-    )
-
+    ),
     LessonContent(
         number = 11, title = "He is three years older than me", hanziTitle = "他比我大三岁",
         textbookPages = "PDF pages 99–106", workbookPages = "PDF pages 109–118",
