@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.background
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -1113,39 +1114,60 @@ private fun MandarinApp(speak: (String) -> Unit) {
 @Composable
 private fun CourseScreen(modifier: Modifier, bestScores: Map<Int, Int>, openLesson: (LessonContent) -> Unit) {
     LazyColumn(
-        modifier = modifier.fillMaxSize().padding(horizontal = 18.dp),
-        contentPadding = PaddingValues(top = 24.dp, bottom = 24.dp),
-        verticalArrangement = Arrangement.spacedBy(14.dp)
+        modifier = modifier.fillMaxSize(),
+        contentPadding = PaddingValues(bottom = 18.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         item {
-            Text("MANDARIN COMPANION", color = Teal, fontWeight = FontWeight.Bold, fontSize = 12.sp, letterSpacing = 1.5.sp)
-            Text("你好！", color = Ink, fontSize = 36.sp, fontWeight = FontWeight.Bold)
-            Text("HSK 2 · Lessons 1–15", color = Ink, fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
-            Text("Based on your Standard Course 2 textbook and workbook scans.", color = Ink.copy(alpha = 0.72f), fontSize = 14.sp)
-        }
-        item { InfoPanel("Study offline", "All lesson text, vocabulary, grammar and quizzes are stored on this phone. Mandarin pronunciation uses Android Text-to-Speech; the publisher's audio files were not included in the PDFs.") }
-        items(lessons) { lesson ->
-            Card(
-                modifier = Modifier.fillMaxWidth().clickable { openLesson(lesson) },
-                shape = RoundedCornerShape(18.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White)
-            ) {
-                Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(7.dp)) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text("LESSON ${lesson.number}", color = Teal, fontWeight = FontWeight.Bold, fontSize = 11.sp, letterSpacing = 1.sp, modifier = Modifier.weight(1f))
-                        val score = bestScores[lesson.number] ?: -1
-                        if (score >= 0) Text("Best score: $score/${lesson.questions.size}", color = Good, fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
+            Column {
+                Box(modifier = Modifier.fillMaxWidth().height(154.dp)) {
+                    LessonIllustration(1, Modifier.fillMaxWidth(), imageHeight = 154.dp)
+                    Column(
+                        Modifier.align(Alignment.BottomStart).fillMaxWidth()
+                            .background(Ink.copy(alpha = 0.72f)).padding(horizontal = 18.dp, vertical = 12.dp)
+                    ) {
+                        Text("Mandarin Companion", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 23.sp)
+                        Text("HSK 2 · Lessons 1–15", color = Color.White, fontSize = 14.sp)
                     }
-                    Text(lesson.title, color = Ink, fontWeight = FontWeight.Bold, fontSize = 18.sp)
-                    Text(lesson.hanziTitle, color = Teal, fontSize = 20.sp, fontWeight = FontWeight.Medium)
-                    Text("${lesson.dialogues.size} dialogues · ${lesson.words.size} words · ${lesson.grammar.size} grammar points · ${lesson.questions.size} workbook questions", color = Color.Gray, fontSize = 12.sp)
-                    Text("Textbook ${lesson.textbookPages}  ·  Workbook ${lesson.workbookPages}", color = Color.Gray, fontSize = 11.sp)
-                    Button(onClick = { openLesson(lesson) }, modifier = Modifier.fillMaxWidth()) { Text("Open lesson") }
+                }
+                Row(
+                    Modifier.fillMaxWidth().background(Color.White).padding(horizontal = 18.dp, vertical = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column(Modifier.weight(1f)) {
+                        Text("Your Mandarin course", color = Ink, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                        Text("Choose a lesson to continue learning", color = Color.Gray, fontSize = 12.sp)
+                    }
+                    Text("${bestScores.count { it.value >= 0 }}/15", color = Teal, fontWeight = FontWeight.Bold, fontSize = 18.sp)
                 }
             }
         }
-        item {
-            Text("Learning focus: character recognition, vocabulary, pinyin, grammar, listening and speaking. No handwriting or stroke-order drills.", color = Ink.copy(alpha = 0.75f), fontSize = 13.sp)
+        items(lessons) { lesson ->
+            Card(
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp).clickable { openLesson(lesson) },
+                shape = RoundedCornerShape(18.dp),
+                colors = CardDefaults.cardColors(containerColor = Color.White),
+                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+            ) {
+                Row(Modifier.padding(9.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    LessonIllustration(lesson.number, Modifier.width(104.dp), imageHeight = 94.dp)
+                    Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
+                        Text("Lesson ${lesson.number}", color = Ink, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                        Text(lesson.hanziTitle, color = Ink, fontWeight = FontWeight.Bold, fontSize = 18.sp, maxLines = 1)
+                        Text(lesson.title, color = Color.DarkGray, fontSize = 12.sp, maxLines = 2)
+                        val score = bestScores[lesson.number] ?: -1
+                        if (score >= 0) {
+                            Text("Best score: $score/${lesson.questions.size}", color = Good, fontWeight = FontWeight.SemiBold, fontSize = 11.sp)
+                        }
+                    }
+                    val score = bestScores[lesson.number] ?: -1
+                    if (score >= 0) {
+                        Text("✓", color = Good, fontWeight = FontWeight.Bold, fontSize = 25.sp)
+                    } else {
+                        Text("›", color = Teal, fontWeight = FontWeight.Bold, fontSize = 28.sp)
+                    }
+                }
+            }
         }
     }
 }
@@ -1162,26 +1184,133 @@ private fun LessonScreen(
     onToggleKnown: (String) -> Unit,
     onQuizFinished: (Int, Int) -> Unit
 ) {
-    val tabs = listOf("Dialogues", "Vocabulary", "Grammar", "Workbook")
-    Column(modifier.fillMaxSize()) {
-        Column(Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 6.dp)) {
-            TextButton(onClick = onBack, contentPadding = PaddingValues(horizontal = 0.dp, vertical = 0.dp)) { Text("← All lessons", color = Teal) }
-            Text("HSK 2  /  LESSON ${lesson.number}", color = Teal, fontWeight = FontWeight.Bold, fontSize = 11.sp, letterSpacing = 1.sp)
-            Text(lesson.title, color = Ink, fontWeight = FontWeight.Bold, fontSize = 21.sp)
-            Text(lesson.hanziTitle, color = Teal, fontSize = 20.sp)
-            Text("Textbook ${lesson.textbookPages} · Workbook ${lesson.workbookPages}", color = Color.Gray, fontSize = 10.sp)
+    val tabs = listOf("Teaching", "Workbook", "Quiz")
+    Column(modifier.fillMaxSize().background(Pale)) {
+        Column(Modifier.fillMaxWidth().background(Ink).padding(horizontal = 16.dp, vertical = 12.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text("‹", color = Color.White, fontSize = 30.sp, modifier = Modifier.clickable { onBack() }.padding(end = 14.dp))
+                Column {
+                    Text("Lesson ${lesson.number}", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                    Text("${lesson.hanziTitle}  ·  ${lesson.title}", color = Color.White.copy(alpha = 0.88f), fontSize = 12.sp, maxLines = 2)
+                }
+            }
         }
-        ScrollableTabRow(selectedTabIndex = selectedTab, edgePadding = 8.dp, containerColor = Pale) {
+        TabRow(selectedTabIndex = selectedTab.coerceIn(0, 2), containerColor = Color.White, contentColor = Teal) {
             tabs.forEachIndexed { index, title ->
-                Tab(selected = selectedTab == index, onClick = { onTabSelected(index) }, text = { Text(title) })
+                Tab(
+                    selected = selectedTab == index,
+                    onClick = { onTabSelected(index) },
+                    text = { Text(title, fontWeight = if (selectedTab == index) FontWeight.Bold else FontWeight.Normal) }
+                )
             }
         }
         when (selectedTab) {
-            0 -> DialoguesTab(Modifier.weight(1f), lesson, speak)
-            1 -> VocabularyTab(Modifier.weight(1f), lesson, speak, knownWords, onToggleKnown)
-            2 -> GrammarTab(Modifier.weight(1f), lesson, speak)
-            else -> WorkbookTab(Modifier.weight(1f), lesson, speak, onQuizFinished)
+            0 -> TeachingTab(Modifier.weight(1f), lesson, speak, knownWords, onToggleKnown)
+            1 -> WorkbookTab(Modifier.weight(1f), lesson, speak, onQuizFinished)
+            else -> QuizTab(Modifier.weight(1f), lesson, speak, onQuizFinished)
         }
+    }
+}
+
+@Composable
+private fun TeachingTab(
+    modifier: Modifier,
+    lesson: LessonContent,
+    speak: (String) -> Unit,
+    knownWords: Set<String>,
+    onToggleKnown: (String) -> Unit
+) {
+    LazyColumn(
+        modifier.fillMaxSize().padding(horizontal = 12.dp),
+        contentPadding = PaddingValues(top = 10.dp, bottom = 22.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        item {
+            Card(shape = RoundedCornerShape(18.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
+                Column {
+                    LessonIllustration(lesson.number, Modifier.fillMaxWidth(), imageHeight = 218.dp)
+                    Column(Modifier.padding(13.dp), verticalArrangement = Arrangement.spacedBy(5.dp)) {
+                        Text("Lesson ${lesson.number} · Teaching", color = Teal, fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                        Text(lesson.hanziTitle, color = Ink, fontWeight = FontWeight.Bold, fontSize = 23.sp)
+                        Text(lesson.title, color = Color.DarkGray, fontSize = 14.sp)
+                    }
+                }
+            }
+        }
+        item { SectionHeading("Dialogue", "对话") }
+        items(lesson.dialogues) { dialogue ->
+            Card(shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
+                Column(Modifier.padding(13.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text(dialogue.title, color = Ink, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                    dialogue.lines.forEachIndexed { index, line ->
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                                Text(line.chinese, color = Ink, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                                Text(line.pinyin, color = Teal, fontSize = 12.sp)
+                                Text(line.english, color = Color.DarkGray, fontSize = 12.sp)
+                            }
+                            TextButton(onClick = { speak(line.chinese) }) { Text("▶", color = Teal) }
+                        }
+                        if (index != dialogue.lines.lastIndex) HorizontalDivider(color = Pale)
+                    }
+                }
+            }
+        }
+        item { SectionHeading("Key Vocabulary", "重点词汇") }
+        items(lesson.words) { word ->
+            Card(shape = RoundedCornerShape(14.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
+                Row(Modifier.fillMaxWidth().padding(11.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                        Text(word.hanzi, color = Ink, fontWeight = FontWeight.Bold, fontSize = 23.sp)
+                        Text(word.pinyin, color = Teal, fontSize = 12.sp)
+                        Text(word.meaning, color = Color.DarkGray, fontSize = 12.sp)
+                        Text(word.example, color = Ink, fontSize = 14.sp)
+                        Text(word.examplePinyin, color = Teal, fontSize = 11.sp)
+                    }
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        TextButton(onClick = { speak(word.hanzi) }) { Text("🔊") }
+                        Text(if (knownWords.contains(word.hanzi)) "Known ✓" else "Mark known", color = if (knownWords.contains(word.hanzi)) Good else Teal, fontSize = 10.sp,
+                            modifier = Modifier.clickable { onToggleKnown(word.hanzi) })
+                    }
+                }
+            }
+        }
+        item { SectionHeading("Grammar Focus", "语法") }
+        items(lesson.grammar) { point ->
+            Card(shape = RoundedCornerShape(15.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
+                Column(Modifier.padding(13.dp), verticalArrangement = Arrangement.spacedBy(7.dp)) {
+                    Text(point.title, color = Ink, fontWeight = FontWeight.Bold, fontSize = 17.sp)
+                    Surface(color = Color(0xFFFFF2D7), shape = RoundedCornerShape(9.dp)) {
+                        Text(point.pattern, color = Ink, fontWeight = FontWeight.Bold, modifier = Modifier.padding(10.dp), fontSize = 13.sp)
+                    }
+                    Text(point.explanation, color = Color.DarkGray, fontSize = 13.sp)
+                    point.examples.forEach { example ->
+                        Text(example.chinese, color = Ink, fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
+                        Text(example.pinyin, color = Teal, fontSize = 12.sp)
+                        Text(example.english, color = Color.DarkGray, fontSize = 12.sp)
+                        TextButton(onClick = { speak(example.chinese) }) { Text("▶ Listen") }
+                    }
+                }
+            }
+        }
+        item {
+            Card(shape = RoundedCornerShape(14.dp), colors = CardDefaults.cardColors(containerColor = SoftBlue)) {
+                Column(Modifier.padding(13.dp)) {
+                    Text("Pronunciation", color = Ink, fontWeight = FontWeight.Bold)
+                    Text(lesson.pronunciation, color = Color.DarkGray, fontSize = 13.sp)
+                    TextButton(onClick = { speak(lesson.hanziTitle) }) { Text("▶ Listen to lesson title") }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun SectionHeading(title: String, chinese: String) {
+    Row(Modifier.fillMaxWidth().background(Color(0xFFDCEBFA), RoundedCornerShape(10.dp)).padding(horizontal = 12.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically) {
+        Text(title, color = Ink, fontWeight = FontWeight.Bold, fontSize = 17.sp, modifier = Modifier.weight(1f))
+        Text(chinese, color = Teal, fontWeight = FontWeight.Bold, fontSize = 14.sp)
     }
 }
 
@@ -1373,6 +1502,103 @@ private fun WorkbookTab(modifier: Modifier, lesson: LessonContent, speak: (Strin
     }
 }
 
+@Composable
+private fun QuizTab(
+    modifier: Modifier,
+    lesson: LessonContent,
+    speak: (String) -> Unit,
+    onFinished: (Int, Int) -> Unit
+) {
+    var index by remember(lesson.number) { mutableIntStateOf(0) }
+    var selected by remember(lesson.number) { mutableIntStateOf(-1) }
+    var score by remember(lesson.number) { mutableIntStateOf(0) }
+    var saved by remember(lesson.number) { mutableStateOf(false) }
+    val finished = index >= lesson.questions.size
+    LazyColumn(
+        modifier.fillMaxSize().padding(horizontal = 13.dp),
+        contentPadding = PaddingValues(vertical = 14.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        item {
+            Text("Lesson ${lesson.number} · Quiz", color = Ink, fontWeight = FontWeight.Bold, fontSize = 22.sp)
+            Text("Check your understanding of the dialogue, vocabulary and grammar.", color = Color.DarkGray, fontSize = 13.sp)
+        }
+        if (!finished) {
+            val q = lesson.questions[index]
+            item {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text("Question ${index + 1} of ${lesson.questions.size}", color = Teal, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
+                    Text("Score: $score", color = Ink, fontWeight = FontWeight.Bold)
+                }
+                LinearProgressIndicator(
+                    progress = { (index + 1).toFloat() / lesson.questions.size.toFloat() },
+                    modifier = Modifier.fillMaxWidth(), color = Teal, trackColor = SoftBlue
+                )
+            }
+            item {
+                Card(shape = RoundedCornerShape(18.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
+                    Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                        Text(q.exerciseType, color = Teal, fontWeight = FontWeight.Bold, fontSize = 11.sp)
+                        Text(q.prompt, color = Ink, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                        if (q.prompt.any { it in '\u4e00'..'\u9fff' }) {
+                            TextButton(onClick = { speak(q.prompt) }) { Text("▶ Listen to question") }
+                        }
+                        q.options.forEachIndexed { optionIndex, option ->
+                            val bg = when {
+                                selected == -1 -> Color.White
+                                optionIndex == q.answer -> SoftTeal
+                                optionIndex == selected -> Color(0xFFFFE8E8)
+                                else -> Color.White
+                            }
+                            Card(
+                                modifier = Modifier.fillMaxWidth().clickable(enabled = selected == -1) {
+                                    selected = optionIndex
+                                    if (optionIndex == q.answer) score++
+                                },
+                                shape = RoundedCornerShape(12.dp),
+                                colors = CardDefaults.cardColors(containerColor = bg),
+                                border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFDCE5EF))
+                            ) {
+                                Row(Modifier.fillMaxWidth().padding(13.dp), verticalAlignment = Alignment.CenterVertically) {
+                                    Text(if (selected == optionIndex || (selected != -1 && optionIndex == q.answer)) "●" else "○",
+                                        color = if (selected != -1 && optionIndex == q.answer) Good else Teal)
+                                    Spacer(Modifier.width(10.dp))
+                                    Text(option, color = Ink, fontSize = 14.sp)
+                                }
+                            }
+                        }
+                        if (selected != -1) {
+                            Text(if (selected == q.answer) "Correct!" else "Not quite — the correct answer is ${q.options[q.answer]}.",
+                                color = if (selected == q.answer) Good else Bad, fontWeight = FontWeight.Bold)
+                            Text(q.explanation, color = Color.DarkGray, fontSize = 13.sp)
+                            Button(onClick = { index++; selected = -1 }, modifier = Modifier.fillMaxWidth()) {
+                                Text(if (index == lesson.questions.lastIndex) "See result" else "Next question")
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            item {
+                Card(shape = RoundedCornerShape(18.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
+                    Column(Modifier.fillMaxWidth().padding(22.dp), horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                        Text("练习完成", color = Teal, fontSize = 25.sp, fontWeight = FontWeight.Bold)
+                        Text("$score / ${lesson.questions.size}", color = Ink, fontSize = 34.sp, fontWeight = FontWeight.Bold)
+                        Text("${score * 100 / lesson.questions.size}% correct", color = Ink)
+                        Button(onClick = { if (!saved) { onFinished(lesson.number, score); saved = true } },
+                            enabled = !saved, modifier = Modifier.fillMaxWidth()) {
+                            Text(if (saved) "Progress saved" else "Save lesson progress")
+                        }
+                        OutlinedButton(onClick = { index = 0; selected = -1; score = 0; saved = false },
+                            modifier = Modifier.fillMaxWidth()) { Text("Try again") }
+                    }
+                }
+            }
+        }
+    }
+}
+
 private fun workbookPicturePages(lessonNumber: Int): List<Int> = when (lessonNumber) {
     1 -> listOf(9, 10)
     2 -> listOf(19, 20)
@@ -1393,7 +1619,7 @@ private fun workbookPicturePages(lessonNumber: Int): List<Int> = when (lessonNum
 }
 
 @Composable
-private fun LessonIllustration(lessonNumber: Int, modifier: Modifier = Modifier) {
+private fun LessonIllustration(lessonNumber: Int, modifier: Modifier = Modifier, imageHeight: androidx.compose.ui.unit.Dp = 170.dp) {
     val context = LocalContext.current
     val fileName = when (lessonNumber) {
         1 -> "lesson_01_beijing.png"; 2 -> "lesson_02_daily_routine.png"; 3 -> "lesson_03_clothes.png"
@@ -1424,9 +1650,9 @@ private fun LessonIllustration(lessonNumber: Int, modifier: Modifier = Modifier)
     }
     if (bitmap != null) {
         Image(bitmap = bitmap!!, contentDescription = "Original illustration for lesson $lessonNumber", contentScale = ContentScale.Crop,
-            modifier = modifier.height(170.dp))
+            modifier = modifier.height(imageHeight))
     } else {
-        Box(modifier.height(170.dp).fillMaxWidth(), contentAlignment = Alignment.Center) {
+        Box(modifier.height(imageHeight).fillMaxWidth(), contentAlignment = Alignment.Center) {
             CircularProgressIndicator(color = Teal)
         }
     }
