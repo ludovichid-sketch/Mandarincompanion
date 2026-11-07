@@ -1085,7 +1085,7 @@ private fun CourseScreen(modifier: Modifier, bestScores: Map<Int, Int>, openLess
         item {
             Text("MANDARIN COMPANION", color = Teal, fontWeight = FontWeight.Bold, fontSize = 12.sp, letterSpacing = 1.5.sp)
             Text("你好！", color = Ink, fontSize = 36.sp, fontWeight = FontWeight.Bold)
-            Text("HSK 2 · Lessons 1–5", color = Ink, fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
+            Text("HSK 2 · Lessons 1–15", color = Ink, fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
             Text("Based on your Standard Course 2 textbook and workbook scans.", color = Ink.copy(alpha = 0.72f), fontSize = 14.sp)
         }
         item { InfoPanel("Study offline", "All lesson text, vocabulary, grammar and quizzes are stored on this phone. Mandarin pronunciation uses Android Text-to-Speech; the publisher's audio files were not included in the PDFs.") }
@@ -1325,7 +1325,7 @@ private fun ProgressScreen(modifier: Modifier, bestScores: Map<Int, Int>, knownC
         item { MiniStat("Words marked known", knownCount.toString()) }
         item {
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                lessons.forEach { lesson ->
+                lessons.forEach { lesson: LessonContent ->
                     val score = bestScores[lesson.number] ?: -1
                     Card(colors = CardDefaults.cardColors(containerColor = Color.White), shape = RoundedCornerShape(16.dp), modifier = Modifier.fillMaxWidth()) {
                         Row(Modifier.fillMaxWidth().padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
