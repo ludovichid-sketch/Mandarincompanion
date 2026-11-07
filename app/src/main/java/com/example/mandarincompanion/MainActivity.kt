@@ -790,6 +790,230 @@ QuizQuestion("According to Dialogue 1, when is the best time to visit Beijing?",
             QuizQuestion("对……有帮助 means…", listOf("Be harmful to", "Be helpful for", "Be far from", "Be similar to"), 1, "对 + target + 有帮助 means helpful for the target.", "Grammar")
         ), pronunciation = "Practise the specific-question intonation with 你在找什么？ and the falling statement intonation in 手机在桌子上呢。"
     )
+
+    LessonContent(
+        number = 11, title = "He is three years older than me", hanziTitle = "他比我大三岁",
+        textbookPages = "PDF pages 99–106", workbookPages = "PDF pages 109–118",
+        dialogues = listOf(
+            Dialogue("1 · At a karaoke bar", "Textbook 11-1", listOf(
+                DialogueLine("王芳，昨天和你一起唱歌的人是谁？", "Wáng Fāng, zuótiān hé nǐ yìqǐ chànggē de rén shì shéi?", "Wang Fang, who was the person singing with you yesterday?"),
+                DialogueLine("一个朋友。", "Yí ge péngyou.", "A friend."),
+                DialogueLine("什么朋友？是不是男朋友？", "Shénme péngyou? Shì bu shì nán péngyou?", "What kind of friend? Is he your boyfriend?"),
+                DialogueLine("不是不是，我同学介绍的，昨天第一次见。", "Bú shì bú shì, wǒ tóngxué jièshào de, zuótiān dì-yī cì jiàn.", "No, no. A classmate introduced us; we met for the first time yesterday.")
+            )),
+            Dialogue("2 · In the dormitory", "Textbook 11-2", listOf(
+                DialogueLine("左边这个看报纸的女孩子是你姐姐吗？", "Zuǒbian zhège kàn bàozhǐ de nǚháizi shì nǐ jiějie ma?", "Is the girl on the left reading a newspaper your older sister?"),
+                DialogueLine("是，右边写字的那个人是我哥哥。", "Shì, yòubian xiězì de nà ge rén shì wǒ gēge.", "Yes. The person on the right writing is my older brother."),
+                DialogueLine("你哥哥多大？", "Nǐ gēge duō dà?", "How old is your brother?"),
+                DialogueLine("二十五岁，他比我大三岁。", "Èrshíwǔ suì, tā bǐ wǒ dà sān suì.", "He is 25; he is three years older than me.")
+            ))
+        ),
+        words = listOf(
+            Word("唱歌", "chànggē", "to sing", "昨天我们一起唱歌。", "Zuótiān wǒmen yìqǐ chànggē.", "We sang together yesterday."),
+            Word("男", "nán", "male; man", "他是男孩子。", "Tā shì nán háizi.", "He is a boy."),
+            Word("女", "nǚ", "female; woman", "她是女孩子。", "Tā shì nǚ háizi.", "She is a girl."),
+            Word("孩子", "háizi", "child", "那个孩子很可爱。", "Nà ge háizi hěn kě'ài.", "That child is cute."),
+            Word("左边", "zuǒbian", "left side", "我坐在左边。", "Wǒ zuò zài zuǒbian.", "I sit on the left."),
+            Word("右边", "yòubian", "right side", "他在右边。", "Tā zài yòubian.", "He is on the right."),
+            Word("比", "bǐ", "than; compared with", "他比我高。", "Tā bǐ wǒ gāo.", "He is taller than me."),
+            Word("岁", "suì", "years old", "我二十岁。", "Wǒ èrshí suì.", "I am twenty years old."),
+            Word("介绍", "jièshào", "to introduce", "同学介绍我们认识。", "Tóngxué jièshào wǒmen rènshi.", "A classmate introduced us."),
+            Word("第一次", "dì-yī cì", "the first time", "这是我第一次来。", "Zhè shì wǒ dì-yī cì lái.", "This is my first time here.")
+        ),
+        grammar = listOf(
+            GrammarPoint("比 · comparisons", "比 introduces the standard of comparison. The adjective follows the second noun; do not add 很 before it.", "A + 比 + B + adjective (+ difference)", listOf(DialogueLine("他比我大三岁。", "Tā bǐ wǒ dà sān suì.", "He is three years older than me."))),
+            GrammarPoint("的 · verb phrase as modifier", "A verb phrase can describe a noun. Put 的 between the describing phrase and the noun.", "Verb phrase + 的 + noun", listOf(DialogueLine("看报纸的女孩子", "Kàn bàozhǐ de nǚháizi", "the girl who is reading a newspaper")))
+        ),
+        questions = listOf(
+            QuizQuestion("How did Wang Fang meet the friend?", listOf("At work", "A classmate introduced them", "At school years ago", "Online"), 1, "我同学介绍的。", "Textbook 11-1"),
+            QuizQuestion("Was it the first time they met?", listOf("Yes", "No, many times", "They are relatives", "Not stated"), 0, "昨天第一次见。", "Textbook 11-1"),
+            QuizQuestion("Who is reading a newspaper?", listOf("The older brother", "The girl on the left", "The speaker", "A teacher"), 1, "左边这个看报纸的女孩子。", "Textbook 11-2"),
+            QuizQuestion("How old is the older brother?", listOf("22", "23", "25", "28"), 2, "二十五岁。", "Textbook 11-2"),
+            QuizQuestion("What does 比 do in a sentence?", listOf("Shows possession", "Makes a comparison", "Marks past experience", "Shows location"), 1, "比 introduces a comparison.", "Grammar"),
+            QuizQuestion("他比我大三岁 means…", listOf("I am three years older", "He is three years older", "We are both three", "He is three years younger"), 1, "大三岁 = three years older.", "Grammar"),
+            QuizQuestion("Choose the correct phrase for 'the person writing'.", listOf("写字的人", "人写字", "写的人字", "字写人"), 0, "Verb phrase + 的 + noun.", "Grammar"),
+            QuizQuestion("第一次 means…", listOf("Every time", "The first time", "Last time", "Next time"), 1, "第一次 means the first time.", "Workbook lesson 11 review")
+        ), pronunciation = "Practise the comparison sentence as one unit: tā bǐ wǒ dà sān suì. Keep 比 clear and unstressed."
+    ),
+    LessonContent(
+        number = 12, title = "You wear too little", hanziTitle = "你穿得太少了",
+        textbookPages = "PDF pages 107–114", workbookPages = "PDF pages 119–128",
+        dialogues = listOf(
+            Dialogue("1 · In the classroom", "Textbook 12-1", listOf(
+                DialogueLine("你每天早上几点起床？", "Nǐ měitiān zǎoshang jǐ diǎn qǐchuáng?", "What time do you get up every morning?"),
+                DialogueLine("六点多。", "Liù diǎn duō.", "A little after six."),
+                DialogueLine("你比我早起一个小时。", "Nǐ bǐ wǒ zǎo qǐ yí ge xiǎoshí.", "You get up one hour earlier than me."),
+                DialogueLine("我睡得也早，我每天晚上十点就睡觉。", "Wǒ shuì de yě zǎo, wǒ měitiān wǎnshang shí diǎn jiù shuìjiào.", "I also go to bed early; I go to sleep at ten every night.")
+            )),
+            Dialogue("2 · At a friend's home", "Textbook 12-2", listOf(
+                DialogueLine("再来点儿米饭吧，你吃得太少了。", "Zài lái diǎnr mǐfàn ba, nǐ chī de tài shǎo le.", "Have some more rice; you have eaten too little."),
+                DialogueLine("不少了，今天吃得很好，太谢谢你了。", "Bù shǎo le, jīntiān chī de hěn hǎo, tài xièxie nǐ le.", "That's enough. I've eaten very well today; thank you."),
+                DialogueLine("你做饭做得怎么样？", "Nǐ zuòfàn zuò de zěnmeyàng?", "How well do you cook?"),
+                DialogueLine("不怎么样，我妻子比我做得好。", "Bù zěnmeyàng, wǒ qīzi bǐ wǒ zuò de hǎo.", "Not very well. My wife cooks better than I do.")
+            ))
+        ),
+        words = listOf(
+            Word("得", "de", "structural particle introducing a complement", "他说得很好。", "Tā shuō de hěn hǎo.", "He speaks very well."),
+            Word("早", "zǎo", "early", "我今天起得很早。", "Wǒ jīntiān qǐ de hěn zǎo.", "I got up early today."),
+            Word("起床", "qǐchuáng", "to get up", "我六点起床。", "Wǒ liù diǎn qǐchuáng.", "I get up at six."),
+            Word("小时", "xiǎoshí", "hour", "我学习两个小时。", "Wǒ xuéxí liǎng ge xiǎoshí.", "I study for two hours."),
+            Word("睡觉", "shuìjiào", "to sleep; go to bed", "我十点睡觉。", "Wǒ shí diǎn shuìjiào.", "I go to bed at ten."),
+            Word("健康", "jiànkāng", "healthy; health", "早睡早起很健康。", "Zǎo shuì zǎo qǐ hěn jiànkāng.", "Going to bed and getting up early is healthy."),
+            Word("再", "zài", "again; another", "请再说一次。", "Qǐng zài shuō yí cì.", "Please say it once more."),
+            Word("米饭", "mǐfàn", "cooked rice", "我喜欢吃米饭。", "Wǒ xǐhuan chī mǐfàn.", "I like eating rice."),
+            Word("太", "tài", "too; excessively", "今天太冷了。", "Jīntiān tài lěng le.", "It is too cold today."),
+            Word("妻子", "qīzi", "wife", "他的妻子是老师。", "Tā de qīzi shì lǎoshī.", "His wife is a teacher.")
+        ),
+        grammar = listOf(
+            GrammarPoint("得 · complement of degree or manner", "得 follows a verb and introduces information about how the action is performed. With an object, repeat the verb or place the object before the verb.", "Verb + 得 + adjective / phrase", listOf(DialogueLine("他说得很好。", "Tā shuō de hěn hǎo.", "He speaks very well."))),
+            GrammarPoint("太……了 · too / very", "太 before an adjective and 了 at the end expresses a high degree, often 'too'. Context determines whether it is criticism or emphasis.", "太 + adjective + 了", listOf(DialogueLine("你吃得太少了。", "Nǐ chī de tài shǎo le.", "You have eaten too little.")))
+        ),
+        questions = listOf(
+            QuizQuestion("What time does the speaker get up?", listOf("5:00", "A little after 6:00", "7:30", "8:00"), 1, "六点多。", "Textbook 12-1"),
+            QuizQuestion("How much earlier does the other person get up?", listOf("30 minutes", "One hour", "Two hours", "Three hours"), 1, "早起一个小时。", "Textbook 12-1"),
+            QuizQuestion("What time does the speaker go to bed?", listOf("9 pm", "10 pm", "11 pm", "Midnight"), 1, "每天晚上十点就睡觉。", "Textbook 12-1"),
+            QuizQuestion("What does the host say about the guest's meal?", listOf("You ate too much", "You ate too little", "The food is cold", "There is no rice"), 1, "你吃得太少了。", "Textbook 12-2"),
+            QuizQuestion("Who cooks better?", listOf("The speaker", "The speaker's wife", "The speaker's mother", "A friend"), 1, "我妻子比我做得好。", "Textbook 12-2"),
+            QuizQuestion("What does 得 introduce after a verb?", listOf("A manner or degree complement", "A location", "A future time", "A plural noun"), 0, "得 introduces a complement describing the action.", "Grammar"),
+            QuizQuestion("太少了 means…", listOf("A little more", "Too little", "Very early", "Not enough time"), 1, "太 + adjective + 了 expresses a high degree.", "Grammar"),
+            QuizQuestion("小时 means…", listOf("Minute", "Day", "Hour", "Week"), 2, "小时 is an hour.", "Workbook lesson 12 review")
+        ), pronunciation = "Practise 得 as a light structural syllable: chī-de tài shǎo-le. Do not give 得 a full fourth tone."
+    ),
+    LessonContent(
+        number = 13, title = "The door is open", hanziTitle = "门开着呢",
+        textbookPages = "PDF pages 115–122", workbookPages = "PDF pages 129–138",
+        dialogues = listOf(
+            Dialogue("1 · In the office", "Textbook 13-1", listOf(
+                DialogueLine("门开着呢，请进。", "Mén kāi zhe ne, qǐng jìn.", "The door is open. Please come in."),
+                DialogueLine("请问，张先生在吗？", "Qǐngwèn, Zhāng xiānsheng zài ma?", "Excuse me, is Mr Zhang here?"),
+                DialogueLine("他出去了。你下午再来吧。", "Tā chūqu le. Nǐ xiàwǔ zài lái ba.", "He has gone out. Please come again this afternoon."),
+                DialogueLine("好的，谢谢！", "Hǎo de, xièxie!", "All right, thank you!")
+            )),
+            Dialogue("2 · On the playground", "Textbook 13-2", listOf(
+                DialogueLine("听说你有女朋友了？我认识她吗？", "Tīngshuō nǐ yǒu nǚpéngyou le? Wǒ rènshi tā ma?", "I heard you have a girlfriend. Do I know her?"),
+                DialogueLine("就是我们班那个长着两只大眼睛、非常爱笑的女孩儿。", "Jiù shì wǒmen bān nà ge zhǎng zhe liǎng zhī dà yǎnjing, fēicháng ài xiào de nǚháir.", "She is the girl in our class with big eyes who smiles a lot."),
+                DialogueLine("她不是有男朋友吗？", "Tā bú shì yǒu nánpéngyou ma?", "Didn't she already have a boyfriend?"),
+                DialogueLine("那个已经是她的前男友了。", "Nà ge yǐjīng shì tā de qián nányǒu le.", "That person is already her ex-boyfriend.")
+            ))
+        ),
+        words = listOf(
+            Word("着", "zhe", "particle marking a continuing state", "门开着。", "Mén kāi zhe.", "The door is open."),
+            Word("开", "kāi", "to open; be open", "窗户开着。", "Chuānghu kāi zhe.", "The window is open."),
+            Word("关", "guān", "to close; shut", "请关门。", "Qǐng guān mén.", "Please close the door."),
+            Word("请进", "qǐng jìn", "please come in", "门开着，请进。", "Mén kāi zhe, qǐng jìn.", "The door is open; please come in."),
+            Word("出去", "chūqu", "to go out", "他出去了。", "Tā chūqu le.", "He has gone out."),
+            Word("再", "zài", "again; another time", "下午再来。", "Xiàwǔ zài lái.", "Come again this afternoon."),
+            Word("听说", "tīngshuō", "to hear that; it is said", "听说他今天来。", "Tīngshuō tā jīntiān lái.", "I heard he is coming today."),
+            Word("长", "zhǎng", "to grow; have (physical feature)", "她长着大眼睛。", "Tā zhǎng zhe dà yǎnjing.", "She has big eyes."),
+            Word("眼睛", "yǎnjing", "eye(s)", "她的眼睛很大。", "Tā de yǎnjing hěn dà.", "Her eyes are big."),
+            Word("前男友", "qián nányǒu", "ex-boyfriend", "他是她的前男友。", "Tā shì tā de qián nányǒu.", "He is her ex-boyfriend.")
+        ),
+        grammar = listOf(
+            GrammarPoint("着 · continuing state", "着 follows a verb to describe a state that continues, such as a door remaining open. To negate this state, use 没有 before the verb.", "Verb + 着 (+ object)", listOf(DialogueLine("门开着呢。", "Mén kāi zhe ne.", "The door is open."))),
+            GrammarPoint("不是……吗 · rhetorical reminder", "不是……吗 can remind someone of information they are expected to know, or express surprise or confusion.", "不是 + clause + 吗？", listOf(DialogueLine("她不是有男朋友吗？", "Tā bú shì yǒu nánpéngyou ma?", "Didn't she have a boyfriend?"))),
+            GrammarPoint("往 · direction", "往 indicates the direction in which someone moves. It is commonly followed by a direction word.", "往 + direction + verb", listOf(DialogueLine("往前走。", "Wǎng qián zǒu.", "Walk straight ahead.")))
+        ),
+        questions = listOf(
+            QuizQuestion("What does 门开着呢 mean?", listOf("The door is opening", "The door is open", "The door is closed", "The door is broken"), 1, "开着 describes the continuing open state.", "Textbook 13-1"),
+            QuizQuestion("Where is Mr Zhang?", listOf("At home", "He has gone out", "In the classroom", "At the station"), 1, "他出去了。", "Textbook 13-1"),
+            QuizQuestion("When should the visitor come back?", listOf("This morning", "This afternoon", "Tomorrow", "Next week"), 1, "你下午再来吧。", "Textbook 13-1"),
+            QuizQuestion("What physical feature is mentioned about the girl?", listOf("Long hair", "Big eyes", "Tall height", "Small hands"), 1, "长着两只大眼睛。", "Textbook 13-2"),
+            QuizQuestion("着 after a verb indicates…", listOf("A continuing state", "A completed past event", "A comparison", "A question"), 0, "Verb + 着 marks a continuing state.", "Grammar"),
+            QuizQuestion("听说 means…", listOf("To tell someone", "To hear that", "To listen carefully", "To ask"), 1, "听说 introduces something heard or reported.", "Vocabulary"),
+            QuizQuestion("往前走 means…", listOf("Walk backwards", "Walk straight ahead", "Turn left", "Stop walking"), 1, "往 + 前 + 走 indicates forward direction.", "Grammar"),
+            QuizQuestion("再来 means…", listOf("Come again", "Come first", "Don't come", "Go outside"), 0, "再 means again or another time.", "Workbook lesson 13 review")
+        ), pronunciation = "In 门开着呢，请进, keep 着 light and connect it smoothly to 呢. Practise the polite invitation 请进 with a gentle falling tone."
+    ),
+    LessonContent(
+        number = 14, title = "Have you seen that movie?", hanziTitle = "你看过那个电影吗",
+        textbookPages = "PDF pages 123–130", workbookPages = "PDF pages 139–148",
+        dialogues = listOf(
+            Dialogue("1 · In the classroom", "Textbook 14-1", listOf(
+                DialogueLine("你看过那个电影没有？", "Nǐ kànguo nà ge diànyǐng méiyǒu?", "Have you seen that movie?"),
+                DialogueLine("没看过，听说很有意思。", "Méi kànguo, tīngshuō hěn yǒu yìsi.", "I haven't seen it. I heard it is interesting."),
+                DialogueLine("那我们下个星期一起去看吧？", "Nà wǒmen xià ge xīngqī yìqǐ qù kàn ba?", "Then let's go and see it together next week."),
+                DialogueLine("可以，但是我女朋友也想去。", "Kěyǐ, dànshì wǒ nǚpéngyou yě xiǎng qù.", "Sure, but my girlfriend also wants to go.")
+            )),
+            Dialogue("2 · In the office", "Textbook 14-2", listOf(
+                DialogueLine("听说你去过中国，还想去吗？", "Tīngshuō nǐ qùguo Zhōngguó, hái xiǎng qù ma?", "I heard you have been to China. Would you like to go again?"),
+                DialogueLine("我虽然去过好几次，但是还想再去玩儿。", "Wǒ suīrán qùguo hǎo jǐ cì, dànshì hái xiǎng zài qù wánr.", "Although I have been several times, I still want to go again for a visit."),
+                DialogueLine("那我们一起去吧。", "Nà wǒmen yìqǐ qù ba.", "Then let's go together."),
+                DialogueLine("好啊，到时候我给你打电话。", "Hǎo a, dào shíhou wǒ gěi nǐ dǎ diànhuà.", "Great. I'll call you then.")
+            ))
+        ),
+        words = listOf(
+            Word("有意思", "yǒu yìsi", "interesting; enjoyable", "这个电影很有意思。", "Zhège diànyǐng hěn yǒu yìsi.", "This movie is interesting."),
+            Word("但是", "dànshì", "but; however", "我想去，但是今天很忙。", "Wǒ xiǎng qù, dànshì jīntiān hěn máng.", "I want to go, but I am busy today."),
+            Word("虽然", "suīrán", "although", "虽然很冷，但是我想出去。", "Suīrán hěn lěng, dànshì wǒ xiǎng chūqu.", "Although it is cold, I want to go out."),
+            Word("次", "cì", "time; occurrence (measure word)", "我去过两次。", "Wǒ qùguo liǎng cì.", "I have been twice."),
+            Word("玩儿", "wánr", "to play; have fun", "周末我想出去玩儿。", "Zhōumò wǒ xiǎng chūqu wánr.", "I want to go out and have fun at the weekend."),
+            Word("电影", "diànyǐng", "movie; film", "我们去看电影吧。", "Wǒmen qù kàn diànyǐng ba.", "Let's go to see a movie."),
+            Word("电影院", "diànyǐngyuàn", "cinema", "电影院在学校旁边。", "Diànyǐngyuàn zài xuéxiào pángbiān.", "The cinema is beside the school."),
+            Word("下个星期", "xià ge xīngqī", "next week", "下个星期我有时间。", "Xià ge xīngqī wǒ yǒu shíjiān.", "I have time next week."),
+            Word("好几", "hǎo jǐ", "quite a few; several", "我看过好几次。", "Wǒ kànguo hǎo jǐ cì.", "I have seen it several times."),
+            Word("打电话", "dǎ diànhuà", "to make a phone call", "我晚上给你打电话。", "Wǒ wǎnshang gěi nǐ dǎ diànhuà.", "I'll call you tonight.")
+        ),
+        grammar = listOf(
+            GrammarPoint("过 · past experience", "过 after a verb indicates that someone has had an experience at some time in the past. The negative form is 没(有) + verb + 过.", "Verb + 过 (+ object)", listOf(DialogueLine("我去过中国。", "Wǒ qùguo Zhōngguó.", "I have been to China."))),
+            GrammarPoint("虽然……但是…… · although…but", "Use 虽然 to introduce a concession and 但是 to introduce the contrasting main point. In casual speech, one may sometimes be omitted.", "虽然 + situation， 但是 + contrasting result", listOf(DialogueLine("虽然去过好几次，但是还想再去。", "Suīrán qùguo hǎo jǐ cì, dànshì hái xiǎng zài qù.", "Although I have been several times, I still want to go again."))),
+            GrammarPoint("次 · number of occurrences", "次 is a measure word for how many times an action happens. It usually follows the verb; with a person object it follows the object.", "Verb + (object) + number + 次", listOf(DialogueLine("我去过两次。", "Wǒ qùguo liǎng cì.", "I have been twice.")))
+        ),
+        questions = listOf(
+            QuizQuestion("Has the speaker seen the movie?", listOf("Yes", "No", "Twice", "Not sure"), 1, "没看过。", "Textbook 14-1"),
+            QuizQuestion("What has the speaker heard about the movie?", listOf("It is too long", "It is interesting", "It is expensive", "It is old"), 1, "听说很有意思。", "Textbook 14-1"),
+            QuizQuestion("When do they plan to see it?", listOf("Tomorrow", "Next week", "Next month", "Tonight"), 1, "下个星期一起去看。", "Textbook 14-1"),
+            QuizQuestion("How many times has the traveller been to China?", listOf("Once", "Several times", "Never", "Ten times"), 1, "去过好几次。", "Textbook 14-2"),
+            QuizQuestion("What does 过 after a verb express?", listOf("A past experience", "An action happening now", "A command", "A comparison"), 0, "Verb + 过 marks experience.", "Grammar"),
+            QuizQuestion("虽然……但是…… expresses…", listOf("Cause and effect", "Although…but", "If…then", "Before and after"), 1, "It introduces a concession and contrast.", "Grammar"),
+            QuizQuestion("次 is used to count…", listOf("People", "Occurrences of an action", "Objects by size", "Time duration only"), 1, "次 counts how many times an action happens.", "Grammar"),
+            QuizQuestion("打电话 means…", listOf("To write a letter", "To make a phone call", "To watch a film", "To send a ticket"), 1, "打电话 means to make a phone call.", "Workbook lesson 14 review")
+        ), pronunciation = "Practise the experience question: 你看过那个电影没有？ Keep 过 light. In 虽然……但是……, make the contrast easy to hear."
+    ),
+    LessonContent(
+        number = 15, title = "The New Year is coming", hanziTitle = "新年就要到了",
+        textbookPages = "PDF pages 131–138", workbookPages = "PDF pages 149–158",
+        dialogues = listOf(
+            Dialogue("1 · At a friend's home", "Textbook 15-1", listOf(
+                DialogueLine("今天是十二月二十日，新年就要到了。", "Jīntiān shì shí'èr yuè èrshí rì, xīnnián jiù yào dào le.", "Today is December 20th. The New Year is coming soon."),
+                DialogueLine("新年你准备做什么？", "Xīnnián nǐ zhǔnbèi zuò shénme?", "What are you planning to do for the New Year?"),
+                DialogueLine("我想去北京旅游，北京很不错，我去过一次。", "Wǒ xiǎng qù Běijīng lǚyóu, Běijīng hěn búcuò, wǒ qùguo yí cì.", "I want to travel to Beijing. It is a very nice place; I have been once."),
+                DialogueLine("你买票了吗？", "Nǐ mǎi piào le ma?", "Have you bought a ticket?"),
+                DialogueLine("还没有呢，明天就去火车站买票。", "Hái méiyǒu ne, míngtiān jiù qù huǒchēzhàn mǎi piào.", "Not yet. I'll go to the railway station to buy one tomorrow.")
+            )),
+            Dialogue("2 · At the company", "Textbook 15-2", listOf(
+                DialogueLine("时间过得真快，新的一年快要到了！", "Shíjiān guò de zhēn kuài, xīn de yì nián kuài yào dào le!", "Time passes so quickly. The new year is almost here!"),
+                DialogueLine("是啊，谢谢大家这一年对我的帮助！", "Shì a, xièxie dàjiā zhè yì nián duì wǒ de bāngzhù!", "Yes. Thank you all for helping me this year!"),
+                DialogueLine("希望我们的公司明年更好！", "Xīwàng wǒmen de gōngsī míngnián gèng hǎo!", "I hope our company will be even better next year!")
+            ))
+        ),
+        words = listOf(
+            Word("日", "rì", "day; date (formal)", "今天是十二月二十日。", "Jīntiān shì shí'èr yuè èrshí rì.", "Today is December 20th."),
+            Word("站", "zhàn", "station; stop", "我去火车站。", "Wǒ qù huǒchēzhàn.", "I am going to the railway station."),
+            Word("火车站", "huǒchēzhàn", "railway station", "火车站在前面。", "Huǒchēzhàn zài qiánmiàn.", "The railway station is ahead."),
+            Word("票", "piào", "ticket", "我买了两张票。", "Wǒ mǎi le liǎng zhāng piào.", "I bought two tickets."),
+            Word("准备", "zhǔnbèi", "to prepare; plan", "你准备做什么？", "Nǐ zhǔnbèi zuò shénme?", "What are you planning to do?"),
+            Word("就", "jiù", "then; soon; as early as", "新年就要到了。", "Xīnnián jiù yào dào le.", "The New Year is coming soon."),
+            Word("快要", "kuài yào", "be about to; soon", "火车快要开了。", "Huǒchē kuài yào kāi le.", "The train is about to leave."),
+            Word("大家", "dàjiā", "everyone", "谢谢大家。", "Xièxie dàjiā.", "Thank you, everyone."),
+            Word("更", "gèng", "even more; to a greater extent", "明年会更好。", "Míngnián huì gèng hǎo.", "Next year will be even better."),
+            Word("希望", "xīwàng", "to hope; hope", "我希望你快乐。", "Wǒ xīwàng nǐ kuàilè.", "I hope you are happy.")
+        ),
+        grammar = listOf(
+            GrammarPoint("快要 / 就要……了 · be about to", "快要 and 就要 before a verb indicate that something will happen soon. 了 at the end marks the approaching change.", "Subject + 快要 / 就要 + verb + 了", listOf(DialogueLine("新年就要到了。", "Xīnnián jiù yào dào le.", "The New Year is coming soon."))),
+            GrammarPoint("更 · even more", "更 is placed before an adjective or verb phrase to indicate a greater degree or an additional increase.", "更 + adjective / verb phrase", listOf(DialogueLine("希望我们的公司明年更好。", "Xīwàng wǒmen de gōngsī míngnián gèng hǎo.", "I hope our company will be even better next year."))),
+            GrammarPoint("对……的帮助 · help given to someone", "对 identifies the person or thing receiving the benefit; 帮助 means help or assistance.", "对 + person / thing + 的帮助", listOf(DialogueLine("谢谢大家这一年对我的帮助。", "Xièxie dàjiā zhè yì nián duì wǒ de bāngzhù.", "Thank you all for your help this year.")))
+        ),
+        questions = listOf(
+            QuizQuestion("What date is mentioned?", listOf("December 10", "December 20", "January 1", "January 20"), 1, "今天是十二月二十日。", "Textbook 15-1"),
+            QuizQuestion("What does the speaker plan to do for the New Year?", listOf("Stay at home", "Travel to Beijing", "Visit Shanghai", "Work at the company"), 1, "我想去北京旅游。", "Textbook 15-1"),
+            QuizQuestion("Has the speaker been to Beijing before?", listOf("Never", "Once", "Twice", "Many times"), 1, "我去过一次。", "Textbook 15-1"),
+            QuizQuestion("Where will the speaker buy the ticket?", listOf("At the airport", "At the railway station", "At home", "At school"), 1, "明天就去火车站买票。", "Textbook 15-1"),
+            QuizQuestion("快要……了 indicates…", listOf("Something happened long ago", "Something is about to happen", "A repeated habit", "A comparison"), 1, "快要 / 就要……了 marks an imminent event.", "Grammar"),
+            QuizQuestion("更好 means…", listOf("Not good", "Even better", "The best yesterday", "A little worse"), 1, "更 increases the degree: even better.", "Grammar"),
+            QuizQuestion("大家 means…", listOf("Only me", "Everyone", "A company", "A station"), 1, "大家 means everyone.", "Vocabulary"),
+            QuizQuestion("希望 means…", listOf("To prepare", "To hope", "To arrive", "To buy"), 1, "希望 means to hope or wish.", "Workbook lesson 15 review")
+        ), pronunciation = "Practise the approaching-event pattern with a smooth rhythm: xīnnián jiù yào dào le. Keep 就要 connected and 了 light."
+    )
 )
 
 @Composable
@@ -799,7 +1023,7 @@ private fun MandarinApp(speak: (String) -> Unit) {
     var selectedLesson by remember { mutableStateOf<LessonContent?>(null) }
     var selectedTab by rememberSaveable { mutableIntStateOf(0) }
     var rootPage by rememberSaveable { mutableStateOf("Course") }
-    var bestScores by remember { mutableStateOf((1..5).associateWith { prefs.getInt("best_$it", -1) }) }
+    var bestScores by remember { mutableStateOf((1..15).associateWith { prefs.getInt("best_$it", -1) }) }
     var knownWords by remember { mutableStateOf(prefs.getStringSet("known_words", emptySet())?.toSet() ?: emptySet()) }
 
     MaterialTheme(colorScheme = lightColorScheme(primary = Teal, secondary = Ink, background = Pale)) {
