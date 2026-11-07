@@ -1054,26 +1054,26 @@ QuizQuestion("According to Dialogue 1, when is the best time to visit Beijing?",
 
 @Composable
 private fun MandarinApp(speak: (String) -> Unit) {
-    val context = androidx.compose.ui.platform.LocalContext.current
+    val context = LocalContext.current
     val prefs = remember { context.getSharedPreferences("mandarin_progress", android.content.Context.MODE_PRIVATE) }
     var selectedLesson by remember { mutableStateOf<LessonContent?>(null) }
     var selectedTab by rememberSaveable { mutableIntStateOf(0) }
-    var rootPage by rememberSaveable { mutableStateOf("Course") }
+    var rootPage by rememberSaveable { mutableStateOf("Home") }
     var bestScores by remember { mutableStateOf((1..15).associateWith { prefs.getInt("best_$it", -1) }) }
     var knownWords by remember { mutableStateOf(prefs.getStringSet("known_words", emptySet())?.toSet() ?: emptySet()) }
 
-    MaterialTheme(colorScheme = lightColorScheme(primary = Teal, secondary = Ink, background = Pale)) {
+    MaterialTheme(colorScheme = lightColorScheme(primary = Color(0xFF0866D5), secondary = Color(0xFF174A82), background = Color(0xFFF3F7FC))) {
         Scaffold(
-            containerColor = Pale,
+            containerColor = Color(0xFFF3F7FC),
             bottomBar = {
                 if (selectedLesson == null) {
-                    NavigationBar(containerColor = Color.White) {
-                        listOf("Course", "Progress").forEach { page ->
+                    NavigationBar(containerColor = Color.White, tonalElevation = 5.dp) {
+                        listOf("Home", "Lessons", "Progress", "Review").forEachIndexed { index, page ->
                             NavigationBarItem(
                                 selected = rootPage == page,
                                 onClick = { rootPage = page },
-                                icon = { Text(if (page == "Course") "书" else "✓", fontSize = 18.sp) },
-                                label = { Text(page) }
+                                icon = { Text(listOf("⌂", "▤", "▥", "✓")[index], fontSize = 21.sp, color = Color(0xFF075CC8)) },
+                                label = { Text(page, fontSize = 11.sp) }
                             )
                         }
                     }
@@ -1083,12 +1083,9 @@ private fun MandarinApp(speak: (String) -> Unit) {
             val openLesson: (LessonContent) -> Unit = { lesson -> selectedLesson = lesson; selectedTab = 0 }
             if (selectedLesson != null) {
                 LessonScreen(
-                    modifier = Modifier.padding(padding),
-                    lesson = selectedLesson!!,
-                    selectedTab = selectedTab,
-                    onTabSelected = { selectedTab = it },
-                    onBack = { selectedLesson = null },
-                    speak = speak,
+                    modifier = Modifier.padding(padding), lesson = selectedLesson!!,
+                    selectedTab = selectedTab, onTabSelected = { selectedTab = it },
+                    onBack = { selectedLesson = null }, speak = speak,
                     knownWords = knownWords,
                     onToggleKnown = { word ->
                         knownWords = if (knownWords.contains(word)) knownWords - word else knownWords + word
@@ -1102,10 +1099,36 @@ private fun MandarinApp(speak: (String) -> Unit) {
                         }
                     }
                 )
-            } else if (rootPage == "Progress") {
-                ProgressScreen(Modifier.padding(padding), bestScores, knownWords.size, onOpenLesson = openLesson)
-            } else {
-                CourseScreen(Modifier.padding(padding), bestScores, openLesson)
+            } else when (rootPage) {
+                "Progress" -> ProgressScreen(Modifier.padding(padding), bestScores, knownWords.size, onOpenLesson = openLesson)
+                "Review" -> ReviewScreen(Modifier.padding(padding), knownWords.size, openLesson)
+                "Home" -> HomeScreen(Modifier.padding(padding), bestScores, openLesson)
+                else -> CourseScreen(Modifier.padding(padding), bestScores, openLesson)
+            }
+        }
+    }
+}
+
+@Composable
+private fun HomeScreen(modifier: Modifier, bestScores: Map<Int, Int>, openLesson: (LessonContent) -> Unit) {
+    Column(modifier.fillMaxSize()) {
+        Box(Modifier.fillMaxWidth().height(205.dp)) {
+            LessonIllustration(1, Modifier.fillMaxSize(), height = 205.dp)
+            Column(Modifier.fillMaxWidth().align(Alignment.TopStart).padding(horizontal = 22.dp, vertical = 18.dp)) {
+                Text("☰   Mandarin Companion                         ▥", color = Color.White, fontSize = 19.sp, fontWeight = FontWeight.Bold)
+                Text("HSK 2 · Lessons 1–15", color = Color.White, fontSize = 15.sp)
+            }
+        }
+        Column(Modifier.weight(1f).fillMaxWidth().padding(horizontal = 14.dp), verticalArrangement = Arrangement.spacedBy(9.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 12.dp, bottom = 2.dp)) {
+                Text("Your learning", color = Color(0xFF12345B), fontSize = 19.sp, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
+                Text("15 lessons", color = Color(0xFF53708F), fontSize = 12.sp)
+            }
+            val completed = bestScores.values.count { it >= 0 }
+            LinearProgressIndicator(progress = { completed / 15f }, modifier = Modifier.fillMaxWidth().height(7.dp), color = Color(0xFF19A957), trackColor = Color(0xFFDCE7F3))
+            Text("$completed of 15 lessons practised", color = Color(0xFF54708F), fontSize = 11.sp)
+            LazyColumn(verticalArrangement = Arrangement.spacedBy(9.dp), contentPadding = PaddingValues(bottom = 10.dp)) {
+                items(lessons) { lesson -> LessonListCard(lesson, bestScores[lesson.number] ?: -1, openLesson) }
             }
         }
     }
@@ -1113,95 +1136,64 @@ private fun MandarinApp(speak: (String) -> Unit) {
 
 @Composable
 private fun CourseScreen(modifier: Modifier, bestScores: Map<Int, Int>, openLesson: (LessonContent) -> Unit) {
-    LazyColumn(
-        modifier = modifier.fillMaxSize(),
-        contentPadding = PaddingValues(bottom = 18.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp)
-    ) {
-        item {
-            Column {
-                Box(modifier = Modifier.fillMaxWidth().height(154.dp)) {
-                    LessonIllustration(1, Modifier.fillMaxWidth(), imageHeight = 154.dp)
-                    Column(
-                        Modifier.align(Alignment.BottomStart).fillMaxWidth()
-                            .background(Ink.copy(alpha = 0.72f)).padding(horizontal = 18.dp, vertical = 12.dp)
-                    ) {
-                        Text("Mandarin Companion", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 23.sp)
-                        Text("HSK 2 · Lessons 1–15", color = Color.White, fontSize = 14.sp)
-                    }
-                }
-                Row(
-                    Modifier.fillMaxWidth().background(Color.White).padding(horizontal = 18.dp, vertical = 12.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column(Modifier.weight(1f)) {
-                        Text("Your Mandarin course", color = Ink, fontWeight = FontWeight.Bold, fontSize = 18.sp)
-                        Text("Choose a lesson to continue learning", color = Color.Gray, fontSize = 12.sp)
-                    }
-                    Text("${bestScores.count { it.value >= 0 }}/15", color = Teal, fontWeight = FontWeight.Bold, fontSize = 18.sp)
-                }
+    Column(modifier.fillMaxSize()) {
+        Row(Modifier.fillMaxWidth().padding(horizontal = 18.dp, vertical = 16.dp), verticalAlignment = Alignment.CenterVertically) {
+            Column(Modifier.weight(1f)) {
+                Text("Mandarin Companion", color = Color(0xFF12345B), fontWeight = FontWeight.Bold, fontSize = 23.sp)
+                Text("HSK 2 · Lessons 1–15", color = Color(0xFF54708F), fontSize = 13.sp)
             }
+            Text("▥", color = Color(0xFF0866D5), fontSize = 24.sp)
         }
-        items(lessons) { lesson ->
-            Card(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp).clickable { openLesson(lesson) },
-                shape = RoundedCornerShape(18.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White),
-                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-            ) {
-                Row(Modifier.padding(9.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    LessonIllustration(lesson.number, Modifier.width(104.dp), imageHeight = 94.dp)
-                    Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
-                        Text("Lesson ${lesson.number}", color = Ink, fontWeight = FontWeight.Bold, fontSize = 16.sp)
-                        Text(lesson.hanziTitle, color = Ink, fontWeight = FontWeight.Bold, fontSize = 18.sp, maxLines = 1)
-                        Text(lesson.title, color = Color.DarkGray, fontSize = 12.sp, maxLines = 2)
-                        val score = bestScores[lesson.number] ?: -1
-                        if (score >= 0) {
-                            Text("Best score: $score/${lesson.questions.size}", color = Good, fontWeight = FontWeight.SemiBold, fontSize = 11.sp)
-                        }
-                    }
-                    val score = bestScores[lesson.number] ?: -1
-                    if (score >= 0) {
-                        Text("✓", color = Good, fontWeight = FontWeight.Bold, fontSize = 25.sp)
-                    } else {
-                        Text("›", color = Teal, fontWeight = FontWeight.Bold, fontSize = 28.sp)
-                    }
-                }
+        LazyColumn(modifier = Modifier.weight(1f), contentPadding = PaddingValues(horizontal = 14.dp, vertical = 5.dp), verticalArrangement = Arrangement.spacedBy(9.dp)) {
+            items(lessons) { lesson -> LessonListCard(lesson, bestScores[lesson.number] ?: -1, openLesson) }
+        }
+    }
+}
+
+@Composable
+private fun LessonListCard(lesson: LessonContent, score: Int, openLesson: (LessonContent) -> Unit) {
+    Card(modifier = Modifier.fillMaxWidth().clickable { openLesson(lesson) }, shape = RoundedCornerShape(17.dp), colors = CardDefaults.cardColors(containerColor = Color.White), elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)) {
+        Row(Modifier.fillMaxWidth().padding(9.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(11.dp)) {
+            LessonIllustration(lesson.number, Modifier.width(98.dp), height = 88.dp)
+            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
+                Text("Lesson ${lesson.number}", color = Color(0xFF172D4B), fontWeight = FontWeight.Bold, fontSize = 17.sp)
+                Text(lesson.hanziTitle, color = Color(0xFF111827), fontWeight = FontWeight.SemiBold, fontSize = 17.sp, maxLines = 1)
+                Text(lesson.title, color = Color(0xFF263B55), fontSize = 12.sp, maxLines = 2)
             }
+            if (score >= 0) {
+                Box(Modifier.size(48.dp), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator(progress = { (score.toFloat() / lesson.questions.size).coerceIn(0f, 1f) }, color = Color(0xFF20A45A), trackColor = Color(0xFFE4EAF0), strokeWidth = 4.dp)
+                    Text("${score * 100 / lesson.questions.size}%", fontSize = 10.sp, fontWeight = FontWeight.Bold, color = Color(0xFF173B4D))
+                }
+            } else Text("›", color = Color(0xFF0866D5), fontSize = 27.sp, modifier = Modifier.padding(horizontal = 6.dp))
         }
     }
 }
 
 @Composable
 private fun LessonScreen(
-    modifier: Modifier,
-    lesson: LessonContent,
-    selectedTab: Int,
-    onTabSelected: (Int) -> Unit,
-    onBack: () -> Unit,
-    speak: (String) -> Unit,
-    knownWords: Set<String>,
-    onToggleKnown: (String) -> Unit,
-    onQuizFinished: (Int, Int) -> Unit
+    modifier: Modifier, lesson: LessonContent, selectedTab: Int, onTabSelected: (Int) -> Unit,
+    onBack: () -> Unit, speak: (String) -> Unit, knownWords: Set<String>,
+    onToggleKnown: (String) -> Unit, onQuizFinished: (Int, Int) -> Unit
 ) {
     val tabs = listOf("Teaching", "Workbook", "Quiz")
-    Column(modifier.fillMaxSize().background(Pale)) {
-        Column(Modifier.fillMaxWidth().background(Ink).padding(horizontal = 16.dp, vertical = 12.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text("‹", color = Color.White, fontSize = 30.sp, modifier = Modifier.clickable { onBack() }.padding(end = 14.dp))
-                Column {
-                    Text("Lesson ${lesson.number}", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 20.sp)
-                    Text("${lesson.hanziTitle}  ·  ${lesson.title}", color = Color.White.copy(alpha = 0.88f), fontSize = 12.sp, maxLines = 2)
-                }
+    Column(modifier.fillMaxSize()) {
+        Row(Modifier.fillMaxWidth().background(Color(0xFF0756A8)).padding(horizontal = 16.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+            TextButton(onClick = onBack, contentPadding = PaddingValues(0.dp)) { Text("‹", fontSize = 30.sp, color = Color.White) }
+            Column(Modifier.weight(1f)) {
+                Text("Lesson ${lesson.number}", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 19.sp)
+                Text("${lesson.hanziTitle}   ${lesson.title}", color = Color.White, fontSize = 11.sp, maxLines = 1)
             }
+            Text("▤", color = Color.White, fontSize = 22.sp)
         }
-        TabRow(selectedTabIndex = selectedTab.coerceIn(0, 2), containerColor = Color.White, contentColor = Teal) {
-            tabs.forEachIndexed { index, title ->
-                Tab(
-                    selected = selectedTab == index,
-                    onClick = { onTabSelected(index) },
-                    text = { Text(title, fontWeight = if (selectedTab == index) FontWeight.Bold else FontWeight.Normal) }
-                )
+        Surface(color = Color.White, shape = RoundedCornerShape(topStart = 18.dp, topEnd = 18.dp), modifier = Modifier.fillMaxWidth()) {
+            Row(Modifier.fillMaxWidth().padding(7.dp), horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+                tabs.forEachIndexed { i, label ->
+                    val selected = selectedTab == i
+                    Surface(color = if (selected) Color(0xFF0866D5) else Color(0xFFEAF1F9), shape = RoundedCornerShape(11.dp), modifier = Modifier.weight(1f).clickable { onTabSelected(i) }) {
+                        Text("${listOf("▣", "✎", "♜")[i]}  $label", color = if (selected) Color.White else Color(0xFF172D4B), fontSize = 12.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(vertical = 12.dp), textAlign = androidx.compose.ui.text.style.TextAlign.Center)
+                    }
+                }
             }
         }
         when (selectedTab) {
@@ -1213,92 +1205,54 @@ private fun LessonScreen(
 }
 
 @Composable
-private fun TeachingTab(
-    modifier: Modifier,
-    lesson: LessonContent,
-    speak: (String) -> Unit,
-    knownWords: Set<String>,
-    onToggleKnown: (String) -> Unit
-) {
-    LazyColumn(
-        modifier.fillMaxSize().padding(horizontal = 12.dp),
-        contentPadding = PaddingValues(top = 10.dp, bottom = 22.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp)
-    ) {
+private fun TeachingTab(modifier: Modifier, lesson: LessonContent, speak: (String) -> Unit, knownWords: Set<String>, onToggleKnown: (String) -> Unit) {
+    LazyColumn(modifier.fillMaxSize().padding(horizontal = 12.dp), contentPadding = PaddingValues(top = 10.dp, bottom = 22.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        item { LessonIllustration(lesson.number, Modifier.fillMaxWidth(), height = 238.dp) }
         item {
-            Card(shape = RoundedCornerShape(18.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
-                Column {
-                    LessonIllustration(lesson.number, Modifier.fillMaxWidth(), imageHeight = 218.dp)
-                    Column(Modifier.padding(13.dp), verticalArrangement = Arrangement.spacedBy(5.dp)) {
-                        Text("Lesson ${lesson.number} · Teaching", color = Teal, fontWeight = FontWeight.Bold, fontSize = 12.sp)
-                        Text(lesson.hanziTitle, color = Ink, fontWeight = FontWeight.Bold, fontSize = 23.sp)
-                        Text(lesson.title, color = Color.DarkGray, fontSize = 14.sp)
-                    }
-                }
-            }
-        }
-        item { SectionHeading("Dialogue", "对话") }
-        items(lesson.dialogues) { dialogue ->
-            Card(shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
+            SectionHeading("▣  Dialogue  对话", 1)
+            val dialogue = lesson.dialogues.firstOrNull()
+            if (dialogue != null) Card(shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
                 Column(Modifier.padding(13.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text(dialogue.title, color = Ink, fontWeight = FontWeight.Bold, fontSize = 16.sp)
-                    dialogue.lines.forEachIndexed { index, line ->
+                    dialogue.lines.take(3).forEach { line ->
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                                Text(line.chinese, color = Ink, fontWeight = FontWeight.Bold, fontSize = 18.sp)
-                                Text(line.pinyin, color = Teal, fontSize = 12.sp)
-                                Text(line.english, color = Color.DarkGray, fontSize = 12.sp)
+                                Text(line.chinese, color = Color(0xFF142C4A), fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                                Text(line.pinyin, color = Color(0xFF315F91), fontSize = 12.sp)
+                                Text(line.english, color = Color(0xFF52657B), fontSize = 12.sp)
                             }
-                            TextButton(onClick = { speak(line.chinese) }) { Text("▶", color = Teal) }
+                            TextButton(onClick = { speak(line.chinese) }) { Text("▶", color = Color(0xFF0866D5), fontSize = 20.sp) }
                         }
-                        if (index != dialogue.lines.lastIndex) HorizontalDivider(color = Pale)
+                        HorizontalDivider(color = Color(0xFFE8EEF5))
                     }
                 }
             }
         }
-        item { SectionHeading("Key Vocabulary", "重点词汇") }
-        items(lesson.words) { word ->
+        item { SectionHeading("▣  Key Vocabulary  重点词汇", 2) }
+        items(lesson.words.take(6)) { word ->
+            Card(shape = RoundedCornerShape(13.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
+                Row(Modifier.fillMaxWidth().padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Column(Modifier.weight(1f)) {
+                        Text(word.hanzi, color = Color(0xFF152D4C), fontSize = 23.sp, fontWeight = FontWeight.Bold)
+                        Text(word.pinyin, color = Color(0xFF315F91), fontSize = 12.sp)
+                        Text(word.meaning, color = Color(0xFF4E6074), fontSize = 12.sp)
+                    }
+                    TextButton(onClick = { speak(word.hanzi) }) { Text("🔊", fontSize = 18.sp) }
+                    Text(if (knownWords.contains(word.hanzi)) "✓" else "+", color = Color(0xFF0866D5), modifier = Modifier.clickable { onToggleKnown(word.hanzi) }.padding(8.dp))
+                }
+            }
+        }
+        item { SectionHeading("▣  Grammar  语法", 3) }
+        items(lesson.grammar) { point ->
             Card(shape = RoundedCornerShape(14.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
-                Row(Modifier.fillMaxWidth().padding(11.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                        Text(word.hanzi, color = Ink, fontWeight = FontWeight.Bold, fontSize = 23.sp)
-                        Text(word.pinyin, color = Teal, fontSize = 12.sp)
-                        Text(word.meaning, color = Color.DarkGray, fontSize = 12.sp)
-                        Text(word.example, color = Ink, fontSize = 14.sp)
-                        Text(word.examplePinyin, color = Teal, fontSize = 11.sp)
+                Column(Modifier.padding(13.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Text(point.title, color = Color(0xFFB46A13), fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                    Text(point.pattern, color = Color(0xFF1B3556), fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
+                    Text(point.explanation, color = Color(0xFF52657B), fontSize = 12.sp)
+                    point.examples.take(2).forEach { ex ->
+                        Text(ex.chinese, color = Color(0xFF152D4C), fontWeight = FontWeight.SemiBold, fontSize = 15.sp)
+                        Text("${ex.pinyin} · ${ex.english}", color = Color(0xFF52657B), fontSize = 11.sp)
+                        TextButton(onClick = { speak(ex.chinese) }) { Text("▶ Listen") }
                     }
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        TextButton(onClick = { speak(word.hanzi) }) { Text("🔊") }
-                        Text(if (knownWords.contains(word.hanzi)) "Known ✓" else "Mark known", color = if (knownWords.contains(word.hanzi)) Good else Teal, fontSize = 10.sp,
-                            modifier = Modifier.clickable { onToggleKnown(word.hanzi) })
-                    }
-                }
-            }
-        }
-        item { SectionHeading("Grammar Focus", "语法") }
-        items(lesson.grammar) { point ->
-            Card(shape = RoundedCornerShape(15.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
-                Column(Modifier.padding(13.dp), verticalArrangement = Arrangement.spacedBy(7.dp)) {
-                    Text(point.title, color = Ink, fontWeight = FontWeight.Bold, fontSize = 17.sp)
-                    Surface(color = Color(0xFFFFF2D7), shape = RoundedCornerShape(9.dp)) {
-                        Text(point.pattern, color = Ink, fontWeight = FontWeight.Bold, modifier = Modifier.padding(10.dp), fontSize = 13.sp)
-                    }
-                    Text(point.explanation, color = Color.DarkGray, fontSize = 13.sp)
-                    point.examples.forEach { example ->
-                        Text(example.chinese, color = Ink, fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
-                        Text(example.pinyin, color = Teal, fontSize = 12.sp)
-                        Text(example.english, color = Color.DarkGray, fontSize = 12.sp)
-                        TextButton(onClick = { speak(example.chinese) }) { Text("▶ Listen") }
-                    }
-                }
-            }
-        }
-        item {
-            Card(shape = RoundedCornerShape(14.dp), colors = CardDefaults.cardColors(containerColor = SoftBlue)) {
-                Column(Modifier.padding(13.dp)) {
-                    Text("Pronunciation", color = Ink, fontWeight = FontWeight.Bold)
-                    Text(lesson.pronunciation, color = Color.DarkGray, fontSize = 13.sp)
-                    TextButton(onClick = { speak(lesson.hanziTitle) }) { Text("▶ Listen to lesson title") }
                 }
             }
         }
@@ -1306,296 +1260,133 @@ private fun TeachingTab(
 }
 
 @Composable
-private fun SectionHeading(title: String, chinese: String) {
-    Row(Modifier.fillMaxWidth().background(Color(0xFFDCEBFA), RoundedCornerShape(10.dp)).padding(horizontal = 12.dp, vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically) {
-        Text(title, color = Ink, fontWeight = FontWeight.Bold, fontSize = 17.sp, modifier = Modifier.weight(1f))
-        Text(chinese, color = Teal, fontWeight = FontWeight.Bold, fontSize = 14.sp)
-    }
-}
-
-@Composable
-private fun DialoguesTab(modifier: Modifier, lesson: LessonContent, speak: (String) -> Unit) {
-    LazyColumn(modifier.fillMaxSize().padding(horizontal = 14.dp), contentPadding = PaddingValues(top = 12.dp, bottom = 24.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        item { LessonIllustration(lesson.number, Modifier.fillMaxWidth()) }
-        item { InfoPanel("Listen and repeat", "Read the Chinese line first, check pinyin and meaning, then tap Listen. Repeat the line aloud. The voice is generated by Android TTS, not the publisher's recording.") }
-        items(lesson.dialogues) { dialogue ->
-            Card(shape = RoundedCornerShape(18.dp), colors = CardDefaults.cardColors(containerColor = Color.White), modifier = Modifier.fillMaxWidth()) {
-                Column(Modifier.padding(15.dp), verticalArrangement = Arrangement.spacedBy(9.dp)) {
-                    Text(dialogue.title, color = Ink, fontWeight = FontWeight.Bold, fontSize = 17.sp)
-                    Text(dialogue.scene, color = Teal, fontSize = 11.sp, fontWeight = FontWeight.SemiBold)
-                    dialogue.lines.forEachIndexed { index, line ->
-                        Column(verticalArrangement = Arrangement.spacedBy(3.dp)) {
-                            Text(line.chinese, color = Ink, fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
-                            Text(line.pinyin, color = Teal, fontSize = 13.sp)
-                            Text(line.english, color = Ink.copy(alpha = 0.78f), fontSize = 13.sp)
-                            TextButton(onClick = { speak(line.chinese) }, contentPadding = PaddingValues(horizontal = 0.dp, vertical = 0.dp)) { Text("▶ Listen to line ${index + 1}") }
-                        }
-                        if (index != dialogue.lines.lastIndex) HorizontalDivider(color = Pale)
-                    }
-                }
-            }
-        }
-        item {
-            Card(shape = RoundedCornerShape(18.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
-                Column(Modifier.padding(15.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text("Pronunciation focus", color = Ink, fontWeight = FontWeight.Bold, fontSize = 17.sp)
-                    Text(lesson.pronunciation, color = Ink.copy(alpha = 0.8f), fontSize = 13.sp)
-                    TextButton(onClick = { speak(lesson.hanziTitle) }, contentPadding = PaddingValues(horizontal = 0.dp)) { Text("▶ Listen to lesson title") }
-                }
-            }
-        }
-        item { SourceNote(lesson) }
-    }
-}
-
-@Composable
-private fun VocabularyTab(
-    modifier: Modifier,
-    lesson: LessonContent,
-    speak: (String) -> Unit,
-    knownWords: Set<String>,
-    onToggleKnown: (String) -> Unit
-) {
-    LazyColumn(modifier.fillMaxSize().padding(horizontal = 14.dp), contentPadding = PaddingValues(top = 12.dp, bottom = 24.dp), verticalArrangement = Arrangement.spacedBy(9.dp)) {
-        item { LessonIllustration(lesson.number, Modifier.fillMaxWidth()) }
-        item { InfoPanel("Textbook new words", "Mark a word as known when you can recognise it and understand it. Tap Listen to hear the word and its example.") }
-        items(lesson.words) { word ->
-            Card(shape = RoundedCornerShape(15.dp), colors = CardDefaults.cardColors(containerColor = Color.White), modifier = Modifier.fillMaxWidth()) {
-                Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(5.dp)) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(word.hanzi, color = Ink, fontWeight = FontWeight.Bold, fontSize = 26.sp, modifier = Modifier.weight(1f))
-                        TextButton(onClick = { speak(word.hanzi) }) { Text("▶ Listen") }
-                    }
-                    Text(word.pinyin, color = Teal, fontSize = 14.sp)
-                    Text(word.meaning, color = Ink.copy(alpha = 0.8f), fontSize = 14.sp)
-                    HorizontalDivider(color = Pale)
-                    Text(word.example, color = Ink, fontWeight = FontWeight.Medium, fontSize = 16.sp)
-                    Text(word.examplePinyin, color = Teal, fontSize = 12.sp)
-                    Text(word.exampleEnglish, color = Color.Gray, fontSize = 12.sp)
-                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
-                        TextButton(onClick = { speak(word.example) }, contentPadding = PaddingValues(horizontal = 0.dp)) { Text("▶ Example") }
-                        Spacer(Modifier.weight(1f))
-                        Text(if (knownWords.contains(word.hanzi)) "Known ✓" else "Mark known", color = if (knownWords.contains(word.hanzi)) Good else Teal, fontSize = 12.sp, modifier = Modifier.clickable { onToggleKnown(word.hanzi) }.padding(8.dp))
-                    }
-                }
-            }
-        }
-        item { SourceNote(lesson) }
-    }
-}
-
-@Composable
-private fun GrammarTab(modifier: Modifier, lesson: LessonContent, speak: (String) -> Unit) {
-    LazyColumn(modifier.fillMaxSize().padding(horizontal = 14.dp), contentPadding = PaddingValues(top = 12.dp, bottom = 24.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        item { LessonIllustration(lesson.number, Modifier.fillMaxWidth()) }
-        item { InfoPanel("Grammar from the textbook", "Each point includes a short explanation, a pattern and examples from the lesson or the textbook notes.") }
-        items(lesson.grammar) { point ->
-            Card(shape = RoundedCornerShape(18.dp), colors = CardDefaults.cardColors(containerColor = Color.White), modifier = Modifier.fillMaxWidth()) {
-                Column(Modifier.padding(15.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text(point.title, color = Ink, fontWeight = FontWeight.Bold, fontSize = 17.sp)
-                    Text(point.explanation, color = Ink.copy(alpha = 0.82f), fontSize = 13.sp)
-                    Surface(color = SoftTeal, shape = RoundedCornerShape(10.dp)) {
-                        Text(point.pattern, color = Ink, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(10.dp), fontSize = 13.sp)
-                    }
-                    point.examples.forEach { example ->
-                        Text(example.chinese, color = Ink, fontWeight = FontWeight.Medium, fontSize = 17.sp)
-                        Text(example.pinyin, color = Teal, fontSize = 12.sp)
-                        Text(example.english, color = Color.Gray, fontSize = 12.sp)
-                        TextButton(onClick = { speak(example.chinese) }, contentPadding = PaddingValues(horizontal = 0.dp)) { Text("▶ Listen") }
-                    }
-                }
-            }
-        }
-        item { SourceNote(lesson) }
+private fun SectionHeading(title: String, number: Int) {
+    Row(Modifier.fillMaxWidth().background(Color(0xFFDDEBFA), RoundedCornerShape(9.dp)).padding(horizontal = 10.dp, vertical = 7.dp), verticalAlignment = Alignment.CenterVertically) {
+        Surface(color = Color(0xFF0866D5), shape = RoundedCornerShape(50)) { Text(number.toString(), color = Color.White, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp), fontSize = 13.sp) }
+        Text(title, color = Color(0xFF064A9D), fontWeight = FontWeight.Bold, fontSize = 15.sp, modifier = Modifier.padding(start = 8.dp))
     }
 }
 
 @Composable
 private fun WorkbookTab(modifier: Modifier, lesson: LessonContent, speak: (String) -> Unit, onFinished: (Int, Int) -> Unit) {
-    var index by remember(lesson.number) { mutableIntStateOf(0) }
-    var selected by remember(lesson.number) { mutableIntStateOf(-1) }
+    var pictureSelected by remember(lesson.number) { mutableIntStateOf(-1) }
+    var quizIndex by remember(lesson.number) { mutableIntStateOf(0) }
+    var quizSelected by remember(lesson.number) { mutableIntStateOf(-1) }
     var score by remember(lesson.number) { mutableIntStateOf(0) }
     var saved by remember(lesson.number) { mutableStateOf(false) }
-    var pictureSelected by remember(lesson.number) { mutableIntStateOf(-1) }
-    val finished = index >= lesson.questions.size
-    val picturePages = remember(lesson.number) { workbookPicturePages(lesson.number) }
-    val pictureExercise = remember(lesson.number) { pictureExerciseFor(lesson.number) }
-
-    LazyColumn(modifier.fillMaxSize().padding(horizontal = 14.dp), contentPadding = PaddingValues(top = 12.dp, bottom = 24.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        item { InfoPanel("Workbook practice · adapted", "These questions are adapted from the lesson content and exercise formats in your workbook: listening-style choices, comprehension, matching, fill-in and true/false. Publisher audio is not included; use the Listen button where shown.") }
+    val exercise = remember(lesson.number) { pictureExerciseFor(lesson.number) }
+    val pages = remember(lesson.number) { workbookPicturePages(lesson.number) }
+    LazyColumn(modifier.fillMaxSize().padding(horizontal = 12.dp), contentPadding = PaddingValues(top = 10.dp, bottom = 24.dp), verticalArrangement = Arrangement.spacedBy(11.dp)) {
         item {
-            Text("Picture-based exercise", color = Ink, fontWeight = FontWeight.Bold, fontSize = 18.sp)
-            Text("Answer the question using the illustration. Select an option to receive immediate feedback.", color = Color.Gray, fontSize = 12.sp)
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text("Exercise ${quizIndex + 1} of ${lesson.questions.size + 1}", color = Color(0xFF172D4B), fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
+                Text("${((quizIndex + 1) * 100 / (lesson.questions.size + 1))}%", color = Color(0xFF172D4B), fontWeight = FontWeight.Bold)
+            }
+            LinearProgressIndicator(progress = { (quizIndex + 1).toFloat() / (lesson.questions.size + 1).toFloat() }, modifier = Modifier.fillMaxWidth().height(7.dp), color = Color(0xFF20A45A), trackColor = Color(0xFFDCE7F3))
         }
-        item { PictureExerciseCard(pictureExercise, pictureSelected) { pictureSelected = it } }
         item {
-            Text("Original workbook reference pages", color = Ink, fontWeight = FontWeight.Bold, fontSize = 16.sp)
-            Text("These scans are available as reference material; the interactive exercise above is answered directly in the app.", color = Color.Gray, fontSize = 12.sp)
-        }
-        items(picturePages) { page ->
-            Card(shape = RoundedCornerShape(14.dp), colors = CardDefaults.cardColors(containerColor = Color.White), modifier = Modifier.fillMaxWidth()) {
-                Column(Modifier.padding(8.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                    Text("Original workbook · PDF page $page", color = Teal, fontWeight = FontWeight.SemiBold, fontSize = 12.sp)
-                    WorkbookPageImage(page = page, modifier = Modifier.fillMaxWidth())
+            Text("▧  Look at the picture and choose the correct answer.", color = Color(0xFF172D4B), fontWeight = FontWeight.Bold, fontSize = 15.sp)
+            Card(shape = RoundedCornerShape(15.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
+                Column(Modifier.padding(10.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    LessonIllustrationForExercise(exercise.imageName, Modifier.fillMaxWidth())
+                    Text(exercise.prompt, color = Color(0xFF172D4B), fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
+                    exercise.options.forEachIndexed { i, option ->
+                        val bg = when { pictureSelected == -1 -> Color.White; i == exercise.answer -> Color(0xFFE3F7E9); i == pictureSelected -> Color(0xFFFFEEEE); else -> Color.White }
+                        Surface(color = bg, shape = RoundedCornerShape(10.dp), border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFD9E3EF)), modifier = Modifier.fillMaxWidth().clickable { if (pictureSelected == -1) pictureSelected = i }) {
+                            Row(Modifier.padding(11.dp), verticalAlignment = Alignment.CenterVertically) {
+                                Text(if (pictureSelected == i || (pictureSelected >= 0 && i == exercise.answer)) "◉" else "○", color = Color(0xFF0866D5))
+                                Text(option, color = Color(0xFF172D4B), modifier = Modifier.weight(1f).padding(start = 8.dp), fontSize = 14.sp)
+                                if (pictureSelected >= 0 && i == exercise.answer) Text("✓", color = Color(0xFF159447), fontWeight = FontWeight.Bold)
+                            }
+                        }
+                    }
+                    if (pictureSelected >= 0) Text(if (pictureSelected == exercise.answer) "Correct! ${exercise.explanation}" else "Not quite. ${exercise.explanation}", color = if (pictureSelected == exercise.answer) Color(0xFF168447) else Color(0xFFB34747), fontSize = 12.sp)
                 }
             }
         }
-        if (!finished) {
-            val question = lesson.questions[index]
-            item {
-                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
-                    Text("Question ${index + 1} of ${lesson.questions.size}", color = Teal, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
-                    Text("Score: $score", color = Ink, fontWeight = FontWeight.Bold)
+        item { Text("▧  Match the pictures with the words.", color = Color(0xFF172D4B), fontWeight = FontWeight.Bold, fontSize = 15.sp) }
+        item {
+            Card(shape = RoundedCornerShape(15.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
+                Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text("Choose a vocabulary word, then listen to it.", color = Color(0xFF52657B), fontSize = 12.sp)
+                    lesson.words.take(4).forEach { word ->
+                        Row(Modifier.fillMaxWidth().clickable { speak(word.hanzi) }.padding(vertical = 5.dp), verticalAlignment = Alignment.CenterVertically) {
+                            Text("▣", fontSize = 22.sp, color = Color(0xFF0866D5), modifier = Modifier.padding(end = 12.dp))
+                            Column(Modifier.weight(1f)) { Text(word.hanzi, color = Color(0xFF172D4B), fontWeight = FontWeight.Bold, fontSize = 17.sp); Text("${word.pinyin} · ${word.meaning}", color = Color(0xFF52657B), fontSize = 11.sp) }
+                            Text("🔊", fontSize = 17.sp)
+                        }
+                        HorizontalDivider(color = Color(0xFFE8EEF5))
+                    }
                 }
-                LinearProgressIndicator(progress = { (index + 1).toFloat() / lesson.questions.size.toFloat() }, modifier = Modifier.fillMaxWidth(), color = Teal, trackColor = SoftTeal)
             }
+        }
+        if (quizIndex < lesson.questions.size) {
+            val q = lesson.questions[quizIndex]
             item {
-                Card(shape = RoundedCornerShape(18.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
-                    Column(Modifier.padding(17.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                        Text(question.exerciseType.uppercase(), color = Teal, fontWeight = FontWeight.Bold, fontSize = 10.sp, letterSpacing = 1.sp)
-                        Text(question.prompt, color = Ink, fontSize = 18.sp, fontWeight = FontWeight.Bold)
-                        if (question.prompt.any { it in '\u4e00'..'\u9fff' }) {
-                            TextButton(onClick = { speak(question.prompt) }, contentPadding = PaddingValues(horizontal = 0.dp)) { Text("▶ Listen to question") }
+                Text("Exercise ${quizIndex + 2} · ${q.exerciseType}", color = Color(0xFF172D4B), fontWeight = FontWeight.Bold, fontSize = 15.sp)
+                Card(shape = RoundedCornerShape(15.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
+                    Column(Modifier.padding(13.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Text(q.prompt, color = Color(0xFF172D4B), fontWeight = FontWeight.SemiBold, fontSize = 15.sp)
+                        q.options.forEachIndexed { i, option ->
+                            val bg = when { quizSelected == -1 -> Color.White; i == q.answer -> Color(0xFFE3F7E9); i == quizSelected -> Color(0xFFFFEEEE); else -> Color.White }
+                            Surface(color = bg, shape = RoundedCornerShape(9.dp), border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFD9E3EF)), modifier = Modifier.fillMaxWidth().clickable { if (quizSelected == -1) { quizSelected = i; if (i == q.answer) score++ } }) { Text(option, color = Color(0xFF172D4B), modifier = Modifier.padding(11.dp), fontSize = 13.sp) }
                         }
-                        question.options.forEachIndexed { optionIndex, option ->
-                            val optionColor = when {
-                                selected == -1 -> Color.White
-                                optionIndex == question.answer -> SoftTeal
-                                optionIndex == selected -> Color(0xFFF9E8E8)
-                                else -> Color.White
-                            }
-                            Card(
-                                modifier = Modifier.fillMaxWidth().clickable(enabled = selected == -1) {
-                                    selected = optionIndex
-                                    if (optionIndex == question.answer) score++
-                                },
-                                shape = RoundedCornerShape(12.dp),
-                                colors = CardDefaults.cardColors(containerColor = optionColor)
-                            ) {
-                                Text(option, color = Ink, modifier = Modifier.padding(13.dp), fontSize = 14.sp)
-                            }
-                        }
-                        if (selected != -1) {
-                            Text(if (selected == question.answer) "Correct" else "Not quite", color = if (selected == question.answer) Good else Bad, fontWeight = FontWeight.Bold)
-                            Text(question.explanation, color = Ink, fontSize = 13.sp)
-                            Button(onClick = { index++; selected = -1 }, modifier = Modifier.fillMaxWidth()) { Text(if (index == lesson.questions.lastIndex) "See result" else "Next question") }
+                        if (quizSelected >= 0) {
+                            Text(q.explanation, color = Color(0xFF52657B), fontSize = 12.sp)
+                            Button(onClick = { quizIndex++; quizSelected = -1 }, modifier = Modifier.fillMaxWidth()) { Text("Next exercise") }
                         }
                     }
                 }
             }
         } else {
             item {
-                Card(shape = RoundedCornerShape(18.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
-                    Column(Modifier.fillMaxWidth().padding(22.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                        Text("练习完成", color = Teal, fontSize = 25.sp, fontWeight = FontWeight.Bold)
-                        Text("$score / ${lesson.questions.size}", color = Ink, fontSize = 34.sp, fontWeight = FontWeight.Bold)
-                        Text("${score * 100 / lesson.questions.size}% correct", color = Ink)
-                        Text(if (score * 100 / lesson.questions.size >= 70) "Good result. Review any missed items, then say the dialogues aloud." else "Review the vocabulary and grammar, then try the workbook practice again.", color = Color.Gray, fontSize = 13.sp)
-                        Button(onClick = { if (!saved) { onFinished(lesson.number, score); saved = true } }, enabled = !saved, modifier = Modifier.fillMaxWidth()) { Text(if (saved) "Progress saved" else "Save lesson progress") }
-                        OutlinedButton(onClick = { index = 0; selected = -1; score = 0; saved = false }, modifier = Modifier.fillMaxWidth()) { Text("Try again") }
-                    }
-                }
+                Text("Practice completed · $score / ${lesson.questions.size}", color = Color(0xFF172D4B), fontWeight = FontWeight.Bold)
+                Button(onClick = { if (!saved) { onFinished(lesson.number, score); saved = true } }, enabled = !saved, modifier = Modifier.fillMaxWidth()) { Text(if (saved) "Progress saved" else "Save progress") }
             }
         }
-        item { SourceNote(lesson) }
+        item { Text("Original workbook reference pages", color = Color(0xFF172D4B), fontWeight = FontWeight.Bold, fontSize = 15.sp) }
+        items(pages) { page -> Card(shape = RoundedCornerShape(12.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) { Column(Modifier.padding(8.dp)) { Text("Workbook · PDF page $page", color = Color(0xFF315F91), fontSize = 11.sp); WorkbookPageImage(page, Modifier.fillMaxWidth()) } } }
     }
 }
 
 @Composable
-private fun QuizTab(
-    modifier: Modifier,
-    lesson: LessonContent,
-    speak: (String) -> Unit,
-    onFinished: (Int, Int) -> Unit
-) {
+private fun QuizTab(modifier: Modifier, lesson: LessonContent, speak: (String) -> Unit, onFinished: (Int, Int) -> Unit) {
     var index by remember(lesson.number) { mutableIntStateOf(0) }
     var selected by remember(lesson.number) { mutableIntStateOf(-1) }
     var score by remember(lesson.number) { mutableIntStateOf(0) }
     var saved by remember(lesson.number) { mutableStateOf(false) }
-    val finished = index >= lesson.questions.size
-    LazyColumn(
-        modifier.fillMaxSize().padding(horizontal = 13.dp),
-        contentPadding = PaddingValues(vertical = 14.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        item {
-            Text("Lesson ${lesson.number} · Quiz", color = Ink, fontWeight = FontWeight.Bold, fontSize = 22.sp)
-            Text("Check your understanding of the dialogue, vocabulary and grammar.", color = Color.DarkGray, fontSize = 13.sp)
-        }
-        if (!finished) {
+    LazyColumn(modifier.fillMaxSize().padding(14.dp), contentPadding = PaddingValues(bottom = 24.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        item { Text("Lesson ${lesson.number} quiz", color = Color(0xFF172D4B), fontWeight = FontWeight.Bold, fontSize = 21.sp); Text("Test your understanding", color = Color(0xFF52657B), fontSize = 12.sp) }
+        if (index < lesson.questions.size) {
             val q = lesson.questions[index]
             item {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("Question ${index + 1} of ${lesson.questions.size}", color = Teal, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
-                    Text("Score: $score", color = Ink, fontWeight = FontWeight.Bold)
-                }
-                LinearProgressIndicator(
-                    progress = { (index + 1).toFloat() / lesson.questions.size.toFloat() },
-                    modifier = Modifier.fillMaxWidth(), color = Teal, trackColor = SoftBlue
-                )
-            }
-            item {
-                Card(shape = RoundedCornerShape(18.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
-                    Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                        Text(q.exerciseType, color = Teal, fontWeight = FontWeight.Bold, fontSize = 11.sp)
-                        Text(q.prompt, color = Ink, fontWeight = FontWeight.Bold, fontSize = 18.sp)
-                        if (q.prompt.any { it in '\u4e00'..'\u9fff' }) {
-                            TextButton(onClick = { speak(q.prompt) }) { Text("▶ Listen to question") }
+                LinearProgressIndicator(progress = { (index + 1).toFloat() / lesson.questions.size }, modifier = Modifier.fillMaxWidth(), color = Color(0xFF20A45A))
+                Card(shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
+                    Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(9.dp)) {
+                        Text("Question ${index + 1} of ${lesson.questions.size}", color = Color(0xFF315F91), fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                        Text(q.prompt, color = Color(0xFF172D4B), fontWeight = FontWeight.Bold, fontSize = 17.sp)
+                        q.options.forEachIndexed { i, option ->
+                            val bg = when { selected == -1 -> Color.White; i == q.answer -> Color(0xFFE3F7E9); i == selected -> Color(0xFFFFEEEE); else -> Color.White }
+                            Surface(color = bg, shape = RoundedCornerShape(10.dp), border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFD9E3EF)), modifier = Modifier.fillMaxWidth().clickable { if (selected == -1) { selected = i; if (i == q.answer) score++ } }) { Text(option, color = Color(0xFF172D4B), modifier = Modifier.padding(12.dp)) }
                         }
-                        q.options.forEachIndexed { optionIndex, option ->
-                            val bg = when {
-                                selected == -1 -> Color.White
-                                optionIndex == q.answer -> SoftTeal
-                                optionIndex == selected -> Color(0xFFFFE8E8)
-                                else -> Color.White
-                            }
-                            Card(
-                                modifier = Modifier.fillMaxWidth().clickable(enabled = selected == -1) {
-                                    selected = optionIndex
-                                    if (optionIndex == q.answer) score++
-                                },
-                                shape = RoundedCornerShape(12.dp),
-                                colors = CardDefaults.cardColors(containerColor = bg),
-                                border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFDCE5EF))
-                            ) {
-                                Row(Modifier.fillMaxWidth().padding(13.dp), verticalAlignment = Alignment.CenterVertically) {
-                                    Text(if (selected == optionIndex || (selected != -1 && optionIndex == q.answer)) "●" else "○",
-                                        color = if (selected != -1 && optionIndex == q.answer) Good else Teal)
-                                    Spacer(Modifier.width(10.dp))
-                                    Text(option, color = Ink, fontSize = 14.sp)
-                                }
-                            }
-                        }
-                        if (selected != -1) {
-                            Text(if (selected == q.answer) "Correct!" else "Not quite — the correct answer is ${q.options[q.answer]}.",
-                                color = if (selected == q.answer) Good else Bad, fontWeight = FontWeight.Bold)
-                            Text(q.explanation, color = Color.DarkGray, fontSize = 13.sp)
-                            Button(onClick = { index++; selected = -1 }, modifier = Modifier.fillMaxWidth()) {
-                                Text(if (index == lesson.questions.lastIndex) "See result" else "Next question")
-                            }
-                        }
+                        if (selected >= 0) { Text(q.explanation, color = Color(0xFF52657B), fontSize = 12.sp); Button(onClick = { index++; selected = -1 }, modifier = Modifier.fillMaxWidth()) { Text("Next") } }
                     }
                 }
             }
-        } else {
-            item {
-                Card(shape = RoundedCornerShape(18.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
-                    Column(Modifier.fillMaxWidth().padding(22.dp), horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                        Text("练习完成", color = Teal, fontSize = 25.sp, fontWeight = FontWeight.Bold)
-                        Text("$score / ${lesson.questions.size}", color = Ink, fontSize = 34.sp, fontWeight = FontWeight.Bold)
-                        Text("${score * 100 / lesson.questions.size}% correct", color = Ink)
-                        Button(onClick = { if (!saved) { onFinished(lesson.number, score); saved = true } },
-                            enabled = !saved, modifier = Modifier.fillMaxWidth()) {
-                            Text(if (saved) "Progress saved" else "Save lesson progress")
-                        }
-                        OutlinedButton(onClick = { index = 0; selected = -1; score = 0; saved = false },
-                            modifier = Modifier.fillMaxWidth()) { Text("Try again") }
-                    }
-                }
-            }
+        } else item {
+            Text("${score} / ${lesson.questions.size}", color = Color(0xFF172D4B), fontSize = 30.sp, fontWeight = FontWeight.Bold)
+            Button(onClick = { if (!saved) { onFinished(lesson.number, score); saved = true } }, enabled = !saved) { Text(if (saved) "Saved" else "Save result") }
+            OutlinedButton(onClick = { index = 0; selected = -1; score = 0; saved = false }) { Text("Try again") }
         }
+    }
+}
+
+@Composable
+private fun ReviewScreen(modifier: Modifier, knownCount: Int, openLesson: (LessonContent) -> Unit) {
+    Column(modifier.fillMaxSize().padding(18.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        Text("Review vocabulary", color = Color(0xFF172D4B), fontWeight = FontWeight.Bold, fontSize = 24.sp)
+        Text("${knownCount} words marked as known", color = Color(0xFF52657B), fontSize = 13.sp)
+        LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) { items(lessons) { lesson -> Card(modifier = Modifier.fillMaxWidth().clickable { openLesson(lesson) }, colors = CardDefaults.cardColors(containerColor = Color.White)) { Text("Lesson ${lesson.number} · ${lesson.title}", modifier = Modifier.padding(15.dp), color = Color(0xFF172D4B)) } } }
     }
 }
 
@@ -1619,7 +1410,7 @@ private fun workbookPicturePages(lessonNumber: Int): List<Int> = when (lessonNum
 }
 
 @Composable
-private fun LessonIllustration(lessonNumber: Int, modifier: Modifier = Modifier, imageHeight: androidx.compose.ui.unit.Dp = 170.dp) {
+private fun LessonIllustration(lessonNumber: Int, modifier: Modifier = Modifier, height: androidx.compose.ui.unit.Dp = 170.dp) {
     val context = LocalContext.current
     val fileName = when (lessonNumber) {
         1 -> "lesson_01_beijing.png"; 2 -> "lesson_02_daily_routine.png"; 3 -> "lesson_03_clothes.png"
@@ -1650,9 +1441,9 @@ private fun LessonIllustration(lessonNumber: Int, modifier: Modifier = Modifier,
     }
     if (bitmap != null) {
         Image(bitmap = bitmap!!, contentDescription = "Original illustration for lesson $lessonNumber", contentScale = ContentScale.Crop,
-            modifier = modifier.height(imageHeight))
+            modifier = modifier.height(height))
     } else {
-        Box(modifier.height(imageHeight).fillMaxWidth(), contentAlignment = Alignment.Center) {
+        Box(modifier.height(height).fillMaxWidth(), contentAlignment = Alignment.Center) {
             CircularProgressIndicator(color = Teal)
         }
     }
