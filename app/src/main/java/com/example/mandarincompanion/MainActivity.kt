@@ -21,6 +21,7 @@ import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -110,21 +111,21 @@ private data class PictureExercise(
 )
 
 private fun pictureExerciseFor(lessonNumber: Int): PictureExercise = when (lessonNumber) {
-    1 -> PictureExercise("Look at the Beijing scene. Which city is shown?", "lesson_01_beijing.png", listOf("北京 (Běijīng)", "上海 (Shànghǎi)", "广州 (Guǎngzhōu)", "成都 (Chéngdū)"), 0, "北京 is Beijing, the city in this lesson.")
-    2 -> PictureExercise("Look at the morning scene. What is the daily routine about?", "lesson_02_daily_routine.png", listOf("起床 (getting up)", "睡觉 (sleeping)", "看电影 (watching a film)", "做饭 (cooking)"), 0, "起床 means to get up. The lesson practises daily routines and times.")
-    3 -> PictureExercise("Look at the clothes in the shop. Which phrase means 'red clothes'?", "lesson_03_clothes.png", listOf("红色的衣服", "蓝色的衣服", "白色的衣服", "黑色的衣服"), 0, "红色 means red and 衣服 means clothes.")
-    4 -> PictureExercise("Look at the scene. What is the person doing?", "lesson_04_job.png", listOf("参加工作面试 (having a job interview)", "踢足球 (playing football)", "买东西 (shopping)", "看病 (seeing a doctor)"), 0, "The scene represents a professional meeting and job interview.")
-    5 -> PictureExercise("Look at the shop scene. What are the people doing?", "lesson_05_shopping.png", listOf("买东西 (buying things)", "游泳 (swimming)", "睡觉 (sleeping)", "坐火车 (taking a train)"), 0, "买东西 means to buy things or go shopping.")
-    6 -> PictureExercise("Look at the meal. Which word is associated with noodles?", "lesson_06_food.png", listOf("面条 (miàntiáo)", "米饭 (mǐfàn)", "苹果 (píngguǒ)", "茶 (chá)"), 0, "面条 means noodles. Use the Listen button to hear the word.")
-    7 -> PictureExercise("Look at the calendar in the office. What is the topic?", "lesson_07_leave.png", listOf("请假 (asking for leave)", "买衣服 (buying clothes)", "看电影 (watching a film)", "做运动 (exercising)"), 0, "请假 means to ask for or take leave from work or school.")
-    8 -> PictureExercise("Look at the two people. What are they doing?", "lesson_08_decision.png", listOf("考虑一下 (thinking it over)", "跑步 (running)", "吃饭 (eating)", "睡觉 (sleeping)"), 0, "考虑 means to consider or think something over.")
-    9 -> PictureExercise("Look at the paper. What does the scene suggest?", "lesson_09_exam.png", listOf("很多问题 (many questions)", "没有问题 (no questions)", "一张照片 (a photograph)", "一张地图 (a map)"), 0, "很多问题 means many questions, matching the lesson's exam context.")
-    10 -> PictureExercise("Look carefully. Where is the phone?", "lesson_10_phone.png", listOf("桌子上 (on the desk)", "椅子下面 (under the chair)", "门外 (outside the door)", "书包里 (inside the bag)"), 0, "桌子上 means on the desk. 上 indicates the position above/on a surface.")
-    11 -> PictureExercise("Compare the two people. Which statement describes the picture?", "lesson_11_age.png", listOf("右边的人比较高 (the person on the right is taller)", "左边的人比较高 (the person on the left is taller)", "两个人一样高 (they are the same height)", "没有人 (nobody is there)"), 0, "比较高 means comparatively taller. This practises 比 comparisons.")
-    12 -> PictureExercise("Look at the winter scene. What should the person do?", "lesson_12_clothing_weather.png", listOf("多穿一点儿 (wear a little more)", "少穿一点儿 (wear less)", "去游泳 (go swimming)", "开窗户 (open the window)"), 0, "多穿一点儿 means to wear a little more, suitable for cold weather.")
-    13 -> PictureExercise("Look at the door. How is it?", "lesson_13_door.png", listOf("门开着 (the door is open)", "门关着 (the door is closed)", "门坏了 (the door is broken)", "门不见了 (the door is missing)"), 0, "开着 describes the continuing state of being open.")
-    14 -> PictureExercise("Look at the scene. What are the friends planning to do?", "lesson_14_movie.png", listOf("去看电影 (go to see a film)", "去买菜 (buy groceries)", "去上班 (go to work)", "去睡觉 (go to sleep)"), 0, "电影 means film or movie; 看电影 means to watch a movie.")
-    else -> PictureExercise("Look at the celebration. Which event is coming?", "lesson_15_new_year.png", listOf("新年 (New Year)", "生日 (birthday)", "考试 (exam)", "运动会 (sports day)"), 0, "新年 means New Year. The lesson practises plans and events around the New Year.")
+    1 -> PictureExercise("Look at the Beijing scene. Which city is the lesson about?", "lesson_01_beijing.jpg", listOf("北京 (Běijīng)", "上海 (Shànghǎi)", "广州 (Guǎngzhōu)", "成都 (Chéngdū)"), 0, "The textbook lesson is about the best time to visit Beijing: 九月去北京旅游最好。")
+    2 -> PictureExercise("Look at the morning scene. What time does the speaker get up?", "lesson_02_daily_routine.jpg", listOf("五点 (5 o’clock)", "六点 (6 o’clock)", "七点 (7 o’clock)", "八点 (8 o’clock)"), 1, "我每天六点起床。The speaker gets up at six every day.")
+    3 -> PictureExercise("Look at the two cups. Which one is the speaker's?", "lesson_03_red_cup_left.jpg", listOf("左边那个红色的 (the red one on the left)", "右边那个白色的 (the white one on the right)", "两个都是我的 (both are mine)", "都不是我的 (neither is mine)"), 0, "左边那个红色的是我的。This is the lesson's title sentence and matches the textbook dialogue about the cups.")
+    4 -> PictureExercise("Look at the office scene. What did the colleague do for the speaker?", "lesson_04_job_recommendation.jpg", listOf("介绍工作 (recommended a job)", "买了衣服 (bought clothes)", "做了饭 (cooked a meal)", "打了电话 (made a call)"), 0, "这个工作是他帮我介绍的。He recommended me for this job.")
+    5 -> PictureExercise("Look at the shop. Which phrase means ‘Take this one’?", "lesson_05_shopping.jpg", listOf("就买这件吧", "我不想买", "太贵了", "明天再来"), 0, "就买这件吧 is the title and key expression of Lesson 5.")
+    6 -> PictureExercise("Look at the meal. What does the host encourage the guest to do?", "lesson_06_restaurant_meal.jpg", listOf("再吃一点儿 (eat a little more)", "马上回家 (go home now)", "去跑步 (go running)", "看电影 (watch a film)"), 0, "你怎么不吃了? The dialogue is about eating more at a meal.")
+    7 -> PictureExercise("Look at the workplace scene. Which phrase means ‘ask for leave’?", "lesson_07_company_leave.jpg", listOf("请假", "上班", "下班", "旅游"), 0, "请假 is the relevant expression in this lesson about leave from work.")
+    8 -> PictureExercise("Look at the two people considering a decision. Which phrase means ‘think it over’?", "lesson_08_considering.jpg", listOf("让我想想", "我已经知道", "我不认识", "我去过了"), 0, "让我想想再告诉你。Let me think about it and tell you later.")
+    9 -> PictureExercise("Look at the papers on the desk. Which sentence matches the lesson?", "lesson_09_exam_questions.jpg", listOf("题太多了，我没做完。", "今天没有问题。", "我已经做完了。", "我不想考试。"), 0, "题太多了，我没做完。There were too many questions; I didn't finish them all.")
+    10 -> PictureExercise("Look at the desk. Where is the phone?", "lesson_10_phone_on_desk.jpg", listOf("桌子上 (on the desk)", "椅子下面 (under the chair)", "门外 (outside the door)", "书包里 (inside the bag)"), 0, "别找了，手机在桌子上呢。The phone is on the desk.")
+    11 -> PictureExercise("Compare the two people. Which sentence expresses an age difference?", "lesson_11_age_comparison.jpg", listOf("他比我大三岁。", "我们一样大。", "他比我小三岁。", "他是我的老师。"), 0, "他比我大三岁。He is three years older than me.")
+    12 -> PictureExercise("Look at the cold-weather scene. What advice does the lesson give?", "lesson_12_winter_clothing.jpg", listOf("你穿得太少了。", "你穿得太多了。", "今天不冷。", "我们去游泳吧。"), 0, "你穿得太少了。You are wearing too little.")
+    13 -> PictureExercise("Look at the doorway. Which sentence describes the continuing state?", "lesson_13_open_door.jpg", listOf("门开着呢。", "门关上了。", "门坏了。", "门不见了。"), 0, "门开着呢。着 marks the continuing state of the door being open.")
+    14 -> PictureExercise("Look at the cinema. Which phrase means ‘have seen that film’?", "lesson_14_movie.jpg", listOf("看过那个电影", "买过那本书", "去过那个公司", "吃过这顿饭"), 0, "你看过那个电影吗? The lesson practises 过 for past experience.")
+    else -> PictureExercise("Look at the New Year celebration. Which event is coming soon?", "lesson_15_new_year.jpg", listOf("新年就要到了", "生日就要到了", "考试就要到了", "火车就要开了"), 0, "新年就要到了。The New Year is coming.")
 }
 private data class LessonContent(
     val number: Int,
@@ -541,7 +542,7 @@ QuizQuestion("According to Dialogue 1, when is the best time to visit Beijing?",
 
     LessonContent(
         number = 6, title = "Why don't you eat more?", hanziTitle = "你怎么不吃了",
-        textbookPages = "PDF pages 57–64", workbookPages = "PDF pages 51–58",
+        textbookPages = "PDF pages 57–64", workbookPages = "PDF pages 59–68",
         dialogues = listOf(
             Dialogue("1 · At school", "Textbook 06-1", listOf(
                 DialogueLine("你知道小王今天什么时候来学校吗？", "Nǐ zhīdào Xiǎo Wáng jīntiān shénme shíhou lái xuéxiào ma?", "Do you know when Xiao Wang will come to school today?"),
@@ -603,7 +604,7 @@ QuizQuestion("According to Dialogue 1, when is the best time to visit Beijing?",
     ),
     LessonContent(
         number = 7, title = "Do you live far from your company?", hanziTitle = "你家离公司远吗",
-        textbookPages = "PDF pages 65–72", workbookPages = "PDF pages 59–68",
+        textbookPages = "PDF pages 65–72", workbookPages = "PDF pages 69–77",
         dialogues = listOf(
             Dialogue("1 · At home", "Textbook 07-1", listOf(
                 DialogueLine("大卫回来了吗？", "Dàwèi huílai le ma?", "Has David come back?"),
@@ -664,7 +665,7 @@ QuizQuestion("According to Dialogue 1, when is the best time to visit Beijing?",
     ),
     LessonContent(
         number = 8, title = "Let me think about it and tell you later", hanziTitle = "让我想想再告诉你",
-        textbookPages = "PDF pages 73–80", workbookPages = "PDF pages 69–78",
+        textbookPages = "PDF pages 73–80", workbookPages = "PDF pages 78–87",
         dialogues = listOf(
             Dialogue("1 · In the classroom", "Textbook 08-1", listOf(
                 DialogueLine("我们下午去看电影，好吗？", "Wǒmen xiàwǔ qù kàn diànyǐng, hǎo ma?", "Shall we go to see a film this afternoon?"),
@@ -709,7 +710,7 @@ QuizQuestion("According to Dialogue 1, when is the best time to visit Beijing?",
     ),
     LessonContent(
         number = 9, title = "There were too many questions; I didn't finish them all", hanziTitle = "题太多了，我没做完",
-        textbookPages = "PDF pages 81–90", workbookPages = "PDF pages 79–98",
+        textbookPages = "PDF pages 81–90", workbookPages = "PDF pages 88–97",
         dialogues = listOf(
             Dialogue("1 · On the phone", "Textbook 09-1", listOf(
                 DialogueLine("你好！请问张欢在吗？", "Nǐ hǎo! Qǐngwèn Zhāng Huān zài ma?", "Hello! May I speak to Zhang Huan?"),
@@ -767,7 +768,7 @@ QuizQuestion("According to Dialogue 1, when is the best time to visit Beijing?",
     ),
     LessonContent(
         number = 10, title = "Stop looking; your phone is on the desk", hanziTitle = "别找了，手机在桌子上呢",
-        textbookPages = "PDF pages 91–96", workbookPages = "PDF pages 99–108",
+        textbookPages = "PDF pages 91–96", workbookPages = "PDF pages 98–103",
         dialogues = listOf(
             Dialogue("1 · At home", "Textbook 10-1", listOf(
                 DialogueLine("不要看电视了，明天上午还有汉语课呢。", "Bú yào kàn diànshì le, míngtiān shàngwǔ hái yǒu Hànyǔ kè ne.", "Stop watching TV; you have Chinese class tomorrow morning."),
@@ -828,7 +829,7 @@ QuizQuestion("According to Dialogue 1, when is the best time to visit Beijing?",
     ),
     LessonContent(
         number = 11, title = "He is three years older than me", hanziTitle = "他比我大三岁",
-        textbookPages = "PDF pages 99–106", workbookPages = "PDF pages 109–118",
+        textbookPages = "PDF pages 99–106", workbookPages = "PDF pages 104–112",
         dialogues = listOf(
             Dialogue("1 · At a karaoke bar", "Textbook 11-1", listOf(
                 DialogueLine("王芳，昨天和你一起唱歌的人是谁？", "Wáng Fāng, zuótiān hé nǐ yìqǐ chànggē de rén shì shéi?", "Wang Fang, who was the person singing with you yesterday?"),
@@ -872,7 +873,7 @@ QuizQuestion("According to Dialogue 1, when is the best time to visit Beijing?",
     ),
     LessonContent(
         number = 12, title = "You wear too little", hanziTitle = "你穿得太少了",
-        textbookPages = "PDF pages 107–114", workbookPages = "PDF pages 119–128",
+        textbookPages = "PDF pages 107–114", workbookPages = "PDF pages 113–121",
         dialogues = listOf(
             Dialogue("1 · In the classroom", "Textbook 12-1", listOf(
                 DialogueLine("你每天早上几点起床？", "Nǐ měitiān zǎoshang jǐ diǎn qǐchuáng?", "What time do you get up every morning?"),
@@ -916,7 +917,7 @@ QuizQuestion("According to Dialogue 1, when is the best time to visit Beijing?",
     ),
     LessonContent(
         number = 13, title = "The door is open", hanziTitle = "门开着呢",
-        textbookPages = "PDF pages 115–122", workbookPages = "PDF pages 129–138",
+        textbookPages = "PDF pages 115–122", workbookPages = "PDF pages 122–130",
         dialogues = listOf(
             Dialogue("1 · In the office", "Textbook 13-1", listOf(
                 DialogueLine("门开着呢，请进。", "Mén kāi zhe ne, qǐng jìn.", "The door is open. Please come in."),
@@ -961,7 +962,7 @@ QuizQuestion("According to Dialogue 1, when is the best time to visit Beijing?",
     ),
     LessonContent(
         number = 14, title = "Have you seen that movie?", hanziTitle = "你看过那个电影吗",
-        textbookPages = "PDF pages 123–130", workbookPages = "PDF pages 139–148",
+        textbookPages = "PDF pages 123–130", workbookPages = "PDF pages 131–139",
         dialogues = listOf(
             Dialogue("1 · In the classroom", "Textbook 14-1", listOf(
                 DialogueLine("你看过那个电影没有？", "Nǐ kànguo nà ge diànyǐng méiyǒu?", "Have you seen that movie?"),
@@ -1006,7 +1007,7 @@ QuizQuestion("According to Dialogue 1, when is the best time to visit Beijing?",
     ),
     LessonContent(
         number = 15, title = "The New Year is coming", hanziTitle = "新年就要到了",
-        textbookPages = "PDF pages 131–138", workbookPages = "PDF pages 149–158",
+        textbookPages = "PDF pages 131–138", workbookPages = "PDF pages 140–149",
         dialogues = listOf(
             Dialogue("1 · At a friend's home", "Textbook 15-1", listOf(
                 DialogueLine("今天是十二月二十日，新年就要到了。", "Jīntiān shì shí'èr yuè èrshí rì, xīnnián jiù yào dào le.", "Today is December 20th. The New Year is coming soon."),
@@ -1111,29 +1112,62 @@ private fun MandarinApp(speak: (String) -> Unit) {
 
 @Composable
 private fun HomeScreen(modifier: Modifier, bestScores: Map<Int, Int>, openLesson: (LessonContent) -> Unit) {
+    val completed = bestScores.values.count { it >= 0 }
     Column(modifier.fillMaxSize()) {
         Box(Modifier.fillMaxWidth().height(205.dp)) {
             LessonIllustration(1, Modifier.fillMaxSize(), height = 205.dp)
-            Column(Modifier.fillMaxWidth().align(Alignment.TopStart).padding(horizontal = 22.dp, vertical = 18.dp)) {
-                Text("☰   Mandarin Companion                         ▥", color = Color.White, fontSize = 19.sp, fontWeight = FontWeight.Bold)
-                Text("HSK 2 · Lessons 1–15", color = Color.White, fontSize = 15.sp)
+            Box(Modifier.fillMaxSize().background(Brush.verticalGradient(listOf(Color(0xAA063E83), Color.Transparent, Color(0x33063E83)))))
+            Column(Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 17.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text("☰", color = Color.White, fontSize = 25.sp, modifier = Modifier.padding(end = 13.dp))
+                    Column(Modifier.weight(1f)) {
+                        Text("Mandarin Companion", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 21.sp)
+                        Text("HSK 2 · Lessons 1–15", color = Color.White, fontSize = 13.sp)
+                    }
+                    Text("▥", color = Color.White, fontSize = 23.sp)
+                }
+                Spacer(Modifier.height(18.dp))
+                Text("继续学习  ·  Keep learning", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                Text("$completed of 15 lessons practised", color = Color.White, fontSize = 12.sp)
             }
         }
-        Column(Modifier.weight(1f).fillMaxWidth().padding(horizontal = 14.dp), verticalArrangement = Arrangement.spacedBy(9.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 12.dp, bottom = 2.dp)) {
-                Text("Your learning", color = Color(0xFF12345B), fontSize = 19.sp, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
-                Text("15 lessons", color = Color(0xFF53708F), fontSize = 12.sp)
-            }
-            val completed = bestScores.values.count { it >= 0 }
-            LinearProgressIndicator(progress = { completed / 15f }, modifier = Modifier.fillMaxWidth().height(7.dp), color = Color(0xFF19A957), trackColor = Color(0xFFDCE7F3))
-            Text("$completed of 15 lessons practised", color = Color(0xFF54708F), fontSize = 11.sp)
-            LazyColumn(verticalArrangement = Arrangement.spacedBy(9.dp), contentPadding = PaddingValues(bottom = 10.dp)) {
-                items(lessons) { lesson -> LessonListCard(lesson, bestScores[lesson.number] ?: -1, openLesson) }
+        LazyColumn(
+            modifier = Modifier.weight(1f).fillMaxWidth().padding(horizontal = 13.dp),
+            contentPadding = PaddingValues(top = 11.dp, bottom = 18.dp),
+            verticalArrangement = Arrangement.spacedBy(9.dp)
+        ) {
+            items(lessons) { lesson -> LessonListCard(lesson, bestScores[lesson.number] ?: -1, openLesson) }
+            item {
+                Text("Study focus: recognition, vocabulary, pinyin, grammar, listening and speaking. No handwriting or stroke-order drills.", color = Color(0xFF52657B), fontSize = 11.sp, modifier = Modifier.padding(6.dp))
             }
         }
     }
 }
 
+@Composable
+private fun LessonListCard(lesson: LessonContent, score: Int, openLesson: (LessonContent) -> Unit) {
+    Card(
+        modifier = Modifier.fillMaxWidth().clickable { openLesson(lesson) },
+        shape = RoundedCornerShape(17.dp),
+        colors = CardDefaults.cardColors(containerColor = if (score >= 0) Color(0xFFF4F9FF) else Color.White),
+        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+    ) {
+        Row(Modifier.fillMaxWidth().padding(8.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(11.dp)) {
+            LessonIllustration(lesson.number, Modifier.width(104.dp), height = 86.dp)
+            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
+                Text("Lesson ${lesson.number}", color = Color(0xFF152D4C), fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                Text(lesson.hanziTitle, color = Color(0xFF111827), fontWeight = FontWeight.Bold, fontSize = 17.sp, maxLines = 1)
+                Text(lesson.title, color = Color(0xFF52657B), fontSize = 11.sp, maxLines = 2)
+            }
+            if (score >= 0) {
+                Box(Modifier.size(48.dp), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator(progress = { (score.toFloat() / lesson.questions.size).coerceIn(0f, 1f) }, color = Color(0xFF18A34A), trackColor = Color(0xFFE2E8F0), strokeWidth = 4.dp)
+                    Text("${score * 100 / lesson.questions.size}%", fontSize = 10.sp, fontWeight = FontWeight.Bold, color = Color(0xFF172D4B))
+                }
+            } else Text("›", color = Color(0xFF0866D5), fontSize = 28.sp, modifier = Modifier.padding(horizontal = 5.dp))
+        }
+    }
+}
 @Composable
 private fun CourseScreen(modifier: Modifier, bestScores: Map<Int, Int>, openLesson: (LessonContent) -> Unit) {
     Column(modifier.fillMaxSize()) {
@@ -1206,67 +1240,88 @@ private fun LessonScreen(
 
 @Composable
 private fun TeachingTab(modifier: Modifier, lesson: LessonContent, speak: (String) -> Unit, knownWords: Set<String>, onToggleKnown: (String) -> Unit) {
-    LazyColumn(modifier.fillMaxSize().padding(horizontal = 12.dp), contentPadding = PaddingValues(top = 10.dp, bottom = 22.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        item { LessonIllustration(lesson.number, Modifier.fillMaxWidth(), height = 238.dp) }
-        item {
-            SectionHeading("▣  Dialogue  对话", 1)
-            val dialogue = lesson.dialogues.firstOrNull()
-            if (dialogue != null) Card(shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
-                Column(Modifier.padding(13.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    dialogue.lines.take(3).forEach { line ->
+    LazyColumn(modifier.fillMaxSize().padding(horizontal = 12.dp), contentPadding = PaddingValues(top = 9.dp, bottom = 24.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        item { LessonIllustration(lesson.number, Modifier.fillMaxWidth(), height = 220.dp) }
+        item { SectionHeading("Dialogue  对话", 1) }
+        items(lesson.dialogues) { dialogue ->
+            Card(shape = RoundedCornerShape(15.dp), colors = CardDefaults.cardColors(containerColor = Color.White), elevation = CardDefaults.cardElevation(1.dp)) {
+                Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(7.dp)) {
+                    Text(dialogue.title, color = Color(0xFF152D4C), fontWeight = FontWeight.Bold, fontSize = 15.sp)
+                    Text(dialogue.scene, color = Color(0xFF315F91), fontSize = 10.sp)
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text("Listen to this dialogue", color = Color(0xFF52657B), fontSize = 11.sp, modifier = Modifier.weight(1f))
+                        TextButton(onClick = { dialogue.lines.forEach { speak(it.chinese) } }, contentPadding = PaddingValues(0.dp)) { Text("▶ Play all", color = Color(0xFF0866D5)) }
+                    }
+                    dialogue.lines.forEachIndexed { index, line ->
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                                Text(line.chinese, color = Color(0xFF142C4A), fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                                Text(line.chinese, color = Color(0xFF152D4C), fontWeight = FontWeight.Bold, fontSize = 17.sp)
                                 Text(line.pinyin, color = Color(0xFF315F91), fontSize = 12.sp)
                                 Text(line.english, color = Color(0xFF52657B), fontSize = 12.sp)
                             }
-                            TextButton(onClick = { speak(line.chinese) }) { Text("▶", color = Color(0xFF0866D5), fontSize = 20.sp) }
+                            IconButton(onClick = { speak(line.chinese) }) { Text("🔊", fontSize = 18.sp) }
                         }
-                        HorizontalDivider(color = Color(0xFFE8EEF5))
+                        if (index != dialogue.lines.lastIndex) HorizontalDivider(color = Color(0xFFE8EEF5))
                     }
                 }
             }
         }
-        item { SectionHeading("▣  Key Vocabulary  重点词汇", 2) }
-        items(lesson.words.take(6)) { word ->
-            Card(shape = RoundedCornerShape(13.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
-                Row(Modifier.fillMaxWidth().padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Column(Modifier.weight(1f)) {
-                        Text(word.hanzi, color = Color(0xFF152D4C), fontSize = 23.sp, fontWeight = FontWeight.Bold)
-                        Text(word.pinyin, color = Color(0xFF315F91), fontSize = 12.sp)
-                        Text(word.meaning, color = Color(0xFF4E6074), fontSize = 12.sp)
+        item { SectionHeading("Key Vocabulary  重点词汇", 2) }
+        items(lesson.words.chunked(2)) { pair ->
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
+                pair.forEach { word ->
+                    Card(modifier = Modifier.weight(1f), shape = RoundedCornerShape(13.dp), colors = CardDefaults.cardColors(containerColor = Color.White), elevation = CardDefaults.cardElevation(1.dp)) {
+                        Column(Modifier.fillMaxWidth().padding(10.dp), verticalArrangement = Arrangement.spacedBy(3.dp)) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text(word.hanzi, color = Color(0xFF152D4C), fontSize = 21.sp, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
+                                IconButton(onClick = { speak(word.hanzi) }, modifier = Modifier.size(30.dp)) { Text("🔊", fontSize = 15.sp) }
+                            }
+                            Text(word.pinyin, color = Color(0xFF315F91), fontSize = 11.sp)
+                            Text(word.meaning, color = Color(0xFF52657B), fontSize = 11.sp, maxLines = 2)
+                            Text(if (knownWords.contains(word.hanzi)) "✓ Known" else "+ Mark known", color = if (knownWords.contains(word.hanzi)) Color(0xFF159447) else Color(0xFF0866D5), fontSize = 10.sp, modifier = Modifier.clickable { onToggleKnown(word.hanzi) }.padding(top = 3.dp))
+                        }
                     }
-                    TextButton(onClick = { speak(word.hanzi) }) { Text("🔊", fontSize = 18.sp) }
-                    Text(if (knownWords.contains(word.hanzi)) "✓" else "+", color = Color(0xFF0866D5), modifier = Modifier.clickable { onToggleKnown(word.hanzi) }.padding(8.dp))
                 }
+                if (pair.size == 1) Spacer(Modifier.weight(1f))
             }
         }
-        item { SectionHeading("▣  Grammar  语法", 3) }
+        item { SectionHeading("Grammar  语法", 3) }
         items(lesson.grammar) { point ->
-            Card(shape = RoundedCornerShape(14.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
+            Card(shape = RoundedCornerShape(14.dp), colors = CardDefaults.cardColors(containerColor = Color.White), elevation = CardDefaults.cardElevation(1.dp)) {
                 Column(Modifier.padding(13.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                     Text(point.title, color = Color(0xFFB46A13), fontWeight = FontWeight.Bold, fontSize = 16.sp)
-                    Text(point.pattern, color = Color(0xFF1B3556), fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
+                    Surface(color = Color(0xFFFFF1D6), shape = RoundedCornerShape(9.dp)) {
+                        Text(point.pattern, color = Color(0xFF1B3556), fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(9.dp), fontSize = 13.sp)
+                    }
                     Text(point.explanation, color = Color(0xFF52657B), fontSize = 12.sp)
-                    point.examples.take(2).forEach { ex ->
+                    point.examples.forEach { ex ->
                         Text(ex.chinese, color = Color(0xFF152D4C), fontWeight = FontWeight.SemiBold, fontSize = 15.sp)
-                        Text("${ex.pinyin} · ${ex.english}", color = Color(0xFF52657B), fontSize = 11.sp)
-                        TextButton(onClick = { speak(ex.chinese) }) { Text("▶ Listen") }
+                        Text(ex.pinyin, color = Color(0xFF315F91), fontSize = 11.sp)
+                        Text(ex.english, color = Color(0xFF52657B), fontSize = 11.sp)
+                        TextButton(onClick = { speak(ex.chinese) }, contentPadding = PaddingValues(0.dp)) { Text("▶ Listen", color = Color(0xFF0866D5)) }
                     }
                 }
             }
         }
+        item {
+            Card(shape = RoundedCornerShape(13.dp), colors = CardDefaults.cardColors(containerColor = Color(0xFFEAF3FF))) {
+                Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    Text("Pronunciation focus", color = Color(0xFF064A9D), fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                    Text(lesson.pronunciation, color = Color(0xFF344B63), fontSize = 12.sp)
+                    TextButton(onClick = { speak(lesson.hanziTitle) }, contentPadding = PaddingValues(0.dp)) { Text("▶ Listen to lesson title") }
+                }
+            }
+        }
+        item { SourceNote(lesson) }
     }
 }
-
 @Composable
 private fun SectionHeading(title: String, number: Int) {
-    Row(Modifier.fillMaxWidth().background(Color(0xFFDDEBFA), RoundedCornerShape(9.dp)).padding(horizontal = 10.dp, vertical = 7.dp), verticalAlignment = Alignment.CenterVertically) {
+    Row(Modifier.fillMaxWidth().background(Color(0xFFDDEBFA), RoundedCornerShape(10.dp)).padding(horizontal = 10.dp, vertical = 7.dp), verticalAlignment = Alignment.CenterVertically) {
         Surface(color = Color(0xFF0866D5), shape = RoundedCornerShape(50)) { Text(number.toString(), color = Color.White, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp), fontSize = 13.sp) }
         Text(title, color = Color(0xFF064A9D), fontWeight = FontWeight.Bold, fontSize = 15.sp, modifier = Modifier.padding(start = 8.dp))
     }
 }
-
 @Composable
 private fun WorkbookTab(modifier: Modifier, lesson: LessonContent, speak: (String) -> Unit, onFinished: (Int, Int) -> Unit) {
     var pictureSelected by remember(lesson.number) { mutableIntStateOf(-1) }
@@ -1277,6 +1332,18 @@ private fun WorkbookTab(modifier: Modifier, lesson: LessonContent, speak: (Strin
     val exercise = remember(lesson.number) { pictureExerciseFor(lesson.number) }
     val pages = remember(lesson.number) { workbookPicturePages(lesson.number) }
     LazyColumn(modifier.fillMaxSize().padding(horizontal = 12.dp), contentPadding = PaddingValues(top = 10.dp, bottom = 24.dp), verticalArrangement = Arrangement.spacedBy(11.dp)) {
+        item {
+            Text("Workbook practice  练习", color = Color(0xFF064A9D), fontWeight = FontWeight.Bold, fontSize = 18.sp)
+            Text("Exercises adapted from the corresponding HSK2 workbook lesson. The scanned source page is shown below for checking.", color = Color(0xFF52657B), fontSize = 11.sp)
+            pages.firstOrNull()?.let { page ->
+                Card(shape = RoundedCornerShape(14.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
+                    Column(Modifier.padding(8.dp), verticalArrangement = Arrangement.spacedBy(5.dp)) {
+                        Text("Original workbook · PDF page $page", color = Color(0xFF315F91), fontWeight = FontWeight.SemiBold, fontSize = 11.sp)
+                        WorkbookPageImage(page, Modifier.fillMaxWidth())
+                    }
+                }
+            }
+        }
         item {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text("Exercise ${quizIndex + 1} of ${lesson.questions.size + 1}", color = Color(0xFF172D4B), fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
@@ -1345,7 +1412,7 @@ private fun WorkbookTab(modifier: Modifier, lesson: LessonContent, speak: (Strin
             }
         }
         item { Text("Original workbook reference pages", color = Color(0xFF172D4B), fontWeight = FontWeight.Bold, fontSize = 15.sp) }
-        items(pages) { page -> Card(shape = RoundedCornerShape(12.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) { Column(Modifier.padding(8.dp)) { Text("Workbook · PDF page $page", color = Color(0xFF315F91), fontSize = 11.sp); WorkbookPageImage(page, Modifier.fillMaxWidth()) } } }
+        items(pages.drop(1)) { page -> Card(shape = RoundedCornerShape(12.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) { Column(Modifier.padding(8.dp)) { Text("Workbook · PDF page $page", color = Color(0xFF315F91), fontSize = 11.sp); WorkbookPageImage(page, Modifier.fillMaxWidth()) } } }
     }
 }
 
@@ -1399,8 +1466,8 @@ private fun workbookPicturePages(lessonNumber: Int): List<Int> = when (lessonNum
     6 -> listOf(59, 60)
     7 -> listOf(69, 70)
     8 -> listOf(78, 79)
-    9 -> listOf(87, 88)
-    10 -> listOf(97, 98)
+    9 -> listOf(88, 89)
+    10 -> listOf(98, 99)
     11 -> listOf(104, 105)
     12 -> listOf(113, 114)
     13 -> listOf(122, 123)
@@ -1413,11 +1480,11 @@ private fun workbookPicturePages(lessonNumber: Int): List<Int> = when (lessonNum
 private fun LessonIllustration(lessonNumber: Int, modifier: Modifier = Modifier, height: androidx.compose.ui.unit.Dp = 170.dp) {
     val context = LocalContext.current
     val fileName = when (lessonNumber) {
-        1 -> "lesson_01_beijing.png"; 2 -> "lesson_02_daily_routine.png"; 3 -> "lesson_03_clothes.png"
-        4 -> "lesson_04_job.png"; 5 -> "lesson_05_shopping.png"; 6 -> "lesson_06_food.png"
-        7 -> "lesson_07_leave.png"; 8 -> "lesson_08_decision.png"; 9 -> "lesson_09_exam.png"
-        10 -> "lesson_10_phone.png"; 11 -> "lesson_11_age.png"; 12 -> "lesson_12_clothing_weather.png"
-        13 -> "lesson_13_door.png"; 14 -> "lesson_14_movie.png"; else -> "lesson_15_new_year.png"
+        1 -> "lesson_01_beijing.jpg"; 2 -> "lesson_02_daily_routine.jpg"; 3 -> "lesson_03_red_cup_left.jpg"
+        4 -> "lesson_04_job_recommendation.jpg"; 5 -> "lesson_05_shopping.jpg"; 6 -> "lesson_06_restaurant_meal.jpg"
+        7 -> "lesson_07_company_leave.jpg"; 8 -> "lesson_08_considering.jpg"; 9 -> "lesson_09_exam_questions.jpg"
+        10 -> "lesson_10_phone_on_desk.jpg"; 11 -> "lesson_11_age_comparison.jpg"; 12 -> "lesson_12_winter_clothing.jpg"
+        13 -> "lesson_13_open_door.jpg"; 14 -> "lesson_14_movie.jpg"; else -> "lesson_15_new_year.jpg"
     }
     val bitmap by produceState<androidx.compose.ui.graphics.ImageBitmap?>(initialValue = null, fileName) {
         value = withContext(Dispatchers.IO) {
@@ -1429,26 +1496,16 @@ private fun LessonIllustration(lessonNumber: Int, modifier: Modifier = Modifier,
                         if (entry.name == fileName) {
                             val bytes = zip.readBytes()
                             decoded = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)?.asImageBitmap()
-                        } else {
-                            zip.closeEntry()
-                            entry = zip.nextEntry
-                        }
+                        } else { zip.closeEntry(); entry = zip.nextEntry }
                     }
                     decoded
                 }
             }
         }
     }
-    if (bitmap != null) {
-        Image(bitmap = bitmap!!, contentDescription = "Original illustration for lesson $lessonNumber", contentScale = ContentScale.Crop,
-            modifier = modifier.height(height))
-    } else {
-        Box(modifier.height(height).fillMaxWidth(), contentAlignment = Alignment.Center) {
-            CircularProgressIndicator(color = Teal)
-        }
-    }
+    if (bitmap != null) Image(bitmap = bitmap!!, contentDescription = "Original teaching illustration for lesson $lessonNumber", contentScale = ContentScale.Crop, modifier = modifier.height(height))
+    else Box(modifier.height(height).fillMaxWidth().background(Color(0xFFDCEBFA)), contentAlignment = Alignment.Center) { CircularProgressIndicator(color = Color(0xFF0866D5)) }
 }
-
 @Composable
 private fun PictureExerciseCard(exercise: PictureExercise, selected: Int, onSelect: (Int) -> Unit) {
     Card(shape = RoundedCornerShape(18.dp), colors = CardDefaults.cardColors(containerColor = Color.White), modifier = Modifier.fillMaxWidth()) {
@@ -1495,20 +1552,16 @@ private fun LessonIllustrationForExercise(fileName: String, modifier: Modifier =
                         if (entry.name == fileName) {
                             val bytes = zip.readBytes()
                             decoded = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)?.asImageBitmap()
-                        } else {
-                            zip.closeEntry()
-                            entry = zip.nextEntry
-                        }
+                        } else { zip.closeEntry(); entry = zip.nextEntry }
                     }
                     decoded
                 }
             }
         }
     }
-    if (bitmap != null) Image(bitmap = bitmap!!, contentDescription = "Picture exercise", contentScale = ContentScale.Crop, modifier = modifier.height(185.dp))
-    else Box(modifier.height(185.dp).fillMaxWidth(), contentAlignment = Alignment.Center) { CircularProgressIndicator(color = Teal) }
+    if (bitmap != null) Image(bitmap = bitmap!!, contentDescription = "Illustration for the interactive exercise", contentScale = ContentScale.Crop, modifier = modifier.height(190.dp))
+    else Box(modifier.height(190.dp).fillMaxWidth().background(Color(0xFFDCEBFA)), contentAlignment = Alignment.Center) { CircularProgressIndicator(color = Color(0xFF0866D5)) }
 }
-
 @Composable
 private fun WorkbookPageImage(page: Int, modifier: Modifier = Modifier) {
     val context = LocalContext.current
