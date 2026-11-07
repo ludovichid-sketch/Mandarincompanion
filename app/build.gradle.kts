@@ -12,8 +12,8 @@ android {
         applicationId = "com.example.mandarincompanion"
         minSdk = 26
         targetSdk = 35
-        versionCode = 3
-        versionName = "1.2-lessons1-5"
+        versionCode = 4
+        versionName = "1.4-lessons1-15"
     }
 
     compileOptions {
