@@ -1089,7 +1089,7 @@ private fun CourseScreen(modifier: Modifier, bestScores: Map<Int, Int>, openLess
             Text("Based on your Standard Course 2 textbook and workbook scans.", color = Ink.copy(alpha = 0.72f), fontSize = 14.sp)
         }
         item { InfoPanel("Study offline", "All lesson text, vocabulary, grammar and quizzes are stored on this phone. Mandarin pronunciation uses Android Text-to-Speech; the publisher's audio files were not included in the PDFs.") }
-        items(lessons) { lesson ->
+        items(items = lessons) { lesson: LessonContent ->
             Card(
                 modifier = Modifier.fillMaxWidth().clickable { openLesson(lesson) },
                 shape = RoundedCornerShape(18.dp),
@@ -1323,7 +1323,7 @@ private fun ProgressScreen(modifier: Modifier, bestScores: Map<Int, Int>, knownC
             Text("Scores are stored locally on this phone.", color = Color.Gray, fontSize = 13.sp)
         }
         item { MiniStat("Words marked known", knownCount.toString()) }
-        items(lessons) { lesson ->
+        items(items = lessons) { lesson: LessonContent ->
             val score = bestScores[lesson.number] ?: -1
             Card(colors = CardDefaults.cardColors(containerColor = Color.White), shape = RoundedCornerShape(16.dp), modifier = Modifier.fillMaxWidth()) {
                 Row(Modifier.fillMaxWidth().padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
