@@ -1323,16 +1323,20 @@ private fun ProgressScreen(modifier: Modifier, bestScores: Map<Int, Int>, knownC
             Text("Scores are stored locally on this phone.", color = Color.Gray, fontSize = 13.sp)
         }
         item { MiniStat("Words marked known", knownCount.toString()) }
-        items(items = lessons) { lesson: LessonContent ->
-            val score = bestScores[lesson.number] ?: -1
-            Card(colors = CardDefaults.cardColors(containerColor = Color.White), shape = RoundedCornerShape(16.dp), modifier = Modifier.fillMaxWidth()) {
-                Row(Modifier.fillMaxWidth().padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
-                        Text("Lesson ${lesson.number}", color = Teal, fontWeight = FontWeight.Bold, fontSize = 11.sp)
-                        Text(lesson.title, color = Ink, fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
-                        Text(if (score >= 0) "Best workbook score: $score/${lesson.questions.size}" else "Not completed yet", color = Color.Gray, fontSize = 12.sp)
+        item {
+            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                lessons.forEach { lesson ->
+                    val score = bestScores[lesson.number] ?: -1
+                    Card(colors = CardDefaults.cardColors(containerColor = Color.White), shape = RoundedCornerShape(16.dp), modifier = Modifier.fillMaxWidth()) {
+                        Row(Modifier.fillMaxWidth().padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
+                            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
+                                Text("Lesson ${lesson.number}", color = Teal, fontWeight = FontWeight.Bold, fontSize = 11.sp)
+                                Text(lesson.title, color = Ink, fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
+                                Text(if (score >= 0) "Best workbook score: $score/${lesson.questions.size}" else "Not completed yet", color = Color.Gray, fontSize = 12.sp)
+                            }
+                            TextButton(onClick = { onOpenLesson(lesson) }) { Text("Open") }
+                        }
                     }
-                    TextButton(onClick = { onOpenLesson(lesson) }) { Text("Open") }
                 }
             }
         }
