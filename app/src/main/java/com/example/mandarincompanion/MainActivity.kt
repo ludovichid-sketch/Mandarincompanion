@@ -1012,7 +1012,8 @@ QuizQuestion("According to Dialogue 1, when is the best time to visit Beijing?",
             QuizQuestion("更好 means…", listOf("Not good", "Even better", "The best yesterday", "A little worse"), 1, "更 increases the degree: even better.", "Grammar"),
             QuizQuestion("大家 means…", listOf("Only me", "Everyone", "A company", "A station"), 1, "大家 means everyone.", "Vocabulary"),
             QuizQuestion("希望 means…", listOf("To prepare", "To hope", "To arrive", "To buy"), 1, "希望 means to hope or wish.", "Workbook lesson 15 review")
-        ), pronunciation = "Practise the approaching-event pattern with a smooth rhythm: xīnnián jiù yào dào le. Keep 就要 connected and 了 light."
+        ),
+        pronunciation = "Practise the approaching-event pattern with a smooth rhythm: xīnnián jiù yào dào le. Keep 就要 connected and 了 light."
     )
 )
 
@@ -1089,8 +1090,7 @@ private fun CourseScreen(modifier: Modifier, bestScores: Map<Int, Int>, openLess
             Text("Based on your Standard Course 2 textbook and workbook scans.", color = Ink.copy(alpha = 0.72f), fontSize = 14.sp)
         }
         item { InfoPanel("Study offline", "All lesson text, vocabulary, grammar and quizzes are stored on this phone. Mandarin pronunciation uses Android Text-to-Speech; the publisher's audio files were not included in the PDFs.") }
-        items(count = lessons.size) { index ->
-            val lesson: LessonContent = lessons[index]
+        items(lessons) { lesson ->
             Card(
                 modifier = Modifier.fillMaxWidth().clickable { openLesson(lesson) },
                 shape = RoundedCornerShape(18.dp),
@@ -1324,8 +1324,7 @@ private fun ProgressScreen(modifier: Modifier, bestScores: Map<Int, Int>, knownC
             Text("Scores are stored locally on this phone.", color = Color.Gray, fontSize = 13.sp)
         }
         item { MiniStat("Words marked known", knownCount.toString()) }
-        items(count = lessons.size) { index ->
-            val lesson: LessonContent = lessons[index]
+        items(lessons) { lesson ->
             val score = bestScores[lesson.number] ?: -1
             Card(colors = CardDefaults.cardColors(containerColor = Color.White), shape = RoundedCornerShape(16.dp), modifier = Modifier.fillMaxWidth()) {
                 Row(Modifier.fillMaxWidth().padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
